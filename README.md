@@ -9,28 +9,48 @@ A lightweight, offline messaging app that lets you chat with nearby friends usin
 > Real-Time Chat Interface: A familiar, intuitive chat UI with message bubbles and connection status updates.
 > No Accounts Needed: Just open the app, connect, and start chatting.
 
-📸 Screenshots(Pro-tip: Add a folder named assets in your repository and link your screenshots below to make your repo stand out!)
-Device DiscoveryActive Chat Room[Insert Home Screen Image][Insert Chat UI Image]
+## 📸 Screenshots
 
-🛠 Tech StackLanguage: [e.g., Kotlin / Swift / Dart / JavaScript]Framework: [e.g., Android SDK / iOS SDK / Flutter / React Native]Core APIs: [e.g., Android Bluetooth API / CoreBluetooth]🚀 
+| Device Discovery | Active Chat Room |
+| :---: | :---: |
+| [Insert Home Screen Image] | [Insert Chat UI Image] |
 
-Getting Started
+## 🛠 Tech Stack
+
+- **Language:** [e.g., Kotlin / Swift / Dart / JavaScript]
+- **Framework:** [e.g., Android SDK / iOS SDK / Flutter / React Native]
+- **Core APIs:** [e.g., Android Bluetooth API / CoreBluetooth]
+
+## 🚀 Getting Started
 
 Prerequisites
 
 Two physical mobile devices with working Bluetooth hardware (Bluetooth features generally cannot be tested on software emulators).[Insert OS requirement, e.g., Android 8.0+ or iOS 13.0+].
 Location/Nearby Devices permissions enabled (required by most modern operating systems for Bluetooth discovery).
 
-Installation
+### Installation
 
-Clone this repository to your local machine:Bashgit clone https://github.com/yourusername/bluetooth-chit-chat.git
+1. Clone this repository to your local machine:
+   ```bash
+   git clone https://github.com/yourusername/bluetooth-chit-chat.git
+   ```
 
-Open the project in [Insert your IDE, e.g., Android Studio / Xcode / VS Code].
+2. Open the project in [Insert your IDE, e.g., Android Studio / Xcode / VS Code].
 Sync the project dependencies.
 Build and run the application on your physical devices.
 
-💬 How to UseEnsure Bluetooth is turned on in the system settings of both devices.
+## 💬 How to Use
 
-Open the app and grant the necessary Bluetooth and Location permissions.
-On Device A, tap "Make Discoverable" or "Host Chat".On Device B, scan for nearby devices and tap Device A's name to initiate a connection.
-Once connected, type your message and hit send!🤝 ContributingGot ideas to make this app better? Pull requests are always welcome! For major changes, please open an issue first to discuss what you would like to change.📄 LicenseThis project is licensed under the [MIT License] - see the LICENSE file for details.
+1. Ensure Bluetooth is turned on in the system settings of both devices.
+2. Open the app and grant the necessary Bluetooth and Location permissions.
+3. **On Device A:** Tap "Make Discoverable" or "Host Chat".
+4. **On Device B:** Scan for nearby devices and tap Device A's name to initiate a connection.
+5. Once connected, type your message and hit send!
+
+## 🤝 Contributing
+
+Got ideas to make this app better? Pull requests are always welcome! For major changes, please open an issue first to discuss what you would like to change.
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE) - see the LICENSE file for details.
