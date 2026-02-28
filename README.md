@@ -49,6 +49,43 @@ A lightweight, offline messaging app that lets you chat with nearby friends usin
 3. **Sync the project dependencies.**
 4. **Build and run the application** on your physical devices.
 
+## ✨ Features
+
+- **100% Offline Messaging:** Send and receive text messages using a direct Bluetooth peer-to-peer connection.
+- **Quick Device Pairing:** Easily discover and connect to nearby Bluetooth-enabled devices directly from the app.
+- **Real-Time Chat Interface:** A familiar, intuitive chat UI with message bubbles and connection status updates.
+- **No Accounts Needed:** Just open the app, connect, and start chatting.
+
+## 📸 Screenshots
+
+| Device Discovery | Active Chat Room |
+| :---: | :---: |
+| ![Device Discovery Placeholder](https://via.placeholder.com/300x600?text=Discovery+UI) | ![Active Chat Placeholder](https://via.placeholder.com/300x600?text=Chat+UI) |
+
+## 🛠 Tech Stack
+
+- **Language:** [e.g., Kotlin / Swift / Dart / JavaScript]
+- **Framework:** [e.g., Android SDK / iOS SDK / Flutter / React Native]
+- **Core APIs:** [e.g., Android Bluetooth API / CoreBluetooth]
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- **Two physical mobile devices** with working Bluetooth hardware.
+- **Minimum OS:** [Insert OS requirement, e.g., Android 8.0+ or iOS 13.0+].
+- **Permissions:** Location/Nearby Devices permissions enabled.
+
+### Installation
+
+1. **Clone this repository** to your local machine:
+   ```bash
+   git clone https://github.com/yourusername/bluetooth-chit-chat.git
+   ```
+2. **Open the project** in [Insert your IDE, e.g., Android Studio / Xcode / VS Code].
+3. **Sync the project dependencies.**
+4. **Build and run the application** on your physical devices.
+
 ## 💬 How to Use
 
 1. Ensure Bluetooth is turned on in the system settings of both devices.
