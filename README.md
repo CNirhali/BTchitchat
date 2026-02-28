@@ -1,19 +1,19 @@
-📱 Bluetooth Chit Chat
+# 📱 Bluetooth Chit Chat
 
 A lightweight, offline messaging app that lets you chat with nearby friends using Bluetooth, no internet or cell service required! Perfect for classrooms, camping trips, or crowded events where the Wi-Fi is weak or nonexistent.
 
-✨ Features
+## ✨ Features
 
-> 100% Offline Messaging: Send and receive text messages using a direct Bluetooth peer-to-peer connection.
-> Quick Device Pairing: Easily discover and connect to nearby Bluetooth-enabled devices directly from the app.
-> Real-Time Chat Interface: A familiar, intuitive chat UI with message bubbles and connection status updates.
-> No Accounts Needed: Just open the app, connect, and start chatting.
+- **100% Offline Messaging:** Send and receive text messages using a direct Bluetooth peer-to-peer connection.
+- **Quick Device Pairing:** Easily discover and connect to nearby Bluetooth-enabled devices directly from the app.
+- **Real-Time Chat Interface:** A familiar, intuitive chat UI with message bubbles and connection status updates.
+- **No Accounts Needed:** Just open the app, connect, and start chatting.
 
 ## 📸 Screenshots
 
 | Device Discovery | Active Chat Room |
 | :---: | :---: |
-| [Insert Home Screen Image] | [Insert Chat UI Image] |
+| ![Device Discovery Placeholder](https://via.placeholder.com/300x600?text=Discovery+UI) | ![Active Chat Placeholder](https://via.placeholder.com/300x600?text=Chat+UI) |
 
 ## 🛠 Tech Stack
 
@@ -23,21 +23,21 @@ A lightweight, offline messaging app that lets you chat with nearby friends usin
 
 ## 🚀 Getting Started
 
-Prerequisites
+### Prerequisites
 
-Two physical mobile devices with working Bluetooth hardware (Bluetooth features generally cannot be tested on software emulators).[Insert OS requirement, e.g., Android 8.0+ or iOS 13.0+].
-Location/Nearby Devices permissions enabled (required by most modern operating systems for Bluetooth discovery).
+- **Two physical mobile devices** with working Bluetooth hardware.
+- **Minimum OS:** [Insert OS requirement, e.g., Android 8.0+ or iOS 13.0+].
+- **Permissions:** Location/Nearby Devices permissions enabled.
 
 ### Installation
 
-1. Clone this repository to your local machine:
+1. **Clone this repository** to your local machine:
    ```bash
    git clone https://github.com/yourusername/bluetooth-chit-chat.git
    ```
-
-2. Open the project in [Insert your IDE, e.g., Android Studio / Xcode / VS Code].
-Sync the project dependencies.
-Build and run the application on your physical devices.
+2. **Open the project** in [Insert your IDE, e.g., Android Studio / Xcode / VS Code].
+3. **Sync the project dependencies.**
+4. **Build and run the application** on your physical devices.
 
 ## 💬 How to Use
 
