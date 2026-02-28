@@ -2,6 +2,16 @@
 
 A lightweight, offline messaging app that lets you chat with nearby friends using Bluetooth, no internet or cell service required! Perfect for classrooms, camping trips, or crowded events where the Wi-Fi is weak or nonexistent.
 
+## 📋 Table of Contents
+
+- [Features](#-features)
+- [Screenshots](#-screenshots)
+- [Tech Stack](#-tech-stack)
+- [Getting Started](#-getting-started)
+- [How to Use](#-how-to-use)
+- [Contributing](#-contributing)
+- [License](#-license)
+
 ## ✨ Features
 
 - **100% Offline Messaging:** Send and receive text messages using a direct Bluetooth peer-to-peer connection.
