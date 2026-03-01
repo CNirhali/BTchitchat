@@ -27,3 +27,10 @@ Thumbs.db
 *.jks
 *.keystore
 secrets.xml
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.csr
+*.der
