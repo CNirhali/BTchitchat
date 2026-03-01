@@ -24,7 +24,7 @@ A lightweight, offline messaging app that lets you chat with nearby friends usin
 
 | Device Discovery | Active Chat Room |
 | :---: | :---: |
-| ![Device Discovery Placeholder](https://via.placeholder.com/300x600?text=Discovery+UI) | ![Active Chat Placeholder](https://via.placeholder.com/300x600?text=Chat+UI) |
+| ![A mobile screen showing a list of discovered nearby Bluetooth devices with names like 'Nexus 5X' and 'Pixel 4a'](https://via.placeholder.com/300x600?text=Discovery+UI) | ![A chat conversation between two users with blue and gray message bubbles](https://via.placeholder.com/300x600?text=Chat+UI) |
 
 ## 🛠 Tech Stack
 
@@ -53,6 +53,8 @@ A lightweight, offline messaging app that lets you chat with nearby friends usin
 ## 🔒 Security
 
 Bluetooth communication is inherently susceptible to various security risks, including eavesdropping and man-in-the-middle attacks.
+> [!TIP]
+> This app requires **two physical devices** to test Bluetooth connectivity. Simulators or emulators typically do not support Bluetooth hardware.
 
 - **Encryption:** This template currently does **not** implement End-to-End Encryption (E2EE). All messages are sent in plain text.
 - **Recommendations:** For production use, it is highly recommended to implement a robust E2EE layer using libraries like [Noise Protocol](https://noiseprotocol.org/) or [libsodium](https://doc.libsodium.org/).
