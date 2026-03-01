@@ -23,7 +23,7 @@ A lightweight, offline messaging app that lets you chat with nearby friends usin
 
 | Device Discovery | Active Chat Room |
 | :---: | :---: |
-| ![Device Discovery Placeholder](https://via.placeholder.com/300x600?text=Discovery+UI) | ![Active Chat Placeholder](https://via.placeholder.com/300x600?text=Chat+UI) |
+| ![A mobile screen showing a list of discovered nearby Bluetooth devices with names like 'Nexus 5X' and 'Pixel 4a'](https://via.placeholder.com/300x600?text=Discovery+UI) | ![A chat conversation between two users with blue and gray message bubbles](https://via.placeholder.com/300x600?text=Chat+UI) |
 
 ## 🛠 Tech Stack
 
@@ -32,6 +32,9 @@ A lightweight, offline messaging app that lets you chat with nearby friends usin
 - **Core APIs:** [e.g., Android Bluetooth API / CoreBluetooth]
 
 ## 🚀 Getting Started
+
+> [!TIP]
+> This app requires **two physical devices** to test Bluetooth connectivity. Simulators or emulators typically do not support Bluetooth hardware.
 
 ### Prerequisites
 
