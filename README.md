@@ -8,6 +8,7 @@ A lightweight, offline messaging app that lets you chat with nearby friends usin
 - [Screenshots](#-screenshots)
 - [Tech Stack](#-tech-stack)
 - [Getting Started](#-getting-started)
+- [Security](#-security)
 - [How to Use](#-how-to-use)
 - [Contributing](#-contributing)
 - [License](#-license)
@@ -33,9 +34,6 @@ A lightweight, offline messaging app that lets you chat with nearby friends usin
 
 ## 🚀 Getting Started
 
-> [!TIP]
-> This app requires **two physical devices** to test Bluetooth connectivity. Simulators or emulators typically do not support Bluetooth hardware.
-
 ### Prerequisites
 
 - **Two physical mobile devices** with working Bluetooth hardware.
@@ -51,6 +49,16 @@ A lightweight, offline messaging app that lets you chat with nearby friends usin
 2. **Open the project** in [Insert your IDE, e.g., Android Studio / Xcode / VS Code].
 3. **Sync the project dependencies.**
 4. **Build and run the application** on your physical devices.
+
+## 🔒 Security
+
+Bluetooth communication is inherently susceptible to various security risks, including eavesdropping and man-in-the-middle attacks.
+> [!TIP]
+> This app requires **two physical devices** to test Bluetooth connectivity. Simulators or emulators typically do not support Bluetooth hardware.
+
+- **Encryption:** This template currently does **not** implement End-to-End Encryption (E2EE). All messages are sent in plain text.
+- **Recommendations:** For production use, it is highly recommended to implement a robust E2EE layer using libraries like [Noise Protocol](https://noiseprotocol.org/) or [libsodium](https://doc.libsodium.org/).
+- **Privacy:** Be mindful of the data shared over Bluetooth, as nearby devices may be able to monitor the traffic if not properly secured.
 
 ## 💬 How to Use
 
