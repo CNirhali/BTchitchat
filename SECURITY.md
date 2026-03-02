@@ -8,6 +8,15 @@ Currently, we are in active development. Only the latest version of the applicat
 | ------- | ------------------ |
 | < 1.0.0 | :white_check_mark: |
 
+## Security Development Guidelines
+
+To maintain the security of the Bluetooth Chit Chat application, all contributors must follow these guidelines:
+
+- **Input Validation:** Sanitize and validate all data received over Bluetooth before processing or displaying it. Bluetooth packets can be manipulated by malicious devices.
+- **No Hardcoded Secrets:** Never include API keys, passwords, or other sensitive credentials in the source code. Use environment variables or secure storage mechanisms.
+- **Principle of Least Privilege:** Only request the minimum necessary Bluetooth and Location permissions required for the app to function.
+- **Secure Error Handling:** Ensure that error messages do not leak sensitive information or stack traces. Log detailed errors internally, but provide generic messages to the user.
+
 ## Reporting a Vulnerability
 
 Security is a top priority for this project. If you discover a security vulnerability, please do not open a public issue. Instead, please report it through the following process:
