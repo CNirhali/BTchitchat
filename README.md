@@ -4,6 +4,14 @@ A lightweight, offline messaging app that lets you chat with nearby friends usin
 
 ## 📋 Table of Contents
 
+- [Features](#features)
+- [Screenshots](#screenshots)
+- [Tech Stack](#tech-stack)
+- [Getting Started](#getting-started)
+- [Security](#security)
+- [How to Use](#how-to-use)
+- [Contributing](#contributing)
+- [License](#license)
 - [✨ Features](#features)
 - [📸 Screenshots](#screenshots)
 - [🛠 Tech Stack](#tech-stack)
@@ -36,6 +44,8 @@ A lightweight, offline messaging app that lets you chat with nearby friends usin
 
 ### Prerequisites
 
+- **Two physical mobile devices** with working Bluetooth hardware (simulators or emulators typically do not support Bluetooth).
+- **Bluetooth enabled** in the system settings of both devices.
 > [!TIP]
 > This app requires **two physical devices** to test Bluetooth connectivity. Simulators or emulators typically do not support Bluetooth hardware.
 
@@ -63,11 +73,9 @@ Bluetooth communication is inherently susceptible to various security risks, inc
 
 ## 💬 How to Use
 
-1. Ensure Bluetooth is turned on in the system settings of both devices.
-2. Open the app and grant the necessary Bluetooth and Location permissions.
-3. **On Device A:** Tap "Make Discoverable" or "Host Chat".
-4. **On Device B:** Scan for nearby devices and tap Device A's name to initiate a connection.
-5. Once connected, type your message and hit send!
+1. **On Device A:** Tap "Make Discoverable" or "Host Chat".
+2. **On Device B:** Scan for nearby devices and tap Device A's name to initiate a connection.
+3. Once connected, type your message and hit send!
 
 ## 🤝 Contributing
 
