@@ -4,14 +4,14 @@ A lightweight, offline messaging app that lets you chat with nearby friends usin
 
 ## 📋 Table of Contents
 
-- [Features](#-features)
-- [Screenshots](#-screenshots)
-- [Tech Stack](#-tech-stack)
-- [Getting Started](#-getting-started)
-- [Security](#-security)
-- [How to Use](#-how-to-use)
-- [Contributing](#-contributing)
-- [License](#-license)
+- [✨ Features](#features)
+- [📸 Screenshots](#screenshots)
+- [🛠 Tech Stack](#tech-stack)
+- [🚀 Getting Started](#getting-started)
+- [🔒 Security](#security)
+- [💬 How to Use](#how-to-use)
+- [🤝 Contributing](#contributing)
+- [📄 License](#license)
 
 ## ✨ Features
 
@@ -36,6 +36,9 @@ A lightweight, offline messaging app that lets you chat with nearby friends usin
 
 ### Prerequisites
 
+> [!TIP]
+> This app requires **two physical devices** to test Bluetooth connectivity. Simulators or emulators typically do not support Bluetooth hardware.
+
 - **Two physical mobile devices** with working Bluetooth hardware.
 - **Minimum OS:** [Insert OS requirement, e.g., Android 8.0+ or iOS 13.0+].
 - **Permissions:** Location/Nearby Devices permissions enabled.
@@ -53,8 +56,6 @@ A lightweight, offline messaging app that lets you chat with nearby friends usin
 ## 🔒 Security
 
 Bluetooth communication is inherently susceptible to various security risks, including eavesdropping and man-in-the-middle attacks.
-> [!TIP]
-> This app requires **two physical devices** to test Bluetooth connectivity. Simulators or emulators typically do not support Bluetooth hardware.
 
 - **Encryption:** This template currently does **not** implement End-to-End Encryption (E2EE). All messages are sent in plain text.
 - **Recommendations:** For production use, it is highly recommended to implement a robust E2EE layer using libraries like [Noise Protocol](https://noiseprotocol.org/) or [libsodium](https://doc.libsodium.org/).
@@ -75,3 +76,7 @@ Got ideas to make this app better? Pull requests are always welcome! For major c
 ## 📄 License
 
 This project is licensed under the [MIT License](LICENSE) - see the LICENSE file for details.
+
+---
+
+[⬆ Back to Top](#bluetooth-chit-chat)
