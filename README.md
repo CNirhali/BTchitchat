@@ -12,6 +12,14 @@ A lightweight, offline messaging app that lets you chat with nearby friends usin
 - [How to Use](#how-to-use)
 - [Contributing](#contributing)
 - [License](#license)
+- [✨ Features](#features)
+- [📸 Screenshots](#screenshots)
+- [🛠 Tech Stack](#tech-stack)
+- [🚀 Getting Started](#getting-started)
+- [🔒 Security](#security)
+- [💬 How to Use](#how-to-use)
+- [🤝 Contributing](#contributing)
+- [📄 License](#license)
 
 ## ✨ Features
 
@@ -38,6 +46,10 @@ A lightweight, offline messaging app that lets you chat with nearby friends usin
 
 - **Two physical mobile devices** with working Bluetooth hardware (simulators or emulators typically do not support Bluetooth).
 - **Bluetooth enabled** in the system settings of both devices.
+> [!TIP]
+> This app requires **two physical devices** to test Bluetooth connectivity. Simulators or emulators typically do not support Bluetooth hardware.
+
+- **Two physical mobile devices** with working Bluetooth hardware.
 - **Minimum OS:** [Insert OS requirement, e.g., Android 8.0+ or iOS 13.0+].
 - **Permissions:** Location/Nearby Devices permissions enabled.
 
@@ -72,3 +84,7 @@ Got ideas to make this app better? Pull requests are always welcome! For major c
 ## 📄 License
 
 This project is licensed under the [MIT License](LICENSE) - see the LICENSE file for details.
+
+---
+
+[⬆ Back to Top](#bluetooth-chit-chat)
