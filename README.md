@@ -4,14 +4,6 @@ A lightweight, offline messaging app that lets you chat with nearby friends usin
 
 ## 📋 Table of Contents
 
-- [Features](#features)
-- [Screenshots](#screenshots)
-- [Tech Stack](#tech-stack)
-- [Getting Started](#getting-started)
-- [Security](#security)
-- [How to Use](#how-to-use)
-- [Contributing](#contributing)
-- [License](#license)
 - [✨ Features](#features)
 - [📸 Screenshots](#screenshots)
 - [🛠 Tech Stack](#tech-stack)
@@ -44,14 +36,13 @@ A lightweight, offline messaging app that lets you chat with nearby friends usin
 
 ### Prerequisites
 
-- **Two physical mobile devices** with working Bluetooth hardware (simulators or emulators typically do not support Bluetooth).
-- **Bluetooth enabled** in the system settings of both devices.
-> [!TIP]
-> This app requires **two physical devices** to test Bluetooth connectivity. Simulators or emulators typically do not support Bluetooth hardware.
-
 - **Two physical mobile devices** with working Bluetooth hardware.
+- **Bluetooth enabled** in the system settings of both devices.
 - **Minimum OS:** [Insert OS requirement, e.g., Android 8.0+ or iOS 13.0+].
 - **Permissions:** Location/Nearby Devices permissions enabled.
+
+> [!TIP]
+> This app requires **two physical devices** to test Bluetooth connectivity. Simulators or emulators typically do not support Bluetooth hardware.
 
 ### Installation
 
