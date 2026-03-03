@@ -4,14 +4,6 @@ A lightweight, offline messaging app that lets you chat with nearby friends usin
 
 ## 📋 Table of Contents
 
-- [Features](#features)
-- [Screenshots](#screenshots)
-- [Tech Stack](#tech-stack)
-- [Getting Started](#getting-started)
-- [Security](#security)
-- [How to Use](#how-to-use)
-- [Contributing](#contributing)
-- [License](#license)
 - [✨ Features](#features)
 - [📸 Screenshots](#screenshots)
 - [🛠 Tech Stack](#tech-stack)
@@ -36,22 +28,21 @@ A lightweight, offline messaging app that lets you chat with nearby friends usin
 
 ## 🛠 Tech Stack
 
-- **Language:** [e.g., Kotlin / Swift / Dart / JavaScript]
-- **Framework:** [e.g., Android SDK / iOS SDK / Flutter / React Native]
-- **Core APIs:** [e.g., Android Bluetooth API / CoreBluetooth]
+This template can be implemented using any mobile technology stack with Bluetooth support:
+- **Native:** Android (Kotlin) or iOS (Swift)
+- **Cross-platform:** Flutter or React Native
+- **Connectivity:** Peer-to-peer Bluetooth communication
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-- **Two physical mobile devices** with working Bluetooth hardware (simulators or emulators typically do not support Bluetooth).
-- **Bluetooth enabled** in the system settings of both devices.
 > [!TIP]
 > This app requires **two physical devices** to test Bluetooth connectivity. Simulators or emulators typically do not support Bluetooth hardware.
 
-- **Two physical mobile devices** with working Bluetooth hardware.
-- **Minimum OS:** [Insert OS requirement, e.g., Android 8.0+ or iOS 13.0+].
-- **Permissions:** Location/Nearby Devices permissions enabled.
+- **Bluetooth enabled** in the system settings of both devices.
+- **Compatible Mobile OS:** Android 8.0+ or iOS 13.0+ (recommended).
+- **Permissions:** Location and Nearby Devices permissions must be granted for discovery.
 
 ### Installation
 
