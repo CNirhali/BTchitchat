@@ -15,6 +15,7 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
 - **Input Validation:** Sanitize and validate all data received over Bluetooth before processing or displaying it. Bluetooth packets can be manipulated by malicious devices.
 - **No Hardcoded Secrets:** Never include API keys, passwords, or other sensitive credentials in the source code. Use environment variables or secure storage mechanisms.
 - **Principle of Least Privilege:** Only request the minimum necessary Bluetooth and Location permissions required for the app to function.
+- **Secure Data Storage:** Encrypt chat logs and other sensitive local data. Use platform-specific secure storage (e.g., Keystore for Android, Keychain for iOS) for managing encryption keys.
 - **Secure Error Handling:** Ensure that error messages do not leak sensitive information or stack traces. Log detailed errors internally, but provide generic messages to the user.
 
 ## Reporting a Vulnerability

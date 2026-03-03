@@ -34,3 +34,7 @@ secrets.xml
 *.crt
 *.csr
 *.der
+*.db
+*.sqlite
+*.db-shm
+*.db-wal
