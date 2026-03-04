@@ -37,12 +37,16 @@ This template can be implemented using any mobile technology stack with Bluetoot
 
 ### Prerequisites
 
-> [!TIP]
+> [!IMPORTANT]
 > This app requires **two physical devices** to test Bluetooth connectivity. Simulators or emulators typically do not support Bluetooth hardware.
 
 - **Bluetooth Enabled:** Must be turned on in the system settings of both devices.
 - **Compatible Mobile OS:** Android 8.0+ or iOS 13.0+ (recommended).
 - **Permissions:** Location and Nearby Devices permissions must be granted for discovery.
+- [ ] **Bluetooth enabled** in the system settings of both devices.
+- [ ] **Compatible Mobile OS:** Android 8.0+ or iOS 13.0+ (recommended).
+- [ ] **Permissions:** Location and Nearby Devices permissions must be granted for discovery.
+- [ ] **Two physical mobile devices** with working Bluetooth hardware.
 
 ### Installation
 
@@ -64,9 +68,9 @@ Bluetooth communication is inherently susceptible to various security risks, inc
 
 ## 💬 How to Use
 
-1. **On Device A:** Tap "Make Discoverable" or "Host Chat".
-2. **On Device B:** Scan for nearby devices and tap Device A's name to initiate a connection.
-3. Once connected, type your message and hit send!
+1. 📱 **On Device A:** Tap "Make Discoverable" or "Host Chat".
+2. 🔍 **On Device B:** Scan for nearby devices and tap Device A's name to initiate a connection.
+3. ✉️ **Once connected:** Type your message and hit send!
 
 ## 🤝 Contributing
 
