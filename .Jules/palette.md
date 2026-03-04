@@ -21,3 +21,7 @@ This journal documents critical UX and accessibility learnings discovered during
 ## 2025-03-02 - Information Hierarchy and Navigation in Docs
 **Learning:** Placing critical technical requirements (like physical device needs) in the "Prerequisites" section rather than later in "Security" or "Tips" significantly improves Developer Experience (DX) by surfacing blockers early. Adding "Back to Top" links and matching header emojis in the Table of Contents provides both functional navigation and visual delight.
 **Action:** Always audit documentation for "Time to Action" blockers and ensure the Table of Contents visually mirrors the document structure.
+
+## 2026-03-01 - Interactive Checklists and Prioritized Callouts
+**Learning:** Converting static prerequisites into interactive checkbox lists and upgrading critical hardware requirements to [!IMPORTANT] callouts significantly reduces onboarding friction. It transforms passive reading into an active setup process, ensuring developers don't miss critical blockers like physical device requirements.
+**Action:** Use task lists for setup steps and use appropriate GitHub alert levels ([!IMPORTANT] vs [!TIP]) to signal the criticality of information.
