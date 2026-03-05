@@ -38,3 +38,4 @@ secrets.xml
 *.sqlite
 *.db-shm
 *.db-wal
+*.log

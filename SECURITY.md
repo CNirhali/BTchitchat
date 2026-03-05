@@ -20,6 +20,8 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
 - **Secure Pairing & Authentication:** Implement secure pairing mechanisms (e.g., Numeric Comparison) and authenticate connected devices to prevent unauthorized access and MITM attacks.
 - **Resource Limits & Rate Limiting:** Apply limits on message sizes and frequency of incoming Bluetooth packets to prevent denial-of-service (DoS) and memory exhaustion.
 - **Data Minimization:** Only transmit essential data over Bluetooth. Avoid sending Personally Identifiable Information (PII) unless it is strictly necessary and properly encrypted.
+- **Replay Protection:** Implement nonces or timestamps to prevent captured Bluetooth packets from being re-sent to the application.
+- **Cryptographically Secure Randomness:** Use platform-provided cryptographically secure random number generators (CSPRNGs) for generating all cryptographic keys, nonces, and session identifiers.
 
 ## Reporting a Vulnerability
 
