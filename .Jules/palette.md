@@ -22,6 +22,10 @@ This journal documents critical UX and accessibility learnings discovered during
 **Learning:** Placing critical technical requirements (like physical device needs) in the "Prerequisites" section rather than later in "Security" or "Tips" significantly improves Developer Experience (DX) by surfacing blockers early. Adding "Back to Top" links and matching header emojis in the Table of Contents provides both functional navigation and visual delight.
 **Action:** Always audit documentation for "Time to Action" blockers and ensure the Table of Contents visually mirrors the document structure.
 
+## 2026-03-05 - Navigational Depth and Visual Consistency in Docs
+**Learning:** In a template-only repository, providing deep links in the Table of Contents and matching emojis between TOC and headers significantly reduces "Time to Action" for developers. It allows for quick scanning and direct access to specific setup steps like Prerequisites or Installation, which are often buried in a single "Getting Started" link.
+**Action:** Ensure Table of Contents reflects the full hierarchy of critical sections and uses consistent iconography to guide the developer's eye.
+
 ## 2026-03-01 - Interactive Checklists and Prioritized Callouts
 **Learning:** Converting static prerequisites into interactive checkbox lists and upgrading critical hardware requirements to [!IMPORTANT] callouts significantly reduces onboarding friction. It transforms passive reading into an active setup process, ensuring developers don't miss critical blockers like physical device requirements.
 **Action:** Use task lists for setup steps and use appropriate GitHub alert levels ([!IMPORTANT] vs [!TIP]) to signal the criticality of information.
