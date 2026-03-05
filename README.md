@@ -8,6 +8,8 @@ A lightweight, offline messaging app that lets you chat with nearby friends usin
 - [📸 Screenshots](#screenshots)
 - [🛠 Tech Stack](#tech-stack)
 - [🚀 Getting Started](#getting-started)
+  - [🛠️ Prerequisites](#prerequisites)
+  - [📦 Installation](#installation)
 - [🔒 Security](#security)
 - [💬 How to Use](#how-to-use)
 - [🤝 Contributing](#contributing)
@@ -35,20 +37,17 @@ This template can be implemented using any mobile technology stack with Bluetoot
 
 ## 🚀 Getting Started
 
-### Prerequisites
+### 🛠️ Prerequisites
 
 > [!IMPORTANT]
 > This app requires **two physical devices** to test Bluetooth connectivity. Simulators or emulators typically do not support Bluetooth hardware.
 
-- **Bluetooth Enabled:** Must be turned on in the system settings of both devices.
-- **Compatible Mobile OS:** Android 8.0+ or iOS 13.0+ (recommended).
-- **Permissions:** Location and Nearby Devices permissions must be granted for discovery.
 - [ ] **Bluetooth enabled** in the system settings of both devices.
 - [ ] **Compatible Mobile OS:** Android 8.0+ or iOS 13.0+ (recommended).
 - [ ] **Permissions:** Location and Nearby Devices permissions must be granted for discovery.
 - [ ] **Two physical mobile devices** with working Bluetooth hardware.
 
-### Installation
+### 📦 Installation
 
 1. **Clone this repository** to your local machine:
    ```bash
