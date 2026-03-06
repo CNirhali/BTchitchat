@@ -52,6 +52,11 @@ This template can be implemented using any mobile technology stack with Bluetoot
    ```bash
    git clone https://github.com/yourusername/bluetooth-chit-chat.git
    ```
+2. **Install dependencies** using `pnpm`:
+   ```bash
+   pnpm install
+   ```
+3. **Open the project** in [Insert your IDE, e.g., Android Studio / Xcode / VS Code].
 2. **Open the project** in [Insert your IDE, e.g., Android Studio / Xcode / VS Code].
 3. **Sync the project dependencies:**
    ```bash
@@ -61,6 +66,7 @@ This template can be implemented using any mobile technology stack with Bluetoot
 
 ## 🔒 Security
 
+Bluetooth communication is inherently susceptible to various security risks, including eavesdropping and man-in-the-middle attacks. See [SECURITY.md](SECURITY.md) for full guidelines.
 Bluetooth communication is inherently susceptible to various security risks, including eavesdropping and man-in-the-middle attacks. For detailed security practices, see our [SECURITY.md](SECURITY.md).
 
 - 🔐 **Encryption & Integrity:** This template currently does **not** implement End-to-End Encryption (E2EE) or Message Integrity Checks. All messages are sent in plain text and are susceptible to tampering.
