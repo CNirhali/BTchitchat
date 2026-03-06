@@ -45,7 +45,6 @@ This template can be implemented using any mobile technology stack with Bluetoot
 - [ ] **Bluetooth enabled** in the system settings of both devices.
 - [ ] **Compatible Mobile OS:** Android 8.0+ or iOS 13.0+ (recommended).
 - [ ] **Permissions:** Location and Nearby Devices permissions must be granted for discovery.
-- [ ] **Two physical mobile devices** with working Bluetooth hardware.
 
 ### 📦 Installation
 
@@ -54,7 +53,10 @@ This template can be implemented using any mobile technology stack with Bluetoot
    git clone https://github.com/yourusername/bluetooth-chit-chat.git
    ```
 2. **Open the project** in [Insert your IDE, e.g., Android Studio / Xcode / VS Code].
-3. **Sync the project dependencies.**
+3. **Sync the project dependencies:**
+   ```bash
+   pnpm install
+   ```
 4. **Build and run the application** on your physical devices.
 
 ## 🔒 Security

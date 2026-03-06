@@ -32,3 +32,7 @@ Security is a top priority for this project. If you discover a security vulnerab
 3.  **Response**: You can expect an acknowledgment of your report within 48 hours. We will keep you updated on the progress of the fix.
 
 We appreciate your help in keeping this project secure!
+
+---
+
+[⬆ Back to Top](#security-policy)
