@@ -41,3 +41,5 @@ secrets.xml
 *.sql
 *.dump
 *.log
+*.pcap
+*.pcapng
