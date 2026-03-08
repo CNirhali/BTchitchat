@@ -1,6 +1,6 @@
 # 📱 Bluetooth Chit Chat
 
-A lightweight, offline messaging app that lets you chat with nearby friends using Bluetooth, no internet or cell service required! Perfect for classrooms, camping trips, or crowded events where the Wi-Fi is weak or nonexistent.
+A lightweight, offline messaging app for Bluetooth-based chat. No internet or cell service required—perfect for classrooms, camping, or crowded events with weak Wi-Fi.
 
 ## 📋 Table of Contents
 
@@ -10,6 +10,7 @@ A lightweight, offline messaging app that lets you chat with nearby friends usin
 - [🚀 Getting Started](#getting-started)
   - [🛠️ Prerequisites](#prerequisites)
   - [📦 Installation](#installation)
+- [⚡ Performance](#performance)
 - [🔒 Security](#security)
 - [💬 How to Use](#how-to-use)
 - [🤝 Contributing](#contributing)
@@ -17,16 +18,16 @@ A lightweight, offline messaging app that lets you chat with nearby friends usin
 
 ## ✨ Features
 
-- 📡 **100% Offline Messaging:** Send and receive text messages using a direct Bluetooth peer-to-peer connection.
-- ⚡ **Quick Device Pairing:** Easily discover and connect to nearby Bluetooth-enabled devices directly from the app.
-- 💬 **Real-Time Chat Interface:** A familiar, intuitive chat UI with message bubbles and connection status updates.
-- 👤 **No Accounts Needed:** Just open the app, connect, and start chatting.
+- 📡 **100% Offline:** Direct peer-to-peer messaging via Bluetooth.
+- ⚡ **Quick Pairing:** Connect to nearby devices instantly.
+- 💬 **Real-Time UI:** Familiar chat interface with connection status.
+- 👤 **No Accounts:** Zero-configuration; start chatting immediately.
 
 ## 📸 Screenshots
 
 | Device Discovery | Active Chat Room |
 | :---: | :---: |
-| ![A mobile screen showing a list of discovered nearby Bluetooth devices with names like 'Nexus 5X' and 'Pixel 4a'](https://via.placeholder.com/300x600?text=Discovery+UI) | ![A chat conversation between two users with blue and gray message bubbles](https://via.placeholder.com/300x600?text=Chat+UI) |
+| <img src="https://via.placeholder.com/300x600?text=Discovery+UI" width="300" height="600" alt="A mobile screen showing a list of discovered nearby Bluetooth devices with names like 'Nexus 5X' and 'Pixel 4a'"> | <img src="https://via.placeholder.com/300x600?text=Chat+UI" width="300" height="600" alt="A chat conversation between two users with blue and gray message bubbles"> |
 
 ## 🛠️ Tech Stack
 
@@ -50,7 +51,7 @@ This template can be implemented using any mobile technology stack with Bluetoot
 
 1. **Clone this repository** to your local machine:
    ```bash
-   git clone https://github.com/yourusername/bluetooth-chit-chat.git
+   git clone --depth 1 https://github.com/yourusername/bluetooth-chit-chat.git
    ```
 2. **Install dependencies** using `pnpm`:
    ```bash
@@ -58,6 +59,14 @@ This template can be implemented using any mobile technology stack with Bluetoot
    ```
 3. **Open the project** in your preferred IDE (e.g., Android Studio, Xcode, or VS Code).
 4. **Build and run the application** on your physical devices.
+
+## ⚡ Performance
+
+Bluetooth throughput is limited. To ensure a fast experience:
+- 📦 **Minimize Payloads:** Keep message metadata small to reduce transfer time.
+- ⚡ **Message Batching:** If sending multiple updates, batch them into a single Bluetooth packet.
+- 🔋 **Battery Efficiency:** Disable Bluetooth discovery/scanning immediately after connection to save power.
+- 📉 **Lower Latency:** Use efficient serialization (like Protobuf or JSON) to minimize processing overhead.
 
 ## 🔒 Security
 
