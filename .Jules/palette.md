@@ -33,3 +33,7 @@ This journal documents critical UX and accessibility learnings discovered during
 ## 2026-03-07 - Persona Scope and DX Improvements
 **Learning:** Improving the "interface" of documentation through structure, formatting, and deduplication is a valid and impactful UX/DX contribution. However, adding new technical or security-specific content (e.g., new guidelines) is outside the Palette persona's scope and should be left to specialized agents like Sentinel.
 **Action:** Stick to structural and visual improvements in documentation; do not introduce new technical requirements or policies.
+
+## 2026-03-08 - Visual Scannability and Polish in Documentation
+**Learning:** In a template-only repository, the documentation is the primary user interface. Small touches like matching variation selectors in emojis (e.g., `🛠️` vs `🛠`), adding icon-led lists for features, and removing placeholder-style text (e.g., "[Insert IDE]") significantly increase the "professional feel" and reduce the cognitive friction for developers.
+**Action:** Audit documentation for visual consistency in iconography and ensure all placeholder text is replaced with polished, actionable guidance.

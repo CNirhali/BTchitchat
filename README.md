@@ -6,7 +6,7 @@ A lightweight, offline messaging app that lets you chat with nearby friends usin
 
 - [✨ Features](#features)
 - [📸 Screenshots](#screenshots)
-- [🛠 Tech Stack](#tech-stack)
+- [🛠️ Tech Stack](#tech-stack)
 - [🚀 Getting Started](#getting-started)
   - [🛠️ Prerequisites](#prerequisites)
   - [📦 Installation](#installation)
@@ -17,10 +17,10 @@ A lightweight, offline messaging app that lets you chat with nearby friends usin
 
 ## ✨ Features
 
-- **100% Offline Messaging:** Send and receive text messages using a direct Bluetooth peer-to-peer connection.
-- **Quick Device Pairing:** Easily discover and connect to nearby Bluetooth-enabled devices directly from the app.
-- **Real-Time Chat Interface:** A familiar, intuitive chat UI with message bubbles and connection status updates.
-- **No Accounts Needed:** Just open the app, connect, and start chatting.
+- 📡 **100% Offline Messaging:** Send and receive text messages using a direct Bluetooth peer-to-peer connection.
+- ⚡ **Quick Device Pairing:** Easily discover and connect to nearby Bluetooth-enabled devices directly from the app.
+- 💬 **Real-Time Chat Interface:** A familiar, intuitive chat UI with message bubbles and connection status updates.
+- 👤 **No Accounts Needed:** Just open the app, connect, and start chatting.
 
 ## 📸 Screenshots
 
@@ -28,12 +28,12 @@ A lightweight, offline messaging app that lets you chat with nearby friends usin
 | :---: | :---: |
 | ![A mobile screen showing a list of discovered nearby Bluetooth devices with names like 'Nexus 5X' and 'Pixel 4a'](https://via.placeholder.com/300x600?text=Discovery+UI) | ![A chat conversation between two users with blue and gray message bubbles](https://via.placeholder.com/300x600?text=Chat+UI) |
 
-## 🛠 Tech Stack
+## 🛠️ Tech Stack
 
 This template can be implemented using any mobile technology stack with Bluetooth support:
-- **Native:** Android (Kotlin) or iOS (Swift)
-- **Cross-platform:** Flutter or React Native
-- **Connectivity:** Peer-to-peer Bluetooth communication
+- 📱 **Native:** Android (Kotlin) or iOS (Swift)
+- 🌐 **Cross-platform:** Flutter or React Native
+- 📶 **Connectivity:** Peer-to-peer Bluetooth communication
 
 ## 🚀 Getting Started
 
@@ -56,7 +56,7 @@ This template can be implemented using any mobile technology stack with Bluetoot
    ```bash
    pnpm install
    ```
-3. **Open the project** in [Insert your IDE, e.g., Android Studio / Xcode / VS Code].
+3. **Open the project** in your preferred IDE (e.g., Android Studio, Xcode, or VS Code).
 4. **Build and run the application** on your physical devices.
 
 ## 🔒 Security
