@@ -53,20 +53,22 @@ This template can be implemented using any mobile technology stack with Bluetoot
    ```bash
    git clone --depth 1 https://github.com/yourusername/bluetooth-chit-chat.git
    ```
+2. **Initialize the project** or install dependencies (if a `package.json` has been added):
 2. 📦 **Install dependencies** using `pnpm`:
    ```bash
-   pnpm install
+   pnpm init
    ```
 3. 💻 **Open the project** in your preferred IDE (e.g., Android Studio, Xcode, or VS Code).
 4. 🚀 **Build and run the application** on your physical devices.
 
 ## ⚡ Performance
 
-Bluetooth throughput is limited. To ensure a fast experience:
-- 📦 **Minimize Payloads:** Keep message metadata small to reduce transfer time.
-- ⚡ **Message Batching:** If sending multiple updates, batch them into a single Bluetooth packet.
-- 🔋 **Battery Efficiency:** Disable Bluetooth discovery/scanning immediately after connection to save power.
-- 📉 **Lower Latency:** Use efficient serialization (like Protobuf or JSON) to minimize processing overhead.
+Bluetooth throughput is limited and latency can vary. To ensure a fast experience:
+- 📦 **Binary Serialization:** Use efficient formats like [Protobuf](https://protobuf.dev/) or [FlatBuffers](https://google.github.io/flatbuffers/) to minimize payload size and processing overhead.
+- 🚀 **MTU Negotiation:** Request a larger Maximum Transmission Unit (MTU) to increase throughput for larger messages.
+- ⚡ **Message Batching:** If sending multiple updates, batch them into a single Bluetooth packet to reduce protocol overhead.
+- 🔋 **Battery Efficiency:** Disable Bluetooth discovery/scanning immediately after connection to save power and improve connection stability.
+- 📉 **Lower Latency:** Use direct connection handles where possible and minimize unnecessary application-layer acknowledgments.
 
 ## 🔒 Security
 
