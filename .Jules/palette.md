@@ -37,3 +37,7 @@ This journal documents critical UX and accessibility learnings discovered during
 ## 2026-03-08 - Visual Scannability and Polish in Documentation
 **Learning:** In a template-only repository, the documentation is the primary user interface. Small touches like matching variation selectors in emojis (e.g., `🛠️` vs `🛠`), adding icon-led lists for features, and removing placeholder-style text (e.g., "[Insert IDE]") significantly increase the "professional feel" and reduce the cognitive friction for developers.
 **Action:** Audit documentation for visual consistency in iconography and ensure all placeholder text is replaced with polished, actionable guidance.
+
+## 2026-03-09 - Accessible Navigation in Long-form Documentation
+**Learning:** Screen reader users benefit from descriptive labels on repetitive navigational elements like "Back to Top" links. Using standard HTML anchors with `aria-label` instead of plain Markdown links allows for a more accessible "interface" in documentation-heavy repositories.
+**Action:** Use `<a href="..." aria-label="Back to top of page">` for document navigation to ensure clear context for assistive technologies.

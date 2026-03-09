@@ -32,8 +32,8 @@ A lightweight, offline messaging app for Bluetooth-based chat. No internet or ce
 ## 🛠️ Tech Stack
 
 This template can be implemented using any mobile technology stack with Bluetooth support:
-- 📱 **Native:** Android (Kotlin) or iOS (Swift)
-- 🌐 **Cross-platform:** Flutter or React Native
+- 📱 **Native:** [Android (Kotlin)](https://developer.android.com/develop/connectivity/bluetooth) or [iOS (Swift)](https://developer.apple.com/documentation/corebluetooth)
+- 🌐 **Cross-platform:** [Flutter](https://pub.dev/packages/flutter_blue_plus) or [React Native](https://github.com/dotintent/react-native-ble-plx)
 - 📶 **Connectivity:** Peer-to-peer Bluetooth communication
 
 ## 🚀 Getting Started
@@ -49,16 +49,17 @@ This template can be implemented using any mobile technology stack with Bluetoot
 
 ### 📦 Installation
 
-1. **Clone this repository** to your local machine:
+1. 📥 **Clone this repository** to your local machine:
    ```bash
    git clone --depth 1 https://github.com/yourusername/bluetooth-chit-chat.git
    ```
 2. **Initialize the project** or install dependencies (if a `package.json` has been added):
+2. 📦 **Install dependencies** using `pnpm`:
    ```bash
    pnpm init
    ```
-3. **Open the project** in your preferred IDE (e.g., Android Studio, Xcode, or VS Code).
-4. **Build and run the application** on your physical devices.
+3. 💻 **Open the project** in your preferred IDE (e.g., Android Studio, Xcode, or VS Code).
+4. 🚀 **Build and run the application** on your physical devices.
 
 ## ⚡ Performance
 
@@ -93,4 +94,4 @@ This project is licensed under the [MIT License](LICENSE) - see the LICENSE file
 
 ---
 
-[⬆ Back to Top](#bluetooth-chit-chat)
+<a href="#bluetooth-chit-chat" aria-label="Back to top of page">⬆ Back to Top</a>
