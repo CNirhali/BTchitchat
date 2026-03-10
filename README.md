@@ -49,14 +49,14 @@ This template can be implemented using any mobile technology stack with Bluetoot
 
 ### 📦 Installation
 
-1. 📥 **Clone this repository** to your local machine:
+1. 📥 **Clone this repository** to your local machine and navigate into the directory:
    ```bash
    git clone --depth 1 https://github.com/yourusername/bluetooth-chit-chat.git
+   cd bluetooth-chit-chat
    ```
-2. **Initialize the project** or install dependencies (if a `package.json` has been added):
 2. 📦 **Install dependencies** using `pnpm`:
    ```bash
-   pnpm init
+   pnpm install
    ```
 3. 💻 **Open the project** in your preferred IDE (e.g., Android Studio, Xcode, or VS Code).
 4. 🚀 **Build and run the application** on your physical devices.
@@ -80,9 +80,9 @@ Bluetooth communication is inherently susceptible to various security risks, inc
 
 ## 💬 How to Use
 
-1. 📱 **On Device A:** Tap "Make Discoverable" or "Host Chat".
-2. 🔍 **On Device B:** Scan for nearby devices and tap Device A's name to initiate a connection.
-3. ✉️ **Once connected:** Type your message and hit send!
+1. 📱 **On Device A:** Tap **"Make Discoverable"** or **"Host Chat"**.
+2. 🔍 **On Device B:** Scan for nearby devices and tap **Device A's name** to initiate a connection.
+3. ✉️ **Once connected:** Type your message and hit **Send**!
 
 ## 🤝 Contributing
 
