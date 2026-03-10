@@ -13,3 +13,7 @@ This journal documents critical performance learnings discovered during the deve
 ## 2026-03-09 - Optimizing Bluetooth Throughput and Latency
 **Learning:** Generic serialization advice like JSON is suboptimal for Bluetooth. Throughput and latency can be significantly improved by leveraging MTU Negotiation to increase packet size, and prioritizing binary formats like Protobuf. Direct connection handles also reduce connection-related latency.
 **Action:** Always recommend platform-specific Bluetooth optimizations (MTU, Direct Connection) and binary serialization over general web-standard formats in Bluetooth-heavy applications.
+
+## 2026-03-10 - Browser Rendering Optimization for Documentation
+**Learning:** Even in a template-only repository, web performance of the documentation (the primary product) can be improved. Using `loading="lazy"` on heavy placeholder images reduces the initial page load payload and improves browser rendering speed for developers reviewing the project.
+**Action:** Always include `loading="lazy"` for images in documentation to ensure the best possible web performance for the project's landing page.
