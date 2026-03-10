@@ -27,7 +27,7 @@ A lightweight, offline messaging app for Bluetooth-based chat. No internet or ce
 
 | Device Discovery | Active Chat Room |
 | :---: | :---: |
-| <img src="https://via.placeholder.com/300x600?text=Discovery+UI" width="300" height="600" alt="A mobile screen showing a list of discovered nearby Bluetooth devices with names like 'Nexus 5X' and 'Pixel 4a'"> | <img src="https://via.placeholder.com/300x600?text=Chat+UI" width="300" height="600" alt="A chat conversation between two users with blue and gray message bubbles"> |
+| <img src="https://via.placeholder.com/300x600?text=Discovery+UI" width="300" height="600" alt="A mobile screen showing a list of discovered nearby Bluetooth devices with names like 'Nexus 5X' and 'Pixel 4a'" loading="lazy"> | <img src="https://via.placeholder.com/300x600?text=Chat+UI" width="300" height="600" alt="A chat conversation between two users with blue and gray message bubbles" loading="lazy"> |
 
 ## 🛠️ Tech Stack
 
@@ -65,7 +65,7 @@ This template can be implemented using any mobile technology stack with Bluetoot
 
 Bluetooth throughput is limited and latency can vary. To ensure a fast experience:
 - 📦 **Binary Serialization:** Use efficient formats like [Protobuf](https://protobuf.dev/) or [FlatBuffers](https://google.github.io/flatbuffers/) to minimize payload size and processing overhead.
-- 🚀 **MTU Negotiation:** Request a larger Maximum Transmission Unit (MTU) to increase throughput for larger messages.
+- 🚀 **MTU Negotiation:** Request a larger Maximum Transmission Unit (MTU) to increase throughput for larger messages (up to 512 bytes on BLE).
 - ⚡ **Message Batching:** If sending multiple updates, batch them into a single Bluetooth packet to reduce protocol overhead.
 - 🔋 **Battery Efficiency:** Disable Bluetooth discovery/scanning immediately after connection to save power and improve connection stability.
 - 📉 **Lower Latency:** Use direct connection handles where possible and minimize unnecessary application-layer acknowledgments.
