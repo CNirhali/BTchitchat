@@ -4,6 +4,8 @@ A lightweight, offline messaging app for Bluetooth-based chat. No internet or ce
 
 ## 📋 Table of Contents
 
+<nav aria-label="Table of Contents">
+
 - [✨ Features](#features)
 - [📸 Screenshots](#screenshots)
 - [🛠️ Tech Stack](#tech-stack)
@@ -16,6 +18,8 @@ A lightweight, offline messaging app for Bluetooth-based chat. No internet or ce
 - [🤝 Contributing](#contributing)
 - [📄 License](#license)
 
+</nav>
+
 ## ✨ Features
 
 - 📡 **100% Offline:** Direct peer-to-peer messaging via Bluetooth.
@@ -25,7 +29,7 @@ A lightweight, offline messaging app for Bluetooth-based chat. No internet or ce
 
 ## 📸 Screenshots
 
-| Device Discovery | Active Chat Room |
+| 🔍 Device Discovery | 💬 Active Chat Room |
 | :---: | :---: |
 | <img src="https://via.placeholder.com/300x600?text=Discovery+UI" width="300" height="600" alt="A mobile screen showing a list of discovered nearby Bluetooth devices with names like 'Nexus 5X' and 'Pixel 4a'" loading="lazy"> | <img src="https://via.placeholder.com/300x600?text=Chat+UI" width="300" height="600" alt="A chat conversation between two users with blue and gray message bubbles" loading="lazy"> |
 
@@ -43,9 +47,9 @@ This template can be implemented using any mobile technology stack with Bluetoot
 > [!IMPORTANT]
 > This app requires **two physical devices** to test Bluetooth connectivity. Simulators or emulators typically do not support Bluetooth hardware.
 
-- [ ] **Bluetooth enabled** in the system settings of both devices.
-- [ ] **Compatible Mobile OS:** Android 8.0+ or iOS 13.0+ (recommended).
-- [ ] **Permissions:** Location and Nearby Devices permissions must be granted for discovery.
+- [ ] 📶 **Bluetooth Enabled:** Must be enabled in the system settings of both devices.
+- [ ] 📱 **Compatible Mobile OS:** Android 8.0+ or iOS 13.0+ (recommended).
+- [ ] 🛡️ **Permissions:** Location and Nearby Devices permissions must be granted for discovery.
 
 ### 📦 Installation
 

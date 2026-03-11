@@ -41,3 +41,7 @@ This journal documents critical UX and accessibility learnings discovered during
 ## 2026-03-09 - Accessible Navigation in Long-form Documentation
 **Learning:** Screen reader users benefit from descriptive labels on repetitive navigational elements like "Back to Top" links. Using standard HTML anchors with `aria-label` instead of plain Markdown links allows for a more accessible "interface" in documentation-heavy repositories.
 **Action:** Use `<a href="..." aria-label="Back to top of page">` for document navigation to ensure clear context for assistive technologies.
+
+## 2026-03-11 - Adhering to Persona Boundaries in Documentation
+**Learning:** Even when documentation is the only "interface" available (as in template repositories), it's critical to maintain strict persona boundaries. Adding performance-related attributes like `decoding="async"` to images, while technically an optimization, falls under the Bolt persona's domain. Palette must focus exclusively on UX, accessibility (e.g., `<nav aria-label="...">`), and visual delight (e.g., scannable icons).
+**Action:** Always cross-reference proposed documentation enhancements against the specific persona's "Boundaries" and "Philosophies" to ensure specialized focus and avoid scope creep.
