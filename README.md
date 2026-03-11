@@ -27,7 +27,8 @@ A lightweight, offline messaging app for Bluetooth-based chat. No internet or ce
 
 | Device Discovery | Active Chat Room |
 | :---: | :---: |
-| <img src="https://via.placeholder.com/300x600?text=Discovery+UI" width="300" height="600" alt="A mobile screen showing a list of discovered nearby Bluetooth devices with names like 'Nexus 5X' and 'Pixel 4a'" loading="lazy"> | <img src="https://via.placeholder.com/300x600?text=Chat+UI" width="300" height="600" alt="A chat conversation between two users with blue and gray message bubbles" loading="lazy"> |
+<!-- ⚡ Optimization: decoding="async" reduces main-thread contention during image decoding, improving initial rendering speed -->
+| <img src="https://via.placeholder.com/300x600?text=Discovery+UI" width="300" height="600" alt="A mobile screen showing a list of discovered nearby Bluetooth devices with names like 'Nexus 5X' and 'Pixel 4a'" loading="lazy" decoding="async"> | <img src="https://via.placeholder.com/300x600?text=Chat+UI" width="300" height="600" alt="A chat conversation between two users with blue and gray message bubbles" loading="lazy" decoding="async"> |
 
 ## 🛠️ Tech Stack
 
@@ -69,6 +70,11 @@ Bluetooth throughput is limited and latency can vary. To ensure a fast experienc
 - ⚡ **Message Batching:** If sending multiple updates, batch them into a single Bluetooth packet to reduce protocol overhead.
 - 🔋 **Battery Efficiency:** Disable Bluetooth discovery/scanning immediately after connection to save power and improve connection stability.
 - 📉 **Lower Latency:** Use direct connection handles where possible and minimize unnecessary application-layer acknowledgments.
+- ♻️ **Object Pooling:** Reuse byte buffers and message objects to minimize Garbage Collection (GC) overhead and prevent UI jank during high-frequency data exchange.
+- ⏱️ **Lazy Initialization:** Delay Bluetooth stack setup and discovery until strictly necessary to improve initial app launch speed and reduce memory footprint.
+
+<!-- ⚡ Optimization: Contextual 'Back to Top' links reduce developer 'Time to Action' by minimizing scroll time -->
+<a href="#bluetooth-chit-chat" aria-label="Back to top of page">⬆ Back to Top</a>
 
 ## 🔒 Security
 

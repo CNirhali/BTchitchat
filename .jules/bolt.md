@@ -17,3 +17,7 @@ This journal documents critical performance learnings discovered during the deve
 ## 2026-03-10 - Browser Rendering Optimization for Documentation
 **Learning:** Even in a template-only repository, web performance of the documentation (the primary product) can be improved. Using `loading="lazy"` on heavy placeholder images reduces the initial page load payload and improves browser rendering speed for developers reviewing the project.
 **Action:** Always include `loading="lazy"` for images in documentation to ensure the best possible web performance for the project's landing page.
+
+## 2026-03-11 - Holistic Documentation Performance: Rendering, Navigation, and Technical Guidelines
+**Learning:** Documentation performance in template repositories is multi-faceted. It involves optimizing browser rendering using `decoding="async"` to prevent main-thread blocking, improving navigation ergonomics with contextual "Back to Top" links to reduce scroll-time, and providing high-impact technical patterns (like Object Pooling and Lazy Initialization) that guide developers toward building high-performance applications from the start.
+**Action:** Combine browser-level rendering optimizations with structural UX improvements and actionable performance patterns to maximize developer productivity and application quality.
