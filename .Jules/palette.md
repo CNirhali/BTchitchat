@@ -45,3 +45,7 @@ This journal documents critical UX and accessibility learnings discovered during
 ## 2026-03-11 - Adhering to Persona Boundaries in Documentation
 **Learning:** Even when documentation is the only "interface" available (as in template repositories), it's critical to maintain strict persona boundaries. Adding performance-related attributes like `decoding="async"` to images, while technically an optimization, falls under the Bolt persona's domain. Palette must focus exclusively on UX, accessibility (e.g., `<nav aria-label="...">`), and visual delight (e.g., scannable icons).
 **Action:** Always cross-reference proposed documentation enhancements against the specific persona's "Boundaries" and "Philosophies" to ensure specialized focus and avoid scope creep.
+
+## 2026-03-12 - UI Consistency and Standardized Scannability in Docs
+**Learning:** Maintaining consistent visual cues for UI elements (like using quotes for all button/label references) and adhering to established list patterns (e.g., `[Icon] **Key Term:** Description`) across documentation significantly reduces cognitive load. It makes the "interface" of the README feel cohesive and professional.
+**Action:** Always audit documentation for internal consistency in how UI elements are referenced and follow established iconography patterns to improve scannability.
