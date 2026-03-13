@@ -91,8 +91,11 @@ Bluetooth communication is inherently susceptible to various security risks, inc
 ## 💬 How to Use
 
 1. 📱 **On Device A:** Tap **"Make Discoverable"** or **"Host Chat"**.
-2. 🔍 **On Device B:** Scan for nearby devices and tap **Device A's name** to initiate a connection.
-3. ✉️ **Once connected:** Type your message and hit **Send**!
+2. 🔍 **On Device B:** Scan for nearby devices and tap **"Device A's name"** to initiate a connection.
+3. ✉️ **Messaging:** Once connected, type your message and tap **"Send"**!
+
+> [!TIP]
+> Bluetooth has a typical range of about 10 meters (33 feet). For the best experience, ensure devices have a clear line of sight and are not obstructed by thick walls or large metal objects.
 
 ## 🤝 Contributing
 
