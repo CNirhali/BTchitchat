@@ -32,7 +32,7 @@ A lightweight, offline messaging app for Bluetooth-based chat. No internet or ce
 | 🔍 Device Discovery | 💬 Active Chat Room |
 | :---: | :---: |
 <!-- ⚡ Optimization: decoding="async" reduces main-thread contention during image decoding, improving initial rendering speed -->
-| <img src="https://via.placeholder.com/300x600?text=Discovery+UI" width="300" height="600" alt="A mobile screen showing a list of discovered nearby Bluetooth devices with names like 'Nexus 5X' and 'Pixel 4a'" loading="lazy" decoding="async"> | <img src="https://via.placeholder.com/300x600?text=Chat+UI" width="300" height="600" alt="A chat conversation between two users with blue and gray message bubbles" loading="lazy" decoding="async"> |
+| <img src="https://via.placeholder.com/300x600?text=Discovery+UI" width="300" height="600" alt="A mobile screen showing a list of discovered nearby Bluetooth devices with names like 'Nexus 5X' and 'Pixel 4a'" decoding="async"> | <img src="https://via.placeholder.com/300x600?text=Chat+UI" width="300" height="600" alt="A chat conversation between two users with blue and gray message bubbles" decoding="async"> |
 
 ## 🛠️ Tech Stack
 
@@ -88,6 +88,9 @@ Bluetooth communication is inherently susceptible to various security risks, inc
 - 💡 **Recommendations:** For production use, it is highly recommended to implement a robust E2EE layer with **Perfect Forward Secrecy (PFS)** using libraries like [Noise Protocol](https://noiseprotocol.org/) or [libsodium](https://doc.libsodium.org/).
 - 🕵️ **Privacy:** Be mindful of the data shared over Bluetooth, as nearby devices may be able to monitor the traffic if not properly secured.
 
+<!-- ⚡ Optimization: Contextual 'Back to Top' links reduce developer 'Time to Action' by minimizing scroll time -->
+<a href="#bluetooth-chit-chat" aria-label="Back to top of page">⬆ Back to Top</a>
+
 ## 💬 How to Use
 
 1. 📱 **On Device A:** Tap **"Make Discoverable"** or **"Host Chat"**.
@@ -96,6 +99,9 @@ Bluetooth communication is inherently susceptible to various security risks, inc
 
 > [!TIP]
 > Bluetooth has a typical range of about 10 meters (33 feet). For the best experience, ensure devices have a clear line of sight and are not obstructed by thick walls or large metal objects.
+
+<!-- ⚡ Optimization: Contextual 'Back to Top' links reduce developer 'Time to Action' by minimizing scroll time -->
+<a href="#bluetooth-chit-chat" aria-label="Back to top of page">⬆ Back to Top</a>
 
 ## 🤝 Contributing
 
