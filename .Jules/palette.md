@@ -53,3 +53,7 @@ This journal documents critical UX and accessibility learnings discovered during
 ## 2026-03-13 - Information Architecture and Friction Reduction in Security Policies
 **Learning:** Categorizing a long, flat list of security guidelines into logical buckets (e.g., Communication vs. Data Privacy) drastically improves scannability for contributors. Furthermore, reducing friction in critical workflows—like pre-filling an email subject for vulnerability reports—encourages proper disclosure and improves the overall "Developer Experience" of the project's safety net.
 **Action:** When auditing documentation-heavy repositories, look for opportunities to group flat information hierarchies and pre-populate fields for external communication triggers.
+
+## 2026-03-14 - Iconography Cohesion and Navigational Shortcuts in DX
+**Learning:** In template-only repositories where documentation is the sole interface, inconsistencies in iconography (e.g., using `🕵️` vs `👤` for privacy) can create subtle cognitive friction. Furthermore, while global "Back to Top" links are common, placing contextual shortcuts after long technical or guideline sections significantly improves the "Developer Experience" by reducing scroll fatigue and reinforcing the document's structure.
+**Action:** Audit documentation for iconography consistency across sections and provide contextual navigation links in long-form technical guides.
