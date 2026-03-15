@@ -53,7 +53,7 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
 - ⚠️ **Secure Error Handling:** Ensure that error messages do not leak sensitive information or stack traces. Log detailed errors internally, but provide generic messages to the user.
 - 🎲 **Cryptographically Secure Randomness:** Use platform-provided cryptographically secure random number generators (CSPRNGs) for generating all cryptographic keys, nonces, and session identifiers.
 - 🔗 **Dependency Security:** Regularly audit and update third-party libraries to mitigate risks from known vulnerabilities. Use tools like `pnpm audit` or `snyk` to automate this process.
-- ⚔️ **Anti-Tampering:** Implement root and jailbreak detection mechanisms to prevent the application from running on compromised devices, protecting its sandbox and user data. Use Code Obfuscation (e.g., R8/ProGuard for Android) to make reverse engineering and intellectual property theft more difficult.
+- ⚔️ **Anti-Tampering & Integrity:** Implement root/jailbreak detection, **Anti-Debugging** (e.g., checking `android:debuggable="false"`), and **Runtime Signature Verification** to detect unauthorized analysis or binary modification. Use Code Obfuscation (e.g., R8/ProGuard for Android) to make reverse engineering more difficult.
 
 <a href="#security-policy" aria-label="Back to top of page">⬆ Back to Top</a>
 
