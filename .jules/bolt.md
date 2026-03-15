@@ -21,3 +21,7 @@ This journal documents critical performance learnings discovered during the deve
 ## 2026-03-11 - Holistic Documentation Performance: Rendering, Navigation, and Technical Guidelines
 **Learning:** Documentation performance in template repositories is multi-faceted. It involves optimizing browser rendering using `decoding="async"` to prevent main-thread blocking, improving navigation ergonomics with contextual "Back to Top" links to reduce scroll-time, and providing high-impact technical patterns (like Object Pooling and Lazy Initialization) that guide developers toward building high-performance applications from the start.
 **Action:** Combine browser-level rendering optimizations with structural UX improvements and actionable performance patterns to maximize developer productivity and application quality.
+
+## 2026-03-15 - LCP Optimization and Specialized Bluetooth Performance Patterns
+**Learning:** General performance advice like `loading="lazy"` should be avoided for above-the-fold content in documentation to optimize Largest Contentful Paint (LCP). Furthermore, specialized Bluetooth patterns such as GATT Caching and Filtered Scanning are high-impact optimizations that significantly reduce "time-to-first-chat" and system overhead, which are critical for the UX of Bluetooth-based messaging applications.
+**Action:** Always audit documentation for LCP-critical images and prioritize platform-specific Bluetooth optimizations (like GATT Caching) in performance guidelines to ensure developers start with the most efficient patterns.
