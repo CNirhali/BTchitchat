@@ -86,16 +86,19 @@ Bluetooth communication is inherently susceptible to various security risks, inc
 
 - 🔐 **Encryption & Integrity:** This template currently does **not** implement End-to-End Encryption (E2EE) or Message Integrity Checks. All messages are sent in plain text and are susceptible to tampering.
 - 💡 **Recommendations:** For production use, it is highly recommended to implement a robust E2EE layer with **Perfect Forward Secrecy (PFS)** using libraries like [Noise Protocol](https://noiseprotocol.org/) or [libsodium](https://doc.libsodium.org/).
-- 🕵️ **Privacy:** Be mindful of the data shared over Bluetooth, as nearby devices may be able to monitor the traffic if not properly secured.
+- 👤 **Privacy:** Be mindful of the data shared over Bluetooth, as nearby devices may be able to monitor the traffic if not properly secured.
 
 ## 💬 How to Use
 
 1. 📱 **On Device A:** Tap **"Make Discoverable"** or **"Host Chat"**.
 2. 🔍 **On Device B:** Scan for nearby devices and tap **"Device A's name"** to initiate a connection.
-3. ✉️ **Messaging:** Once connected, type your message and tap **"Send"**!
+3. 💬 **Messaging:** Once connected, type your message and tap **"Send"**!
 
 > [!TIP]
 > Bluetooth has a typical range of about 10 meters (33 feet). For the best experience, ensure devices have a clear line of sight and are not obstructed by thick walls or large metal objects.
+
+<!-- ⚡ Optimization: Contextual 'Back to Top' links reduce developer 'Time to Action' by minimizing scroll time -->
+<a href="#bluetooth-chit-chat" aria-label="Back to top of page">⬆ Back to Top</a>
 
 ## 🤝 Contributing
 
