@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package chat;
+
+// Optimized message format for low-bandwidth Bluetooth communication
+message ChatMessage {
+  uint64 timestamp = 1;      // Unix timestamp in milliseconds
+  string sender_id = 2;      // Unique identifier for the sender
+  string sender_name = 3;    // Display name of the sender
+  string text = 4;           // The message content
+
+  enum MessageType {
+    TEXT = 0;
+    IMAGE_METADATA = 1;
+    SYSTEM = 2;
+  }
+  MessageType type = 5;      // Message category for efficient routing
+}
+
+// Optimized batching for high-latency connections
+message MessageBatch {
+  repeated ChatMessage messages = 1;
+}
