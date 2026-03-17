@@ -15,6 +15,10 @@ message ChatMessage {
     SYSTEM = 2;
   }
   MessageType type = 5;      // Message category for efficient routing
+
+  // Security fields for message integrity and replay protection
+  uint64 nonce = 6;              // Unique number to prevent replay attacks
+  bytes authentication_tag = 7;  // Message Authentication Code (MAC) for integrity
 }
 
 // Optimized batching for high-latency connections
