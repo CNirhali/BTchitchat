@@ -25,3 +25,7 @@ This journal documents critical performance learnings discovered during the deve
 ## 2026-03-15 - LCP Optimization and Specialized Bluetooth Performance Patterns
 **Learning:** General performance advice like `loading="lazy"` should be avoided for above-the-fold content in documentation to optimize Largest Contentful Paint (LCP). Furthermore, specialized Bluetooth patterns such as GATT Caching and Filtered Scanning are high-impact optimizations that significantly reduce "time-to-first-chat" and system overhead, which are critical for the UX of Bluetooth-based messaging applications.
 **Action:** Always audit documentation for LCP-critical images and prioritize platform-specific Bluetooth optimizations (like GATT Caching) in performance guidelines to ensure developers start with the most efficient patterns.
+
+## 2026-03-16 - Documentation-Driven Performance in Template-Only Repositories
+**Learning:** In repositories without application code, performance optimization is achieved through a multi-layered approach: improving browser rendering of documentation (e.g., using `fetchpriority="high"` for LCP), enhancing developer navigation ("Back to Top" links), and providing actionable technical snippets (e.g., MTU Negotiation, Background Threading) that ensure the final product built from the template is performant by design.
+**Action:** When working in template-only environments, prioritize technical implementation examples within documentation to satisfy the requirement for functional performance enhancements.

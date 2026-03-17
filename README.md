@@ -31,8 +31,8 @@ A lightweight, offline messaging app for Bluetooth-based chat. No internet or ce
 
 | 🔍 Device Discovery | 💬 Active Chat Room |
 | :---: | :---: |
-<!-- ⚡ Optimization: decoding="async" reduces main-thread contention during image decoding, improving initial rendering speed. Above-the-fold images omit loading="lazy" to optimize Largest Contentful Paint (LCP). -->
-| <img src="https://via.placeholder.com/300x600?text=Discovery+UI" width="300" height="600" alt="A mobile screen showing a list of discovered nearby Bluetooth devices with names like 'Nexus 5X' and 'Pixel 4a'" decoding="async"> | <img src="https://via.placeholder.com/300x600?text=Chat+UI" width="300" height="600" alt="A chat conversation between two users with blue and gray message bubbles" decoding="async"> |
+<!-- ⚡ Optimization: decoding="async" and fetchpriority="high" reduce main-thread contention and prioritize critical asset loading, improving Largest Contentful Paint (LCP). Above-the-fold images omit loading="lazy". -->
+| <img src="https://via.placeholder.com/300x600?text=Discovery+UI" width="300" height="600" alt="A mobile screen showing a list of discovered nearby Bluetooth devices with names like 'Nexus 5X' and 'Pixel 4a'" decoding="async" fetchpriority="high"> | <img src="https://via.placeholder.com/300x600?text=Chat+UI" width="300" height="600" alt="A chat conversation between two users with blue and gray message bubbles" decoding="async" fetchpriority="high"> |
 
 ## 🛠️ Tech Stack
 
@@ -66,11 +66,18 @@ This template can be implemented using any mobile technology stack with Bluetoot
 3. 💻 **Open the project** in your preferred IDE (e.g., Android Studio, Xcode, or VS Code).
 4. 🚀 **Build and run the application** on your physical devices.
 
+<!-- ⚡ Optimization: Contextual 'Back to Top' links reduce developer 'Time to Action' by minimizing scroll time -->
+<a href="#bluetooth-chit-chat" aria-label="Back to top of page">⬆ Back to Top</a>
+
 ## ⚡ Performance
 
 Bluetooth throughput is limited and latency can vary. To ensure a fast experience:
 - 📦 **Binary Serialization:** Use efficient formats like [Protobuf](https://protobuf.dev/) or [FlatBuffers](https://google.github.io/flatbuffers/) to minimize payload size and processing overhead.
 - 🚀 **MTU Negotiation:** Request a larger Maximum Transmission Unit (MTU) to increase throughput for larger messages (up to 512 bytes on BLE).
+  ```kotlin
+  // Example: Requesting larger MTU on Android
+  bluetoothGatt.requestMtu(512)
+  ```
 - ⚡ **Message Batching:** If sending multiple updates, batch them into a single Bluetooth packet to reduce protocol overhead.
 - 🔋 **Battery Efficiency:** Disable Bluetooth discovery/scanning immediately after connection to save power and improve connection stability.
 - 📉 **Lower Latency:** Use direct connection handles where possible and minimize unnecessary application-layer acknowledgments.
@@ -79,6 +86,14 @@ Bluetooth throughput is limited and latency can vary. To ensure a fast experienc
 - 📡 **GATT Caching:** Leverage GATT Service Caching to skip service discovery on subsequent connections and reduce connection-to-chat time.
 - 📶 **Connection Priority:** Request high-priority/low-latency connections during active chat sessions to minimize message delivery delays.
 - 🔍 **Filtered Scanning:** Use Service UUID filters during device discovery to speed up the process and reduce system-wide power consumption.
+- 🧵 **Background Threading:** Perform all Bluetooth GATT operations, discovery, and data serialization on background threads to prevent UI jank and maintain 60 FPS responsiveness.
+  ```swift
+  // Example: Dispatching Bluetooth work to a background queue in Swift
+  let bluetoothQueue = DispatchQueue(label: "com.app.bluetooth", qos: .userInitiated)
+  bluetoothQueue.async {
+      // Perform discovery or GATT operations
+  }
+  ```
 
 <!-- ⚡ Optimization: Contextual 'Back to Top' links reduce developer 'Time to Action' by minimizing scroll time -->
 <a href="#bluetooth-chit-chat" aria-label="Back to top of page">⬆ Back to Top</a>
