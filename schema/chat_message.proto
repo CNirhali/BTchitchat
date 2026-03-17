@@ -2,6 +2,10 @@ syntax = "proto3";
 
 package chat;
 
+// Optimize for LITE_RUNTIME to reduce generated code size and memory footprint on mobile devices
+// by removing reflection and descriptor support.
+option optimize_for = LITE_RUNTIME;
+
 // Optimized message format for low-bandwidth Bluetooth communication
 message ChatMessage {
   uint64 timestamp = 1;      // Unix timestamp in milliseconds
