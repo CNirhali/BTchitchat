@@ -57,3 +57,7 @@ This journal documents critical UX and accessibility learnings discovered during
 ## 2026-03-14 - Iconography Cohesion and Navigational Shortcuts in DX
 **Learning:** In template-only repositories where documentation is the sole interface, inconsistencies in iconography (e.g., using `🕵️` vs `👤` for privacy) can create subtle cognitive friction. Furthermore, while global "Back to Top" links are common, placing contextual shortcuts after long technical or guideline sections significantly improves the "Developer Experience" by reducing scroll fatigue and reinforcing the document's structure.
 **Action:** Audit documentation for iconography consistency across sections and provide contextual navigation links in long-form technical guides.
+
+## 2026-03-15 - Reducing Reporter Friction with Structured Mailto Templates
+**Learning:** For critical external communication triggers like vulnerability reporting, providing a pre-filled `body` in the `mailto` link significantly reduces cognitive load for the user. It transforms a blank email into a guided process, ensuring the reporter provides the specific information (Description, Steps, Impact) required by the project's security policy.
+**Action:** When documentation triggers external actions (emails, issue creation), use pre-filled parameters to guide the user and standardize the input quality.

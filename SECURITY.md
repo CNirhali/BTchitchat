@@ -68,7 +68,7 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
 > [!IMPORTANT]
 > Security is a top priority for this project. If you discover a security vulnerability, please do not open a public issue. Instead, please report it through the following process:
 
-1. 📧 **Email:** Send a detailed report to [chaitanyanirhali@gmail.com](mailto:chaitanyanirhali@gmail.com?subject=Security%20Vulnerability%20Report%20-%20Bluetooth%20Chit%20Chat).
+1. 📧 **Email:** Send a detailed report to [chaitanyanirhali@gmail.com](mailto:chaitanyanirhali@gmail.com?subject=Security%20Vulnerability%20Report%20-%20Bluetooth%20Chit%20Chat&body=Description:%0D%0A%0D%0ASteps%20to%20reproduce:%0D%0A%0D%0APotential%20impact:).
 2. 📝 **Details:** Include a description of the vulnerability, steps to reproduce, and any potential impact.
 3. ⌛ **Response:** You can expect an acknowledgment of your report within 48 hours. We will keep you updated on the progress of the fix.
 
