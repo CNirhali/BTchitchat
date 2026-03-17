@@ -2,14 +2,52 @@
 
 This journal is used to record critical security learnings discovered during the project.
 
-| Date | Title | Vulnerability | Learning | Prevention |
-| :--- | :--- | :--- | :--- | :--- |
-| 2026-03-01 | Secure Local Storage & Data Isolation | Potential leakage of chat history via committed database files. | Developers often overlook local database files during environment setup, which can lead to sensitive user data being accidentally committed to the repository. | Explicitly ignore common database patterns in `.gitignore` and mandate local data encryption in `SECURITY.md`. |
-| 2026-03-04 | Standardizing Bluetooth Security Guidelines | Lack of explicit guidance on pairing security, resource limiting, and data minimization in Bluetooth communication. | In template-based projects, security guidelines often focus on general security while overlooking technology-specific risks like Bluetooth MITM or DoS. | Always include technology-specific security risks in the project's security policy to guide implementers. |
-| 2026-03-05 | Implementing Discovery Timeouts | Perpetual Bluetooth discoverability increases the device's attack surface to any nearby malicious actor. | Many Bluetooth implementations forget to disable discoverability once a connection is established or after a certain period, leaving the device unnecessarily exposed. | Mandate discovery timeouts in the security guidelines to ensure the window of exposure is minimized. |
-| 2026-03-12 | Secure Deep Link Handling in Templates | Mobile applications are vulnerable to remote exploitation via unvalidated deep link parameters. | Developers using templates often focus on the primary functionality and overlook the security of incoming intents/links, which can be manipulated to bypass authentication. | Include explicit deep link validation requirements in the project's security policy to ensure implementers build secure entry points. |
-| 2026-03-15 | Mobile-Specific UI & Integrity Hardening | Mobile apps are susceptible to UI-based attacks like tapjacking, unauthorized access when unlocked, and easy reverse engineering. | Security guidelines often overlook platform-specific UI and binary protections, leaving the application vulnerable to sophisticated local attacks once the base communication is secured. | Mandate overlay protection, app-level locking, and code obfuscation in the security policy to provide defense-in-depth for mobile-specific environments. |
-| 2026-03-20 | Preventing Data Leakage via Keyboard Cache | Mobile keyboards often "learn" and cache user input to provide suggestions, which can lead to sensitive chat data being stored in the keyboard's dictionary. | Developers frequently overlook the fact that the system keyboard is a third-party component that can store and potentially leak sensitive input if not explicitly instructed to use private modes. | Mandate the use of incognito/private keyboard modes for sensitive chat inputs in the security guidelines to ensure user privacy. |
-| 2026-03-25 | Device Identity Privacy in Bluetooth Discovery | Default system device names (e.g., "John's iPhone") leak PII to anyone scanning for Bluetooth devices. | Developers often forget that the default Bluetooth broadcast name usually includes the owner's name, creating a tracking and privacy risk in public spaces. | Mandate the use of generic aliases or application-specific pseudonyms for discovery in the security guidelines. |
-| 2026-03-30 | Enhancing Binary Integrity & Anti-Analysis | Mobile binaries can be tampered with or analyzed via debuggers to bypass security controls or reverse engineer logic. | Standard anti-tampering often focuses only on root detection, neglecting runtime analysis (debugging) and static binary modifications that can be detected via signature verification. | Mandate anti-debugging checks and runtime signature verification in the security guidelines to ensure binary integrity and impede reverse engineering. |
-| 2026-04-05 | Enforcing GATT Encryption via Platform Permissions | GATT characteristics can be accessed without bonding if permissions are not explicitly restricted, leading to unauthorized data access. | Developers often assume Bluetooth pairing implies data encryption, but GATT permissions must be explicitly set to require encryption/bonding at the OS level. | Mandate the use of platform-specific encrypted GATT permissions (e.g., `PERMISSION_READ_ENCRYPTED`) in the security guidelines to enforce secure access. |
+## 2026-03-01 - Secure Local Storage & Data Isolation
+**Vulnerability:** Potential leakage of chat history via committed database files.
+**Learning:** Developers often overlook local database files during environment setup, which can lead to sensitive user data being accidentally committed to the repository.
+**Prevention:** Explicitly ignore common database patterns in `.gitignore` and mandate local data encryption in `SECURITY.md`.
+
+## 2026-03-04 - Standardizing Bluetooth Security Guidelines
+**Vulnerability:** Lack of explicit guidance on pairing security, resource limiting, and data minimization in Bluetooth communication.
+**Learning:** In template-based projects, security guidelines often focus on general security while overlooking technology-specific risks like Bluetooth MITM or DoS.
+**Prevention:** Always include technology-specific security risks in the project's security policy to guide implementers.
+
+## 2026-03-05 - Implementing Discovery Timeouts
+**Vulnerability:** Perpetual Bluetooth discoverability increases the device's attack surface to any nearby malicious actor.
+**Learning:** Many Bluetooth implementations forget to disable discoverability once a connection is established or after a certain period, leaving the device unnecessarily exposed.
+**Prevention:** Mandate discovery timeouts in the security guidelines to ensure the window of exposure is minimized.
+
+## 2026-03-12 - Secure Deep Link Handling in Templates
+**Vulnerability:** Mobile applications are vulnerable to remote exploitation via unvalidated deep link parameters.
+**Learning:** Developers using templates often focus on the primary functionality and overlook the security of incoming intents/links, which can be manipulated to bypass authentication.
+**Prevention:** Include explicit deep link validation requirements in the project's security policy to ensure implementers build secure entry points.
+
+## 2026-03-15 - Mobile-Specific UI & Integrity Hardening
+**Vulnerability:** Mobile apps are susceptible to UI-based attacks like tapjacking, unauthorized access when unlocked, and easy reverse engineering.
+**Learning:** Security guidelines often overlook platform-specific UI and binary protections, leaving the application vulnerable to sophisticated local attacks once the base communication is secured.
+**Prevention:** Mandate overlay protection, app-level locking, and code obfuscation in the security policy to provide defense-in-depth for mobile-specific environments.
+
+## 2026-03-20 - Preventing Data Leakage via Keyboard Cache
+**Vulnerability:** Mobile keyboards often "learn" and cache user input to provide suggestions, which can lead to sensitive chat data being stored in the keyboard's dictionary.
+**Learning:** Developers frequently overlook the fact that the system keyboard is a third-party component that can store and potentially leak sensitive input if not explicitly instructed to use private modes.
+**Prevention:** Mandate the use of incognito/private keyboard modes for sensitive chat inputs in the security guidelines to ensure user privacy.
+
+## 2026-03-25 - Device Identity Privacy in Bluetooth Discovery
+**Vulnerability:** Default system device names (e.g., "John's iPhone") leak PII to anyone scanning for Bluetooth devices.
+**Learning:** Developers often forget that the default Bluetooth broadcast name usually includes the owner's name, creating a tracking and privacy risk in public spaces.
+**Prevention:** Mandate the use of generic aliases or application-specific pseudonyms for discovery in the security guidelines.
+
+## 2026-03-30 - Enhancing Binary Integrity & Anti-Analysis
+**Vulnerability:** Mobile binaries can be tampered with or analyzed via debuggers to bypass security controls or reverse engineer logic.
+**Learning:** Standard anti-tampering often focuses only on root detection, neglecting runtime analysis (debugging) and static binary modifications that can be detected via signature verification.
+**Prevention:** Mandate anti-debugging checks and runtime signature verification in the security guidelines to ensure binary integrity and impede reverse engineering.
+
+## 2026-04-05 - Enforcing GATT Encryption via Platform Permissions
+**Vulnerability:** GATT characteristics can be accessed without bonding if permissions are not explicitly restricted, leading to unauthorized data access.
+**Learning:** Developers often assume Bluetooth pairing implies data encryption, but GATT permissions must be explicitly set to require encryption/bonding at the OS level.
+**Prevention:** Mandate the use of platform-specific encrypted GATT permissions (e.g., `PERMISSION_READ_ENCRYPTED`) in the security guidelines to enforce secure access.
+
+## 2026-04-10 - Protocol-Level Support for Integrity & Replay Protection
+**Vulnerability:** Lack of protocol fields for nonces and MACs leads to inconsistent or missing implementation of message integrity and replay protection.
+**Learning:** In template repositories, providing explicit fields in the data schema is essential to guide developers towards implementing security best practices.
+**Prevention:** Always include reserved fields for security metadata (nonces, MACs, signatures) in core communication protocols to facilitate secure implementation.
