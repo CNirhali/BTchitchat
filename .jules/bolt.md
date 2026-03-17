@@ -29,3 +29,7 @@ This journal documents critical performance learnings discovered during the deve
 ## 2026-03-16 - Documentation-Driven Performance in Template-Only Repositories
 **Learning:** In repositories without application code, performance optimization is achieved through a multi-layered approach: improving browser rendering of documentation (e.g., using `fetchpriority="high"` for LCP), enhancing developer navigation ("Back to Top" links), and providing actionable technical snippets (e.g., MTU Negotiation, Background Threading) that ensure the final product built from the template is performant by design.
 **Action:** When working in template-only environments, prioritize technical implementation examples within documentation to satisfy the requirement for functional performance enhancements.
+
+## 2026-03-17 - Protobuf Runtime Optimization for Mobile
+**Learning:** For mobile applications, the default Protobuf runtime can be unnecessarily heavy due to reflection and descriptors. Using `option optimize_for = LITE_RUNTIME;` in the schema significantly reduces the binary footprint and memory usage of the generated code, which is critical for performance-constrained environments like Bluetooth-based messaging.
+**Action:** Always consider `LITE_RUNTIME` for Protobuf schemas intended for mobile or embedded platforms where reflection is not strictly required.
