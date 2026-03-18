@@ -8,6 +8,7 @@ option optimize_for = LITE_RUNTIME;
 
 // Optimized message format for low-bandwidth Bluetooth communication
 message ChatMessage {
+  uint32 protocol_version = 8; // Version of the messaging protocol to handle upgrades and security
   uint64 timestamp = 1;      // Unix timestamp in milliseconds
   string sender_id = 2;      // Unique identifier for the sender
   string sender_name = 3;    // Display name of the sender

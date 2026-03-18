@@ -51,3 +51,8 @@ This journal is used to record critical security learnings discovered during the
 **Vulnerability:** Lack of protocol fields for nonces and MACs leads to inconsistent or missing implementation of message integrity and replay protection.
 **Learning:** In template repositories, providing explicit fields in the data schema is essential to guide developers towards implementing security best practices.
 **Prevention:** Always include reserved fields for security metadata (nonces, MACs, signatures) in core communication protocols to facilitate secure implementation.
+
+## 2026-04-15 - Enforcing Protocol Versioning for Security Evolution
+**Vulnerability:** Protocol downgrade attacks and lack of deprecation paths for insecure legacy message formats.
+**Learning:** Without an explicit version field in the data schema, it's difficult to enforce security upgrades or reject messages from outdated/vulnerable clients in peer-to-peer environments.
+**Prevention:** Always include a `protocol_version` field in the core communication schema to enable version-based security gating and smooth transitions to newer encryption or integrity standards.
