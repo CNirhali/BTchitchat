@@ -18,6 +18,7 @@ message ChatMessage {
     TEXT = 0;
     IMAGE_METADATA = 1;
     SYSTEM = 2;
+    HEARTBEAT = 3;           // Minimal payload for connection maintenance
   }
   MessageType type = 5;      // Message category for efficient routing
 
