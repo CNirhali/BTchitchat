@@ -14,6 +14,7 @@ A lightweight, offline messaging app for Bluetooth-based chat. No internet or ce
   - [📦 Installation](#installation)
 - [⚡ Performance](#performance)
 - [🔒 Security](#security)
+- [🎨 UI/UX Guidelines](#uiux-guidelines)
 - [💬 How to Use](#how-to-use)
 - [🤝 Contributing](#contributing)
 - [📄 License](#license)
@@ -128,11 +129,29 @@ Bluetooth communication is inherently susceptible to various security risks, inc
 - 💡 **Recommendations:** For production use, it is highly recommended to implement a robust E2EE layer with **Perfect Forward Secrecy (PFS)** using libraries like [Noise Protocol](https://noiseprotocol.org/) or [libsodium](https://doc.libsodium.org/).
 - 👤 **Privacy:** Be mindful of the data shared over Bluetooth, as nearby devices may be able to monitor the traffic if not properly secured.
 
+<!-- ⚡ Optimization: Contextual 'Back to Top' links reduce developer 'Time to Action' by minimizing scroll time -->
+<a href="#bluetooth-chit-chat" aria-label="Back to top of page">⬆ Back to Top</a>
+
+## 🎨 UI/UX Guidelines
+
+To provide a smooth and intuitive messaging experience over Bluetooth:
+- ✨ **Connection Status:** Provide clear visual indicators for 'Disconnected', 'Connecting...', and 'Connected' states.
+- ⏳ **Loading States:** Use skeletons or spinners during device discovery and connection attempts to manage user expectations.
+- 💬 **Message Feedback:** Show 'Sending...', 'Sent', or 'Delivered' statuses for messages to confirm successful transmission.
+- 🔔 **Actionable Alerts:** Use non-intrusive toasts or snackbars for errors (e.g., "Bluetooth Disabled", "Connection Failed") with clear recovery steps.
+- ♿ **Accessibility:** Ensure high color contrast for text and large touch targets (at least 48x48dp) for all interactive UI elements.
+
+<!-- ⚡ Optimization: Contextual 'Back to Top' links reduce developer 'Time to Action' by minimizing scroll time -->
+<a href="#bluetooth-chit-chat" aria-label="Back to top of page">⬆ Back to Top</a>
+
 ## 💬 How to Use
 
 1. 📱 **On Device A:** Tap **"Make Discoverable"** or **"Host Chat"**.
 2. 🔍 **On Device B:** Scan for nearby devices and tap **"Device A's name"** to initiate a connection.
 3. 💬 **Messaging:** Once connected, type your message and tap **"Send"**!
+
+> [!TIP]
+> Always provide visual feedback for connection status changes. A simple status indicator or toast can significantly reduce user frustration during transient Bluetooth interruptions.
 
 > [!TIP]
 > Bluetooth has a typical range of about 10 meters (33 feet). For the best experience, ensure devices have a clear line of sight and are not obstructed by thick walls or large metal objects.
