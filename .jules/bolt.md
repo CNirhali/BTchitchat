@@ -33,3 +33,7 @@ This journal documents critical performance learnings discovered during the deve
 ## 2026-03-17 - Protobuf Runtime Optimization for Mobile
 **Learning:** For mobile applications, the default Protobuf runtime can be unnecessarily heavy due to reflection and descriptors. Using `option optimize_for = LITE_RUNTIME;` in the schema significantly reduces the binary footprint and memory usage of the generated code, which is critical for performance-constrained environments like Bluetooth-based messaging.
 **Action:** Always consider `LITE_RUNTIME` for Protobuf schemas intended for mobile or embedded platforms where reflection is not strictly required.
+
+## 2026-03-18 - Protocol-Level Efficiency: Heartbeats and Binary Serialization
+**Learning:** Connection maintenance in Bluetooth-based apps often requires periodic "pings." Reusing a full `ChatMessage` for this purpose is inefficient. Adding a specialized `HEARTBEAT` message type to the Protobuf enum allows for a minimal 2-byte payload, significantly reducing radio activity and battery drain compared to generic message types.
+**Action:** Always include specialized, minimal message types for protocol-level signals (heartbeats, ACKs) in low-bandwidth communication schemas to maximize battery life and minimize packet overhead.

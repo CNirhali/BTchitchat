@@ -72,7 +72,7 @@ This template can be implemented using any mobile technology stack with Bluetoot
 ## ⚡ Performance
 
 Bluetooth throughput is limited and latency can vary. To ensure a fast experience:
-- 📦 **Binary Serialization:** Use efficient formats like [Protobuf](https://protobuf.dev/) or [FlatBuffers](https://google.github.io/flatbuffers/) to minimize payload size and processing overhead.
+- 📦 **Binary Serialization:** Use efficient formats like [Protobuf](https://protobuf.dev/) (see our [optimized schema](schema/chat_message.proto)) or [FlatBuffers](https://google.github.io/flatbuffers/) to minimize payload size and processing overhead. Use minimal message types like `HEARTBEAT` for low-overhead connection maintenance.
 - 🚀 **MTU Negotiation:** Request a larger Maximum Transmission Unit (MTU) to increase throughput for larger messages (up to 512 bytes on BLE).
   ```kotlin
   // Example: Requesting larger MTU on Android
@@ -80,13 +80,25 @@ Bluetooth throughput is limited and latency can vary. To ensure a fast experienc
   ```
 - ⚡ **Message Batching:** If sending multiple updates, batch them into a single Bluetooth packet to reduce protocol overhead.
 - 🔋 **Battery Efficiency:** Disable Bluetooth discovery/scanning immediately after connection to save power and improve connection stability.
-- 📉 **Lower Latency:** Use direct connection handles where possible and minimize unnecessary application-layer acknowledgments.
+- 📉 **Lower Latency:** Use direct connection handles where possible, minimize unnecessary application-layer acknowledgments, and utilize **Write Without Response** for high-throughput data.
+  ```kotlin
+  // Example: Writing without response for ~2x throughput increase on Android
+  characteristic.writeType = BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE
+  bluetoothGatt.writeCharacteristic(characteristic)
+  ```
   ```kotlin
   // Example: Using autoConnect=false for faster initial connection on Android.
   // This avoids the ~2s connection delay of the autoConnect=true background scan.
   device.connectGatt(context, false, gattCallback)
   ```
 - ♻️ **Object Pooling:** Reuse byte buffers and message objects to minimize Garbage Collection (GC) overhead and prevent UI jank during high-frequency data exchange.
+  ```kotlin
+  // Example: Basic object pool for reusing ChatMessage objects on Android
+  val messagePool = Pools.SimplePool<ChatMessage>(10)
+  val message = messagePool.acquire() ?: ChatMessage()
+  // ... use message ...
+  messagePool.release(message)
+  ```
 - ⏱️ **Lazy Initialization:** Delay Bluetooth stack setup and discovery until strictly necessary to improve initial app launch speed and reduce memory footprint.
 - 📡 **GATT Caching:** Leverage GATT Service Caching to skip service discovery on subsequent connections and reduce connection-to-chat time.
 - 📶 **Connection Priority:** Request high-priority/low-latency connections during active chat sessions to minimize message delivery delays.
