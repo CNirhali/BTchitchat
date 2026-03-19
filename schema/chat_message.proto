@@ -6,13 +6,21 @@ package chat;
 // by removing reflection and descriptor support.
 option optimize_for = LITE_RUNTIME;
 
+// Enable arena allocation for C++ to reduce memory fragmentation and allocation overhead
+// during serialization and deserialization of high-frequency chat messages.
+option cc_enable_arenas = true;
+
 // Optimized message format for low-bandwidth Bluetooth communication
 message ChatMessage {
-  uint32 protocol_version = 8; // Version of the messaging protocol to handle upgrades and security
+  // Reordered fields by tag number to optimize parsing efficiency in Protobuf runtimes
   uint64 timestamp = 1;      // Unix timestamp in milliseconds
   string sender_id = 2;      // Unique identifier for the sender
   string sender_name = 3;    // Display name of the sender
   string text = 4;           // The message content
+  MessageType type = 5;      // Message category for efficient routing
+  uint64 nonce = 6;              // Unique number to prevent replay attacks
+  bytes authentication_tag = 7;  // Message Authentication Code (MAC) for integrity
+  uint32 protocol_version = 8; // Version of the messaging protocol to handle upgrades and security
 
   enum MessageType {
     TEXT = 0;
@@ -20,11 +28,6 @@ message ChatMessage {
     SYSTEM = 2;
     HEARTBEAT = 3;           // Minimal payload for connection maintenance
   }
-  MessageType type = 5;      // Message category for efficient routing
-
-  // Security fields for message integrity and replay protection
-  uint64 nonce = 6;              // Unique number to prevent replay attacks
-  bytes authentication_tag = 7;  // Message Authentication Code (MAC) for integrity
 }
 
 // Optimized batching for high-latency connections
