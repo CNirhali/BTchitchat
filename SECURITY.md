@@ -33,6 +33,23 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
 
 - ⚖️ **Input Validation:** Sanitize and validate all data received over Bluetooth before processing or displaying it. Bluetooth packets can be manipulated by malicious devices.
 - 🤝 **Secure Pairing & Authentication:** Implement secure pairing mechanisms (e.g., Numeric Comparison) and authenticate connected devices to prevent unauthorized access and MITM attacks. Enforce platform-level encryption for GATT characteristics by requiring bonded/encrypted permissions (e.g., `PERMISSION_READ_ENCRYPTED` / `PERMISSION_WRITE_ENCRYPTED` on Android or `.readEncryptionRequired` / `.writeEncryptionRequired` on iOS).
+  ```kotlin
+  // Example: Requiring encrypted permissions for a GATT characteristic on Android
+  val characteristic = BluetoothGattCharacteristic(
+      UUID.fromString("..."),
+      BluetoothGattCharacteristic.PROPERTY_READ or BluetoothGattCharacteristic.PROPERTY_WRITE,
+      BluetoothGattCharacteristic.PERMISSION_READ_ENCRYPTED or BluetoothGattCharacteristic.PERMISSION_WRITE_ENCRYPTED
+  )
+  ```
+  ```swift
+  // Example: Requiring encryption for a GATT characteristic on iOS (Core Bluetooth)
+  let characteristic = CBMutableCharacteristic(
+      type: CBUUID(string: "..."),
+      properties: [.read, .write],
+      value: nil,
+      permissions: [.readEncryptionRequired, .writeEncryptionRequired]
+  )
+  ```
 - 🚦 **Resource Limits & Rate Limiting:** Apply limits on message sizes and frequency of incoming Bluetooth packets to prevent denial-of-service (DoS) and memory exhaustion.
   ```kotlin
   // Example: Enforcing message size limits on Android

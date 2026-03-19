@@ -56,3 +56,8 @@ This journal is used to record critical security learnings discovered during the
 **Vulnerability:** Protocol downgrade attacks and lack of deprecation paths for insecure legacy message formats.
 **Learning:** Without an explicit version field in the data schema, it's difficult to enforce security upgrades or reject messages from outdated/vulnerable clients in peer-to-peer environments.
 **Prevention:** Always include a `protocol_version` field in the core communication schema to enable version-based security gating and smooth transitions to newer encryption or integrity standards.
+
+## 2026-04-16 - Enforcing GATT Encryption via Platform Permissions
+**Vulnerability:** GATT characteristics can be accessed without bonding if permissions are not explicitly restricted, leading to unauthorized data access.
+**Learning:** Developers often assume Bluetooth pairing implies data encryption, but GATT permissions must be explicitly set to require encryption/bonding at the OS level. Providing actionable technical examples (Kotlin/Swift) in the security policy helps ensure these protections are implemented correctly.
+**Prevention:** Mandate the use of platform-specific encrypted GATT permissions (e.g., `PERMISSION_READ_ENCRYPTED`) and provide code snippets in the security guidelines to facilitate implementation.
