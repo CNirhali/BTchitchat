@@ -37,3 +37,7 @@ This journal documents critical performance learnings discovered during the deve
 ## 2026-03-18 - Protocol-Level Efficiency: Heartbeats and Binary Serialization
 **Learning:** Connection maintenance in Bluetooth-based apps often requires periodic "pings." Reusing a full `ChatMessage` for this purpose is inefficient. Adding a specialized `HEARTBEAT` message type to the Protobuf enum allows for a minimal 2-byte payload, significantly reducing radio activity and battery drain compared to generic message types.
 **Action:** Always include specialized, minimal message types for protocol-level signals (heartbeats, ACKs) in low-bandwidth communication schemas to maximize battery life and minimize packet overhead.
+
+## 2026-03-19 - Protobuf Parsing and Memory Optimization
+**Learning:** Protobuf parsing efficiency can be improved by reordering fields in the schema to match their tag numbers (sequential order), as many runtimes process tags more efficiently this way. Furthermore, for C++ consumers, enabling arena allocation (`cc_enable_arenas = true`) significantly reduces memory fragmentation and allocation overhead during high-frequency message processing.
+**Action:** Always order Protobuf fields sequentially by tag number and enable arena allocation for performance-critical communication schemas to maximize runtime efficiency and minimize memory pressure.
