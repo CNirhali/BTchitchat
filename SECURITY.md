@@ -58,8 +58,9 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
       throw SecurityException("Message size exceeds security limits.")
   }
   ```
-- ⌛ **Replay Protection:** Implement nonces (see `ChatMessage.nonce`) or timestamps to prevent captured Bluetooth packets from being re-sent to the application.
-- 🛡️ **Message Integrity & Authenticity:** Use Message Authentication Codes (MACs) or digital signatures (see `ChatMessage.authentication_tag`) to ensure that messages have not been tampered with and originate from the claimed sender.
+- ⌛ **Replay Protection:** Implement nonces (see `ChatMessage.secure_nonce`) or timestamps to prevent captured Bluetooth packets from being re-sent to the application. Use cryptographically secure random nonces (at least 96 bits for AES-GCM) to ensure uniqueness across messages.
+- 🛡️ **Message Integrity & Authenticity:** Use Message Authentication Codes (MACs) or digital signatures (see `ChatMessage.authentication_tag`) to ensure that messages have not been tampered with and originate from the claimed sender. It is highly recommended to use **Authenticated Encryption with Associated Data (AEAD)** schemes (e.g., AES-GCM, ChaCha20-Poly1305) to provide both confidentiality and integrity in a single operation.
+- 🎯 **Recipient Binding & Verification:** Explicitly include and verify the `recipient_id` (see `ChatMessage.recipient_id`) in every message to prevent reflection attacks and ensure messages are only processed by the intended party. When using AEAD, include the `sender_id`, `recipient_id`, and `timestamp` in the **Associated Data (AD)** to cryptographically bind the message to its context.
 - 🔄 **Protocol Versioning:** Include a protocol version in all messages (see `ChatMessage.protocol_version`) to allow for protocol evolution and to deprecate insecure legacy versions.
   ```kotlin
   // Example: Rejecting insecure protocol versions

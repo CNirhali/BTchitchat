@@ -18,9 +18,11 @@ message ChatMessage {
   string sender_name = 3;    // Display name of the sender
   string text = 4;           // The message content
   MessageType type = 5;      // Message category for efficient routing
-  uint64 nonce = 6;              // Unique number to prevent replay attacks
+  uint64 nonce = 6 [deprecated = true]; // Legacy nonce field (deprecated for wire compatibility)
   bytes authentication_tag = 7;  // Message Authentication Code (MAC) for integrity
   uint32 protocol_version = 8; // Version of the messaging protocol to handle upgrades and security
+  string recipient_id = 9;     // Unique identifier for the intended recipient
+  bytes secure_nonce = 10;     // Cryptographically secure random nonce (96+ bits)
 
   enum MessageType {
     TEXT = 0;
