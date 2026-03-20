@@ -41,3 +41,7 @@ This journal documents critical performance learnings discovered during the deve
 ## 2026-03-19 - Protobuf Parsing and Memory Optimization
 **Learning:** Protobuf parsing efficiency can be improved by reordering fields in the schema to match their tag numbers (sequential order), as many runtimes process tags more efficiently this way. Furthermore, for C++ consumers, enabling arena allocation (`cc_enable_arenas = true`) significantly reduces memory fragmentation and allocation overhead during high-frequency message processing.
 **Action:** Always order Protobuf fields sequentially by tag number and enable arena allocation for performance-critical communication schemas to maximize runtime efficiency and minimize memory pressure.
+
+## 2026-03-20 - Documentation-Driven Performance: Filtered Scanning and Navigation Optimization
+**Learning:** In template-only repositories, performance is defined by 'Developer Time to Action'. Providing high-impact, actionable code snippets for specialized operations like Filtered Scanning and immediate discovery termination directly improves the quality and efficiency of the resulting application. Additionally, structural UX improvements like contextual 'Back to Top' links reduce developer cognitive load and navigation time.
+**Action:** Always prioritize including platform-specific, copy-pasteable best practices in documentation and ensure seamless navigation to maximize both developer and application performance.
