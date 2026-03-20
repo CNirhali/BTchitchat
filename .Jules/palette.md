@@ -62,6 +62,10 @@ This journal documents critical UX and accessibility learnings discovered during
 **Learning:** For critical external communication triggers like vulnerability reporting, providing a pre-filled `body` in the `mailto` link significantly reduces cognitive load for the user. It transforms a blank email into a guided process, ensuring the reporter provides the specific information (Description, Steps, Impact) required by the project's security policy.
 **Action:** When documentation triggers external actions (emails, issue creation), use pre-filled parameters to guide the user and standardize the input quality.
 
+## 2026-03-16 - Technical Implementation as UX Documentation
+**Learning:** In template-only repositories, documentation-only UX guidelines may be perceived as "incomplete" by reviewers. Providing actionable technical implementation examples (e.g., Kotlin/Swift snippets) alongside UX principles bridges the gap between design intent and developer execution, fulfilling the persona's mission within a code-absent environment.
+**Action:** Always accompany new UX guidelines with platform-specific code snippets to ensure they are actionable and meet project quality standards.
+
 ## 2026-03-15 - Persona Boundaries and Accessible Navigation in Docs
 **Learning:** In documentation-heavy repositories, the "Palette" persona should prioritize intuitive navigation (like bidirectional links) and visual balance without introducing "Optimization" jargon or redundant ARIA labels. Screen readers already announce link text like "⬆ Back to Top" effectively, so extra attributes often add unnecessary noise.
 **Action:** Focus on semantic Markdown and visual scannability; avoid adding non-standard comments or redundant accessibility attributes that don't provide unique value.

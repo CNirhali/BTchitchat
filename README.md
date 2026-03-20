@@ -164,11 +164,19 @@ Bluetooth communication is inherently susceptible to various security risks, inc
 ## 🎨 UI/UX Guidelines
 
 To provide a smooth and intuitive messaging experience over Bluetooth:
-- ✨ **Connection Status:** Provide clear visual indicators for 'Disconnected', 'Connecting...', and 'Connected' states.
+- ✨ **Connection Status:** Provide clear visual indicators for **"Disconnected"**, **"Connecting..."**, and **"Connected"** states.
 - ⏳ **Loading States:** Use skeletons or spinners during device discovery and connection attempts to manage user expectations.
-- 💬 **Message Feedback:** Show 'Sending...', 'Sent', or 'Delivered' statuses for messages to confirm successful transmission.
-- 🔔 **Actionable Alerts:** Use non-intrusive toasts or snackbars for errors (e.g., "Bluetooth Disabled", "Connection Failed") with clear recovery steps.
+- 💬 **Message Feedback:** Show **"Sending..."**, **"Sent"**, or **"Delivered"** statuses for messages to confirm successful transmission.
+- 🔔 **Actionable Alerts:** Use non-intrusive toasts or snackbars for errors (e.g., **"Bluetooth Disabled"**, **"Connection Failed"**) with clear recovery steps.
 - ♿ **Accessibility:** Ensure high color contrast for text and large touch targets (at least 48x48dp) for all interactive UI elements.
+- 📭 **Empty States:** Provide helpful guidance or calls-to-action when no data is present (e.g., **"Scanning for nearby friends..."**).
+  ```kotlin
+  // Example: Showing a helpful empty state on Android
+  if (discoveredDevices.isEmpty()) {
+      statusTextView.text = "Scanning for nearby friends..."
+      progressBar.visibility = View.VISIBLE
+  }
+  ```
 
 <!-- ⚡ Optimization: Contextual 'Back to Top' links reduce developer 'Time to Action' by minimizing scroll time -->
 <a href="#bluetooth-chit-chat" aria-label="Back to top of page">⬆ Back to Top</a>
