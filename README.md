@@ -42,6 +42,9 @@ This template can be implemented using any mobile technology stack with Bluetoot
 - 🌐 **Cross-platform:** [Flutter](https://pub.dev/packages/flutter_blue_plus) or [React Native](https://github.com/dotintent/react-native-ble-plx)
 - 📶 **Connectivity:** Peer-to-peer Bluetooth communication
 
+<!-- ⚡ Optimization: Contextual 'Back to Top' links reduce developer 'Time to Action' by minimizing scroll time -->
+<a href="#bluetooth-chit-chat" aria-label="Back to top of page">⬆ Back to Top</a>
+
 ## 🚀 Getting Started
 
 ### 🛠️ Prerequisites
@@ -81,6 +84,20 @@ Bluetooth throughput is limited and latency can vary. To ensure a fast experienc
   ```
 - ⚡ **Message Batching:** If sending multiple updates, batch them into a single Bluetooth packet to reduce protocol overhead.
 - 🔋 **Battery Efficiency:** Disable Bluetooth discovery/scanning immediately after connection to save power and improve connection stability.
+  ```kotlin
+  // Example: Stopping discovery immediately upon connection on Android
+  fun onDeviceSelected(device: BluetoothDevice) {
+      bluetoothLeScanner.stopScan(scanCallback)
+      device.connectGatt(context, false, gattCallback)
+  }
+  ```
+  ```swift
+  // Example: Stopping discovery immediately upon connection in Swift
+  func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
+      central.stopScan()
+      central.connect(peripheral, options: nil)
+  }
+  ```
 - 📉 **Lower Latency:** Use direct connection handles where possible, minimize unnecessary application-layer acknowledgments, and utilize **Write Without Response** for high-throughput data.
   ```kotlin
   // Example: Writing without response for ~2x throughput increase on Android
@@ -109,6 +126,18 @@ Bluetooth throughput is limited and latency can vary. To ensure a fast experienc
   bluetoothGatt.requestConnectionPriority(BluetoothGatt.CONNECTION_PRIORITY_HIGH)
   ```
 - 🔍 **Filtered Scanning:** Use Service UUID filters during device discovery to speed up the process and reduce system-wide power consumption.
+  ```kotlin
+  // Example: Filtered scanning by Service UUID on Android.
+  // Reduces system-wide power consumption and speeds up discovery of relevant devices.
+  val filter = ScanFilter.Builder().setServiceUuid(ParcelUuid(SERVICE_UUID)).build()
+  val settings = ScanSettings.Builder().setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY).build()
+  bluetoothLeScanner.startScan(listOf(filter), settings, scanCallback)
+  ```
+  ```swift
+  // Example: Filtered scanning by Service UUID in Swift.
+  // The system only wakes the app for devices matching the specified service UUID.
+  centralManager.scanForPeripherals(withServices: [serviceUUID], options: nil)
+  ```
 - 🧵 **Background Threading:** Perform all Bluetooth GATT operations, discovery, and data serialization on background threads to prevent UI jank and maintain 60 FPS responsiveness.
   ```swift
   // Example: Dispatching Bluetooth work to a background queue in Swift
