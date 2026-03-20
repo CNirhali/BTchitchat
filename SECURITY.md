@@ -1,6 +1,6 @@
 # 🛡️ Security Policy
 
-[← Back to Documentation](README.md)
+<a href="README.md" aria-label="Back to Documentation">← Back to Documentation</a>
 
 ## 📋 Table of Contents
 
@@ -23,7 +23,7 @@ Currently, we are in active development. Only the latest version of the applicat
 | ------- | :----------------: |
 | < 1.0.0 | ✅                  |
 
-<a href="#security-policy">⬆ Back to Top</a>
+<a href="#security-policy" aria-label="Back to top of page">⬆ Back to Top</a>
 
 ## 🛡️ Security Development Guidelines
 
@@ -79,7 +79,7 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
       android:exported="false" />
   ```
 
-<a href="#security-policy">⬆ Back to Top</a>
+<a href="#security-policy" aria-label="Back to top of page">⬆ Back to Top</a>
 
 ### 👤 Data Privacy & User Protection
 
@@ -93,7 +93,7 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
 - ⌨️ **Keyboard Privacy:** Use incognito/private keyboard modes for chat input fields (e.g., `imeOptions="flagNoPersonalizedLearning"` on Android) to prevent the keyboard from caching and learning sensitive message content.
 - 👤 **Device Identity Privacy:** Do not use the default system device name (e.g., "Alice's iPhone") for Bluetooth discovery, as it can leak Personally Identifiable Information (PII) to nearby observers. Implement generic aliases or allow users to set a pseudonym within the application.
 
-<a href="#security-policy">⬆ Back to Top</a>
+<a href="#security-policy" aria-label="Back to top of page">⬆ Back to Top</a>
 
 ### 🛡️ Application & Environment Hardening
 
@@ -103,7 +103,7 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
 - 🔗 **Dependency Security:** Regularly audit and update third-party libraries to mitigate risks from known vulnerabilities. Use tools like `pnpm audit` or `snyk` to automate this process.
 - ⚔️ **Anti-Tampering & Integrity:** Implement root/jailbreak detection, **Anti-Debugging** (e.g., checking `android:debuggable="false"`), and **Runtime Signature Verification** to detect unauthorized analysis or binary modification. Use Code Obfuscation (e.g., R8/ProGuard for Android) to make reverse engineering more difficult.
 
-<a href="#security-policy">⬆ Back to Top</a>
+<a href="#security-policy" aria-label="Back to top of page">⬆ Back to Top</a>
 
 ## 🚨 Reporting a Vulnerability
 
@@ -118,6 +118,6 @@ We appreciate your help in keeping this project secure!
 
 ---
 
-[← Back to Documentation](README.md)
+<a href="README.md" aria-label="Back to Documentation">← Back to Documentation</a>
 
-<a href="#security-policy">⬆ Back to Top</a>
+<a href="#security-policy" aria-label="Back to top of page">⬆ Back to Top</a>
