@@ -83,6 +83,22 @@ Bluetooth throughput is limited and latency can vary. To ensure a fast experienc
   bluetoothGatt.requestMtu(512)
   ```
 - ⚡ **Message Batching:** If sending multiple updates, batch them into a single Bluetooth packet to reduce protocol overhead.
+  ```kotlin
+  // Example: Batching multiple messages into a single list before serialization on Android.
+  // This reduces the number of Bluetooth writes and associated protocol overhead.
+  val batch = MessageBatch.newBuilder()
+      .addAllMessages(pendingMessages)
+      .build()
+  bluetoothGatt.writeCharacteristic(characteristic, batch.toByteArray(), BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT)
+  ```
+  ```swift
+  // Example: Batching messages into a single data payload in Swift.
+  // Minimizing the number of 'writeValue' calls significantly improves throughput.
+  let batch = MessageBatch(messages: pendingMessages)
+  if let data = try? batch.serializedData() {
+      peripheral.writeValue(data, for: characteristic, type: .withResponse)
+  }
+  ```
 - 🔋 **Battery Efficiency:** Disable Bluetooth discovery/scanning immediately after connection to save power and improve connection stability.
   ```kotlin
   // Example: Stopping discovery immediately upon connection on Android
@@ -119,6 +135,14 @@ Bluetooth throughput is limited and latency can vary. To ensure a fast experienc
   ```
 - ⏱️ **Lazy Initialization:** Delay Bluetooth stack setup and discovery until strictly necessary to improve initial app launch speed and reduce memory footprint.
 - 📡 **GATT Caching:** Leverage GATT Service Caching to skip service discovery on subsequent connections and reduce connection-to-chat time.
+  ```kotlin
+  // Example: Handling GATT service changes on Android.
+  // The system automatically caches services; use the 'onServiceChanged' callback
+  // to refresh discovery only when services have changed.
+  override fun onServiceChanged(gatt: BluetoothGatt) {
+      gatt.discoverServices()
+  }
+  ```
 - 📶 **Connection Priority:** Request high-priority/low-latency connections during active chat sessions to minimize message delivery delays.
   ```kotlin
   // Example: Requesting high priority connection on Android.
@@ -139,6 +163,14 @@ Bluetooth throughput is limited and latency can vary. To ensure a fast experienc
   centralManager.scanForPeripherals(withServices: [serviceUUID], options: nil)
   ```
 - 🧵 **Background Threading:** Perform all Bluetooth GATT operations, discovery, and data serialization on background threads to prevent UI jank and maintain 60 FPS responsiveness.
+  ```kotlin
+  // Example: Using a dedicated background thread for Bluetooth operations on Android.
+  // Prevents blocking the Main (UI) thread during serialization or GATT writes.
+  val bluetoothScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+  bluetoothScope.launch {
+      // Perform data serialization or Bluetooth GATT operations
+  }
+  ```
   ```swift
   // Example: Dispatching Bluetooth work to a background queue in Swift
   let bluetoothQueue = DispatchQueue(label: "com.app.bluetooth", qos: .userInitiated)
