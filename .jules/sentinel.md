@@ -61,3 +61,8 @@ This journal is used to record critical security learnings discovered during the
 **Vulnerability:** GATT characteristics can be accessed without bonding if permissions are not explicitly restricted, leading to unauthorized data access.
 **Learning:** Developers often assume Bluetooth pairing implies data encryption, but GATT permissions must be explicitly set to require encryption/bonding at the OS level. Providing actionable technical examples (Kotlin/Swift) in the security policy helps ensure these protections are implemented correctly.
 **Prevention:** Mandate the use of platform-specific encrypted GATT permissions (e.g., `PERMISSION_READ_ENCRYPTED`) and provide code snippets in the security guidelines to facilitate implementation.
+
+## 2026-04-17 - Recipient Binding & Enhanced Replay Protection
+**Vulnerability:** Peer-to-peer messaging is susceptible to reflection attacks and replay attacks if messages aren't bound to recipients or use weak nonces.
+**Learning:** In offline Bluetooth environments, a malicious actor can capture and redirect legitimate messages to different recipients or replay them later. Relying on simple `uint64` nonces is less robust than cryptographic `bytes` nonces, and the absence of a `recipient_id` makes it difficult to verify the message's intended destination at the application layer.
+**Prevention:** Include explicit `recipient_id` and `secure_nonce` (bytes) fields in the messaging protocol and mandate their verification in the security guidelines.
