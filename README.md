@@ -165,9 +165,76 @@ Bluetooth communication is inherently susceptible to various security risks, inc
 
 To provide a smooth and intuitive messaging experience over Bluetooth:
 - ✨ **Connection Status:** Provide clear visual indicators for **"Disconnected"**, **"Connecting..."**, and **"Connected"** states.
+  ```kotlin
+  // Example: Updating connection status on Android
+  fun onConnectionStateChange(newState: Int) {
+      statusTextView.text = when (newState) {
+          STATE_CONNECTED -> "Connected"
+          STATE_CONNECTING -> "Connecting..."
+          else -> "Disconnected"
+      }
+  }
+  ```
+  ```swift
+  // Example: Updating connection status in Swift
+  statusLabel.text = switch peripheral.state {
+      case .connected: "Connected"
+      case .connecting: "Connecting..."
+      default: "Disconnected"
+  }
+  ```
 - ⏳ **Loading States:** Use skeletons or spinners during device discovery and connection attempts to manage user expectations.
+  ```kotlin
+  // Example: Showing a loading state during discovery on Android
+  fun onDiscoveryStarted() {
+      discoveryProgressBar.visibility = View.VISIBLE
+      emptyStateView.text = "Searching for devices..."
+  }
+  ```
+  ```swift
+  // Example: Showing a loading state during discovery in Swift
+  func startScanning() {
+      activityIndicator.startAnimating()
+      statusLabel.text = "Searching for devices..."
+  }
+  ```
 - 💬 **Message Feedback:** Show **"Sending..."**, **"Sent"**, or **"Delivered"** statuses for messages to confirm successful transmission.
+  ```kotlin
+  // Example: Updating message status on Android
+  fun onMessageStatusUpdated(status: MessageStatus) {
+      statusTextView.text = when (status) {
+          SENDING -> "Sending..."
+          SENT -> "Sent"
+          DELIVERED -> "Delivered"
+      }
+  }
+  ```
+  ```swift
+  // Example: Updating message status in Swift
+  messageStatusLabel.text = switch message.deliveryStatus {
+      case .sending: "Sending..."
+      case .sent: "Sent"
+      case .delivered: "Delivered"
+  }
+  ```
 - 🔔 **Actionable Alerts:** Use non-intrusive toasts or snackbars for errors (e.g., **"Bluetooth Disabled"**, **"Connection Failed"**) with clear recovery steps.
+  ```kotlin
+  // Example: Showing a non-intrusive error with a recovery action on Android
+  Snackbar.make(rootView, "Bluetooth Disabled", Snackbar.LENGTH_LONG)
+      .setAction("Enable") { bluetoothAdapter.enable() }
+      .show()
+  ```
+  ```swift
+  // Example: Showing a standard alert in Swift (UIKit)
+  let alert = UIAlertController(title: "Bluetooth Disabled", message: "Please enable Bluetooth to chat.", preferredStyle: .alert)
+  alert.addAction(UIAlertAction(title: "Settings", style: .default) { _ in
+      if let url = URL(string: UIApplication.openSettingsURLString) {
+          UIApplication.shared.open(url)
+      }
+  })
+  alert.addAction(UIAlertAction(title: "OK", style: .cancel))
+  present(alert, animated: true)
+  ```
 - ♿ **Accessibility:** Ensure high color contrast for text and large touch targets (at least 48x48dp) for all interactive UI elements.
 - 📭 **Empty States:** Provide helpful guidance or calls-to-action when no data is present (e.g., **"Scanning for nearby friends..."**).
   ```kotlin
@@ -175,6 +242,13 @@ To provide a smooth and intuitive messaging experience over Bluetooth:
   if (discoveredDevices.isEmpty()) {
       statusTextView.text = "Scanning for nearby friends..."
       progressBar.visibility = View.VISIBLE
+  }
+  ```
+  ```swift
+  // Example: Showing a helpful empty state in Swift
+  if discoveredDevices.isEmpty {
+      statusLabel.text = "Scanning for nearby friends..."
+      activityIndicator.startAnimating()
   }
   ```
 
