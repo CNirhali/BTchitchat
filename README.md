@@ -83,6 +83,22 @@ Bluetooth throughput is limited and latency can vary. To ensure a fast experienc
   bluetoothGatt.requestMtu(512)
   ```
 - ⚡ **Message Batching:** If sending multiple updates, batch them into a single Bluetooth packet to reduce protocol overhead.
+  ```kotlin
+  // Example: Batching multiple messages into a single list before serialization on Android.
+  // This reduces the number of Bluetooth writes and associated protocol overhead.
+  val batch = MessageBatch.newBuilder()
+      .addAllMessages(pendingMessages)
+      .build()
+  bluetoothGatt.writeCharacteristic(characteristic, batch.toByteArray(), BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT)
+  ```
+  ```swift
+  // Example: Batching messages into a single data payload in Swift.
+  // Minimizing the number of 'writeValue' calls significantly improves throughput.
+  let batch = MessageBatch(messages: pendingMessages)
+  if let data = try? batch.serializedData() {
+      peripheral.writeValue(data, for: characteristic, type: .withResponse)
+  }
+  ```
 - 🔋 **Battery Efficiency:** Disable Bluetooth discovery/scanning immediately after connection to save power and improve connection stability.
   ```kotlin
   // Example: Stopping discovery immediately upon connection on Android
@@ -119,6 +135,14 @@ Bluetooth throughput is limited and latency can vary. To ensure a fast experienc
   ```
 - ⏱️ **Lazy Initialization:** Delay Bluetooth stack setup and discovery until strictly necessary to improve initial app launch speed and reduce memory footprint.
 - 📡 **GATT Caching:** Leverage GATT Service Caching to skip service discovery on subsequent connections and reduce connection-to-chat time.
+  ```kotlin
+  // Example: Handling GATT service changes on Android.
+  // The system automatically caches services; use the 'onServiceChanged' callback
+  // to refresh discovery only when services have changed.
+  override fun onServiceChanged(gatt: BluetoothGatt) {
+      gatt.discoverServices()
+  }
+  ```
 - 📶 **Connection Priority:** Request high-priority/low-latency connections during active chat sessions to minimize message delivery delays.
   ```kotlin
   // Example: Requesting high priority connection on Android.
@@ -139,6 +163,14 @@ Bluetooth throughput is limited and latency can vary. To ensure a fast experienc
   centralManager.scanForPeripherals(withServices: [serviceUUID], options: nil)
   ```
 - 🧵 **Background Threading:** Perform all Bluetooth GATT operations, discovery, and data serialization on background threads to prevent UI jank and maintain 60 FPS responsiveness.
+  ```kotlin
+  // Example: Using a dedicated background thread for Bluetooth operations on Android.
+  // Prevents blocking the Main (UI) thread during serialization or GATT writes.
+  val bluetoothScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+  bluetoothScope.launch {
+      // Perform data serialization or Bluetooth GATT operations
+  }
+  ```
   ```swift
   // Example: Dispatching Bluetooth work to a background queue in Swift
   let bluetoothQueue = DispatchQueue(label: "com.app.bluetooth", qos: .userInitiated)
@@ -165,9 +197,76 @@ Bluetooth communication is inherently susceptible to various security risks, inc
 
 To provide a smooth and intuitive messaging experience over Bluetooth:
 - ✨ **Connection Status:** Provide clear visual indicators for **"Disconnected"**, **"Connecting..."**, and **"Connected"** states.
+  ```kotlin
+  // Example: Updating connection status on Android
+  fun onConnectionStateChange(newState: Int) {
+      statusTextView.text = when (newState) {
+          STATE_CONNECTED -> "Connected"
+          STATE_CONNECTING -> "Connecting..."
+          else -> "Disconnected"
+      }
+  }
+  ```
+  ```swift
+  // Example: Updating connection status in Swift
+  statusLabel.text = switch peripheral.state {
+      case .connected: "Connected"
+      case .connecting: "Connecting..."
+      default: "Disconnected"
+  }
+  ```
 - ⏳ **Loading States:** Use skeletons or spinners during device discovery and connection attempts to manage user expectations.
+  ```kotlin
+  // Example: Showing a loading state during discovery on Android
+  fun onDiscoveryStarted() {
+      discoveryProgressBar.visibility = View.VISIBLE
+      emptyStateView.text = "Searching for devices..."
+  }
+  ```
+  ```swift
+  // Example: Showing a loading state during discovery in Swift
+  func startScanning() {
+      activityIndicator.startAnimating()
+      statusLabel.text = "Searching for devices..."
+  }
+  ```
 - 💬 **Message Feedback:** Show **"Sending..."**, **"Sent"**, or **"Delivered"** statuses for messages to confirm successful transmission.
+  ```kotlin
+  // Example: Updating message status on Android
+  fun onMessageStatusUpdated(status: MessageStatus) {
+      statusTextView.text = when (status) {
+          SENDING -> "Sending..."
+          SENT -> "Sent"
+          DELIVERED -> "Delivered"
+      }
+  }
+  ```
+  ```swift
+  // Example: Updating message status in Swift
+  messageStatusLabel.text = switch message.deliveryStatus {
+      case .sending: "Sending..."
+      case .sent: "Sent"
+      case .delivered: "Delivered"
+  }
+  ```
 - 🔔 **Actionable Alerts:** Use non-intrusive toasts or snackbars for errors (e.g., **"Bluetooth Disabled"**, **"Connection Failed"**) with clear recovery steps.
+  ```kotlin
+  // Example: Showing a non-intrusive error with a recovery action on Android
+  Snackbar.make(rootView, "Bluetooth Disabled", Snackbar.LENGTH_LONG)
+      .setAction("Enable") { bluetoothAdapter.enable() }
+      .show()
+  ```
+  ```swift
+  // Example: Showing a standard alert in Swift (UIKit)
+  let alert = UIAlertController(title: "Bluetooth Disabled", message: "Please enable Bluetooth to chat.", preferredStyle: .alert)
+  alert.addAction(UIAlertAction(title: "Settings", style: .default) { _ in
+      if let url = URL(string: UIApplication.openSettingsURLString) {
+          UIApplication.shared.open(url)
+      }
+  })
+  alert.addAction(UIAlertAction(title: "OK", style: .cancel))
+  present(alert, animated: true)
+  ```
 - ♿ **Accessibility:** Ensure high color contrast for text and large touch targets (at least 48x48dp) for all interactive UI elements.
 - 📭 **Empty States:** Provide helpful guidance or calls-to-action when no data is present (e.g., **"Scanning for nearby friends..."**).
   ```kotlin
@@ -175,6 +274,13 @@ To provide a smooth and intuitive messaging experience over Bluetooth:
   if (discoveredDevices.isEmpty()) {
       statusTextView.text = "Scanning for nearby friends..."
       progressBar.visibility = View.VISIBLE
+  }
+  ```
+  ```swift
+  // Example: Showing a helpful empty state in Swift
+  if discoveredDevices.isEmpty {
+      statusLabel.text = "Scanning for nearby friends..."
+      activityIndicator.startAnimating()
   }
   ```
 

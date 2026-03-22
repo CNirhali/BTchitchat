@@ -61,6 +61,25 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
 - ⌛ **Replay Protection:** Implement nonces (see `ChatMessage.secure_nonce`) or timestamps to prevent captured Bluetooth packets from being re-sent to the application. Use cryptographically secure random nonces (at least 96 bits for AES-GCM) to ensure uniqueness across messages.
 - 🛡️ **Message Integrity & Authenticity:** Use Message Authentication Codes (MACs) or digital signatures (see `ChatMessage.authentication_tag`) to ensure that messages have not been tampered with and originate from the claimed sender. It is highly recommended to use **Authenticated Encryption with Associated Data (AEAD)** schemes (e.g., AES-GCM, ChaCha20-Poly1305) to provide both confidentiality and integrity in a single operation.
 - 🎯 **Recipient Binding & Verification:** Explicitly include and verify the `recipient_id` (see `ChatMessage.recipient_id`) in every message to prevent reflection attacks and ensure messages are only processed by the intended party. When using AEAD, include the `sender_id`, `recipient_id`, and `timestamp` in the **Associated Data (AD)** to cryptographically bind the message to its context.
+- ⌛ **Replay Protection:** Implement cryptographically robust nonces (see `ChatMessage.secure_nonce`) or timestamps to prevent captured Bluetooth packets from being re-sent to the application.
+  ```kotlin
+  // Example: Verifying a cryptographic nonce on Android to prevent replay attacks
+  fun isNonceValid(incomingNonce: ByteArray): Boolean {
+      if (processedNonces.contains(incomingNonce)) return false
+      processedNonces.add(incomingNonce)
+      return true
+  }
+  ```
+- 🛡️ **Recipient Binding & Verification:** Use Authenticated Encryption with Associated Data (AEAD) to bind each message to the intended recipient's unique ID (see `ChatMessage.recipient_id`). This prevents "reflection attacks," where a malicious device redirects a message intended for one recipient to another.
+  ```swift
+  // Example: Verifying recipient binding in Swift to prevent reflection attacks
+  func verifyRecipient(message: ChatMessage, localDeviceId: String) throws {
+      guard message.recipientId == localDeviceId else {
+          throw SecurityError.invalidRecipient
+      }
+  }
+  ```
+- 🛡️ **Message Integrity & Authenticity:** Use Message Authentication Codes (MACs) or digital signatures (see `ChatMessage.authentication_tag`) to ensure that messages have not been tampered with and originate from the claimed sender.
 - 🔄 **Protocol Versioning:** Include a protocol version in all messages (see `ChatMessage.protocol_version`) to allow for protocol evolution and to deprecate insecure legacy versions.
   ```kotlin
   // Example: Rejecting insecure protocol versions

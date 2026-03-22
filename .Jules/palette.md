@@ -69,3 +69,7 @@ This journal documents critical UX and accessibility learnings discovered during
 ## 2026-03-15 - Persona Boundaries and Accessible Navigation in Docs
 **Learning:** In documentation-heavy repositories, the "Palette" persona should prioritize intuitive navigation (like bidirectional links) and visual balance without introducing "Optimization" jargon or redundant ARIA labels. Screen readers already announce link text like "⬆ Back to Top" effectively, so extra attributes often add unnecessary noise.
 **Action:** Focus on semantic Markdown and visual scannability; avoid adding non-standard comments or redundant accessibility attributes that don't provide unique value.
+
+## 2026-03-17 - Actionable DX as UX in Template-Only Repos
+**Learning:** In repositories that serve as templates or guides without functional UI code, the "User Experience" is primarily the "Developer Experience" (DX) of implementing the suggested patterns. Providing platform-specific (Kotlin/Swift), native implementation examples alongside high-level UX principles bridges the gap between design intent and execution, reducing the cognitive load for developers and ensuring a higher quality final interface.
+**Action:** Always accompany UX guidelines in template repositories with native, standard code snippets to provide a clear path to implementation for all target platforms.

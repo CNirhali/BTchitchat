@@ -45,3 +45,7 @@ This journal documents critical performance learnings discovered during the deve
 ## 2026-03-20 - Documentation-Driven Performance: Filtered Scanning and Navigation Optimization
 **Learning:** In template-only repositories, performance is defined by 'Developer Time to Action'. Providing high-impact, actionable code snippets for specialized operations like Filtered Scanning and immediate discovery termination directly improves the quality and efficiency of the resulting application. Additionally, structural UX improvements like contextual 'Back to Top' links reduce developer cognitive load and navigation time.
 **Action:** Always prioritize including platform-specific, copy-pasteable best practices in documentation and ensure seamless navigation to maximize both developer and application performance.
+
+## 2026-03-21 - DX Performance: Reducing Onboarding Friction with Actionable Snippets
+**Learning:** In template repositories, performance is synonymous with 'Developer Time to Action'. Providing platform-specific (Kotlin/Swift) code snippets for critical operations like Message Batching and Background Threading significantly reduces the cognitive overhead and implementation time for developers. Parity across platforms is essential to ensure a consistent performance baseline regardless of the chosen stack.
+**Action:** When source code is absent, prioritize adding technical implementation examples for all high-impact performance guidelines to ensure developers can implement optimizations immediately.
