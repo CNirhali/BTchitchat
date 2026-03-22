@@ -58,10 +58,7 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
       throw SecurityException("Message size exceeds security limits.")
   }
   ```
-- ⌛ **Replay Protection:** Implement nonces (see `ChatMessage.secure_nonce`) or timestamps to prevent captured Bluetooth packets from being re-sent to the application. Use cryptographically secure random nonces (at least 96 bits for AES-GCM) to ensure uniqueness across messages.
-- 🛡️ **Message Integrity & Authenticity:** Use Message Authentication Codes (MACs) or digital signatures (see `ChatMessage.authentication_tag`) to ensure that messages have not been tampered with and originate from the claimed sender. It is highly recommended to use **Authenticated Encryption with Associated Data (AEAD)** schemes (e.g., AES-GCM, ChaCha20-Poly1305) to provide both confidentiality and integrity in a single operation.
-- 🎯 **Recipient Binding & Verification:** Explicitly include and verify the `recipient_id` (see `ChatMessage.recipient_id`) in every message to prevent reflection attacks and ensure messages are only processed by the intended party. When using AEAD, include the `sender_id`, `recipient_id`, and `timestamp` in the **Associated Data (AD)** to cryptographically bind the message to its context.
-- ⌛ **Replay Protection:** Implement cryptographically robust nonces (see `ChatMessage.secure_nonce`) or timestamps to prevent captured Bluetooth packets from being re-sent to the application.
+- ⌛ **Replay Protection:** Implement cryptographically robust nonces (see `ChatMessage.secure_nonce`) or timestamps to prevent captured Bluetooth packets from being re-sent. Use cryptographically secure random nonces (at least 96 bits for AES-GCM) to ensure uniqueness across messages.
   ```kotlin
   // Example: Verifying a cryptographic nonce on Android to prevent replay attacks
   fun isNonceValid(incomingNonce: ByteArray): Boolean {
@@ -70,7 +67,16 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
       return true
   }
   ```
-- 🛡️ **Recipient Binding & Verification:** Use Authenticated Encryption with Associated Data (AEAD) to bind each message to the intended recipient's unique ID (see `ChatMessage.recipient_id`). This prevents "reflection attacks," where a malicious device redirects a message intended for one recipient to another.
+- 🛡️ **Message Integrity & Authenticity:** Use Message Authentication Codes (MACs) or digital signatures (see `ChatMessage.authentication_tag`) to ensure that messages have not been tampered with and originate from the claimed sender. It is highly recommended to use **Authenticated Encryption with Associated Data (AEAD)** schemes (e.g., AES-GCM, ChaCha20-Poly1305) to provide both confidentiality and integrity in a single operation.
+- 🎯 **Recipient Binding & Verification:** Explicitly include and verify the `recipient_id` (see `ChatMessage.recipient_id`) in every message to prevent reflection attacks. When using AEAD, include the `sender_id`, `recipient_id`, and `timestamp` in the **Associated Data (AD)** to cryptographically bind the message to its context.
+  ```kotlin
+  // Example: Verifying recipient binding on Android to prevent reflection attacks
+  fun verifyRecipient(message: ChatMessage, localDeviceId: String) {
+      if (message.recipientId != localDeviceId) {
+          throw SecurityException("Message recipient mismatch: Reflection attack detected.")
+      }
+  }
+  ```
   ```swift
   // Example: Verifying recipient binding in Swift to prevent reflection attacks
   func verifyRecipient(message: ChatMessage, localDeviceId: String) throws {
@@ -79,13 +85,20 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
       }
   }
   ```
-- 🛡️ **Message Integrity & Authenticity:** Use Message Authentication Codes (MACs) or digital signatures (see `ChatMessage.authentication_tag`) to ensure that messages have not been tampered with and originate from the claimed sender.
 - 🔄 **Protocol Versioning:** Include a protocol version in all messages (see `ChatMessage.protocol_version`) to allow for protocol evolution and to deprecate insecure legacy versions.
   ```kotlin
-  // Example: Rejecting insecure protocol versions
+  // Example: Rejecting insecure protocol versions on Android
   val MIN_SUPPORTED_VERSION = 1
   if (message.protocolVersion < MIN_SUPPORTED_VERSION) {
       disconnectAndLogSecurityEvent("Unsupported insecure protocol version: ${message.protocolVersion}")
+  }
+  ```
+  ```swift
+  // Example: Rejecting insecure protocol versions in Swift
+  let minSupportedVersion: UInt32 = 1
+  guard message.protocolVersion >= minSupportedVersion else {
+      handleSecurityBreach("Insecure protocol version detected: \(message.protocolVersion)")
+      return
   }
   ```
 - 📍 **Bluetooth Discoverability:** Implement a timeout for discoverability to minimize the window of exposure to unknown devices.
@@ -108,6 +121,12 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
 - 🔒 **App-Level Locking:** Provide an option for app-level authentication (e.g., Biometrics, PIN) to protect access to chat history even when the device is unlocked.
 - 🤏 **Data Minimization:** Only transmit essential data over Bluetooth. Avoid sending Personally Identifiable Information (PII) unless it is strictly necessary and properly encrypted.
 - 🚫 **Data Leakage Prevention (DLP):** Prevent sensitive data leakage through unencrypted cloud backups (e.g., `android:allowBackup="false"`), the system clipboard, by obscuring sensitive UI content in the application switcher, or by disabling screenshots on sensitive screens (e.g., `FLAG_SECURE` on Android). Implement Overlay Protection (Anti-Tapjacking) to prevent malicious apps from intercepting touches by drawing over the application (e.g., `android:filterTouchesWhenObscured="true"`).
+  ```kotlin
+  // Example: Enabling anti-tapjacking protection on Android.
+  // This prevents the application from responding to touch events when its window
+  // is obscured by another window (e.g., a malicious overlay).
+  view.filterTouchesWhenObscured = true
+  ```
 - 📝 **Secure Logging:** Do not log Personally Identifiable Information (PII) or sensitive message content. Use a production-ready logging library that supports log level filtering.
 - 🔔 **Secure Notifications:** Avoid displaying sensitive chat content in system notifications that appear on the lock screen. Use generic summaries (e.g., "New Message") instead.
 - ⌨️ **Keyboard Privacy:** Use incognito/private keyboard modes for chat input fields (e.g., `imeOptions="flagNoPersonalizedLearning"` on Android) to prevent the keyboard from caching and learning sensitive message content.
