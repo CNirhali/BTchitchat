@@ -82,6 +82,10 @@ Bluetooth throughput is limited and latency can vary. To ensure a fast experienc
   // Example: Requesting larger MTU on Android
   bluetoothGatt.requestMtu(512)
   ```
+  ```swift
+  // Example: Querying maximum write length in Swift (equivalent to MTU)
+  let mtu = peripheral.maximumWriteValueLength(for: .withoutResponse)
+  ```
 - ⚡ **Message Batching:** If sending multiple updates, batch them into a single Bluetooth packet to reduce protocol overhead.
   ```kotlin
   // Example: Batching multiple messages into a single list before serialization on Android.
@@ -93,10 +97,10 @@ Bluetooth throughput is limited and latency can vary. To ensure a fast experienc
   ```
   ```swift
   // Example: Batching messages into a single data payload in Swift.
-  // Minimizing the number of 'writeValue' calls significantly improves throughput.
+  // Using .withoutResponse provides ~2x throughput increase compared to .withResponse.
   let batch = MessageBatch(messages: pendingMessages)
   if let data = try? batch.serializedData() {
-      peripheral.writeValue(data, for: characteristic, type: .withResponse)
+      peripheral.writeValue(data, for: characteristic, type: .withoutResponse)
   }
   ```
 - 🔋 **Battery Efficiency:** Disable Bluetooth discovery/scanning immediately after connection to save power and improve connection stability.
@@ -120,6 +124,10 @@ Bluetooth throughput is limited and latency can vary. To ensure a fast experienc
   characteristic.writeType = BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE
   bluetoothGatt.writeCharacteristic(characteristic)
   ```
+  ```swift
+  // Example: Writing without response for ~2x throughput increase in Swift
+  peripheral.writeValue(data, for: characteristic, type: .withoutResponse)
+  ```
   ```kotlin
   // Example: Using autoConnect=false for faster initial connection on Android.
   // This avoids the ~2s connection delay of the autoConnect=true background scan.
@@ -141,6 +149,12 @@ Bluetooth throughput is limited and latency can vary. To ensure a fast experienc
   // to refresh discovery only when services have changed.
   override fun onServiceChanged(gatt: BluetoothGatt) {
       gatt.discoverServices()
+  }
+  ```
+  ```swift
+  // Example: Handling GATT service changes in Swift
+  func peripheral(_ peripheral: CBPeripheral, didModifyServices invalidatedServices: [CBService]) {
+      peripheral.discoverServices(nil)
   }
   ```
 - 📶 **Connection Priority:** Request high-priority/low-latency connections during active chat sessions to minimize message delivery delays.
