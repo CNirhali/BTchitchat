@@ -75,3 +75,8 @@ This journal is used to record critical security learnings discovered during the
 **Vulnerability:** Corrupted Protobuf schema (duplicate tags) and inconsistent security guidance across platforms.
 **Learning:** In repositories where documentation and schemas are the primary deliverables, structural errors like duplicate field tags in Protobuf files can render security primitives unusable. Furthermore, providing security examples for only one platform (e.g., Kotlin but not Swift) leads to inconsistent security posture in the final implementations.
 **Prevention:** Regularly audit core communication schemas for structural integrity and ensure that all security guidelines maintain platform parity with actionable code snippets for both Android and iOS.
+
+## 2026-03-23 - Reliable Replay Protection and DoS Prevention in Security Examples
+**Vulnerability:** Security code examples using reference equality for byte arrays and unbounded caches for nonces.
+**Learning:** In security-critical Kotlin/Java code, comparing `ByteArray` directly using `contains` or `==` checks for reference equality, which fails to detect replayed byte sequences. Furthermore, unbounded nonce caches in documentation examples can lead to memory-based Denial-of-Service (DoS) if implemented literally by developers.
+**Prevention:** Always convert `ByteArray` to Hex or Base64 strings for reliable comparison in collections, and mandate the use of size-limited caches for security primitives to prevent resource exhaustion.
