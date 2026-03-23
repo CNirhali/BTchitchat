@@ -302,7 +302,23 @@ To provide a smooth and intuitive messaging experience over Bluetooth:
   alert.addAction(UIAlertAction(title: "OK", style: .cancel))
   present(alert, animated: true)
   ```
-- ♿ **Accessibility:** Ensure high color contrast for text and large touch targets (at least 48x48dp) for all interactive UI elements.
+- ♿ **Accessibility:** Ensure high color contrast for text and large touch targets (at least 48x48dp) for all interactive UI elements. Provide descriptive labels for icon-only buttons to support screen readers.
+  ```kotlin
+  // Example: Ensuring accessible touch targets and labels on Android
+  button.apply {
+      // Minimum recommended touch target size of 48x48dp
+      minWidth = 48.dp
+      minHeight = 48.dp
+      // Descriptive label for screen readers
+      contentDescription = "Send Message"
+  }
+  ```
+  ```swift
+  // Example: Ensuring accessible touch targets and labels in Swift (UIKit)
+  button.accessibilityLabel = "Send Message"
+  // Ensure the frame is at least 44x44pt (iOS standard) or 48x48pt
+  button.frame = CGRect(x: 0, y: 0, width: 48, height: 48)
+  ```
 - 📭 **Empty States:** Provide helpful guidance or calls-to-action when no data is present (e.g., **"Scanning for nearby friends..."**).
   ```kotlin
   // Example: Showing a helpful empty state on Android
