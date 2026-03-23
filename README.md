@@ -263,6 +263,26 @@ To provide a smooth and intuitive messaging experience over Bluetooth:
       case .delivered: "Delivered"
   }
   ```
+- ⌨️ **Keyboard Interactions:** Support standard keyboard behaviors like **"Enter to Send"** to improve efficiency for power users and ensure accessibility for keyboard-based navigation.
+  ```kotlin
+  // Example: Supporting 'Enter to Send' on Android
+  messageEditText.setOnEditorActionListener { _, actionId, _ ->
+      if (actionId == EditorInfo.IME_ACTION_SEND) {
+          sendMessage()
+          true
+      } else false
+  }
+  ```
+  ```swift
+  // Example: Supporting 'Enter to Send' in Swift (UIKit)
+  func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+      if textField == messageTextField {
+          sendMessage()
+          return false // Prevent default behavior
+      }
+      return true
+  }
+  ```
 - 🔔 **Actionable Alerts:** Use non-intrusive toasts or snackbars for errors (e.g., **"Bluetooth Disabled"**, **"Connection Failed"**) with clear recovery steps.
   ```kotlin
   // Example: Showing a non-intrusive error with a recovery action on Android
