@@ -93,7 +93,8 @@ Bluetooth throughput is limited and latency can vary. To ensure a fast experienc
   val batch = MessageBatch.newBuilder()
       .addAllMessages(pendingMessages)
       .build()
-  bluetoothGatt.writeCharacteristic(characteristic, batch.toByteArray(), BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT)
+  // Using WRITE_TYPE_NO_RESPONSE provides ~2x throughput increase for high-frequency updates.
+  bluetoothGatt.writeCharacteristic(characteristic, batch.toByteArray(), BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE)
   ```
   ```swift
   // Example: Batching messages into a single data payload in Swift.

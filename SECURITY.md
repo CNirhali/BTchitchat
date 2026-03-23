@@ -80,7 +80,17 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
   }
 
   fun isNonceValid(incomingNonce: ByteArray): Boolean {
-      val nonceHex = incomingNonce.joinToString("") { "%02x".format(it) }
+      // Faster hex conversion using StringBuilder and bit-shifting
+      // to reduce allocations and CPU overhead during message processing.
+      val hexChars = "0123456789abcdef"
+      val nonceHex = StringBuilder(incomingNonce.size * 2).apply {
+          for (b in incomingNonce) {
+              val i = b.toInt() and 0xFF
+              append(hexChars[i shr 4])
+              append(hexChars[i and 0x0F])
+          }
+      }.toString()
+
       if (processedNonces.contains(nonceHex)) return false
       processedNonces.add(nonceHex)
       return true
@@ -88,21 +98,24 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
   ```
   ```swift
   // Example: Verifying a cryptographic nonce in Swift to prevent replay attacks.
-  // Using a size-limited cache prevents memory-based DoS.
+  // Using a size-limited cache with a circular buffer ensures O(1) removals.
   private var processedNonces = Set<Data>()
-  private var nonceHistory = [Data]()
+  private var nonceHistory = [Data?](repeating: nil, count: 10000)
+  private var currentIndex = 0
   private let maxNonceCacheSize = 10000
 
   func isNonceValid(incomingNonce: Data) -> Bool {
       if processedNonces.contains(incomingNonce) { return false }
 
-      if nonceHistory.count >= maxNonceCacheSize {
-          let oldestNonce = nonceHistory.removeFirst()
+      // Remove oldest nonce from Set using circular buffer
+      if let oldestNonce = nonceHistory[currentIndex] {
           processedNonces.remove(oldestNonce)
       }
 
+      // Add new nonce to Set and Buffer
       processedNonces.insert(incomingNonce)
-      nonceHistory.append(incomingNonce)
+      nonceHistory[currentIndex] = incomingNonce
+      currentIndex = (currentIndex + 1) % maxNonceCacheSize
       return true
   }
   ```
