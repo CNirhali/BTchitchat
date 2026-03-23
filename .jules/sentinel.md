@@ -70,3 +70,8 @@ This journal is used to record critical security learnings discovered during the
 **Vulnerability:** Peer-to-peer messaging is susceptible to reflection attacks and replay attacks if messages aren't bound to recipients or use weak nonces.
 **Learning:** In offline Bluetooth environments, a malicious actor can capture and redirect legitimate messages to different recipients or replay them later. Relying on simple `uint64` nonces is less robust than cryptographic `bytes` nonces, and the absence of a `recipient_id` makes it difficult to verify the message's intended destination at the application layer.
 **Prevention:** Include explicit `recipient_id` and `secure_nonce` (bytes) fields in the messaging protocol and mandate their verification in the security guidelines.
+
+## 2026-04-25 - Schema Integrity and Platform Parity in Security Templates
+**Vulnerability:** Corrupted Protobuf schema (duplicate tags) and inconsistent security guidance across platforms.
+**Learning:** In repositories where documentation and schemas are the primary deliverables, structural errors like duplicate field tags in Protobuf files can render security primitives unusable. Furthermore, providing security examples for only one platform (e.g., Kotlin but not Swift) leads to inconsistent security posture in the final implementations.
+**Prevention:** Regularly audit core communication schemas for structural integrity and ensure that all security guidelines maintain platform parity with actionable code snippets for both Android and iOS.
