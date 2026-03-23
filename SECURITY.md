@@ -58,12 +58,51 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
       throw SecurityException("Message size exceeds security limits.")
   }
   ```
+  ```swift
+  // Example: Enforcing message size limits in Swift
+  let maxMessageSize = 1024 * 10 // 10KB
+  guard receivedData.count <= maxMessageSize else {
+      handleSecurityBreach("Message size exceeds security limits.")
+      return
+  }
+  ```
 - ⌛ **Replay Protection:** Implement cryptographically robust nonces (see `ChatMessage.secure_nonce`) or timestamps to prevent captured Bluetooth packets from being re-sent. Use cryptographically secure random nonces (at least 96 bits for AES-GCM) to ensure uniqueness across messages.
   ```kotlin
-  // Example: Verifying a cryptographic nonce on Android to prevent replay attacks
+  // Example: Verifying a cryptographic nonce on Android to prevent replay attacks.
+  // Using a size-limited cache prevents memory-based DoS, and Hex string
+  // conversion ensures reliable byte array comparison.
+  private val MAX_NONCE_CACHE_SIZE = 10000
+  private val processedNonces = object : LinkedHashSet<String>() {
+      override fun add(element: String): Boolean {
+          if (size >= MAX_NONCE_CACHE_SIZE) remove(iterator().next())
+          return super.add(element)
+      }
+  }
+
   fun isNonceValid(incomingNonce: ByteArray): Boolean {
-      if (processedNonces.contains(incomingNonce)) return false
-      processedNonces.add(incomingNonce)
+      val nonceHex = incomingNonce.joinToString("") { "%02x".format(it) }
+      if (processedNonces.contains(nonceHex)) return false
+      processedNonces.add(nonceHex)
+      return true
+  }
+  ```
+  ```swift
+  // Example: Verifying a cryptographic nonce in Swift to prevent replay attacks.
+  // Using a size-limited cache prevents memory-based DoS.
+  private var processedNonces = Set<Data>()
+  private var nonceHistory = [Data]()
+  private let maxNonceCacheSize = 10000
+
+  func isNonceValid(incomingNonce: Data) -> Bool {
+      if processedNonces.contains(incomingNonce) { return false }
+
+      if nonceHistory.count >= maxNonceCacheSize {
+          let oldestNonce = nonceHistory.removeFirst()
+          processedNonces.remove(oldestNonce)
+      }
+
+      processedNonces.insert(incomingNonce)
+      nonceHistory.append(incomingNonce)
       return true
   }
   ```
@@ -129,7 +168,28 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
   ```
 - 📝 **Secure Logging:** Do not log Personally Identifiable Information (PII) or sensitive message content. Use a production-ready logging library that supports log level filtering.
 - 🔔 **Secure Notifications:** Avoid displaying sensitive chat content in system notifications that appear on the lock screen. Use generic summaries (e.g., "New Message") instead.
-- ⌨️ **Keyboard Privacy:** Use incognito/private keyboard modes for chat input fields (e.g., `imeOptions="flagNoPersonalizedLearning"` on Android) to prevent the keyboard from caching and learning sensitive message content.
+- ⌨️ **Keyboard Privacy:** Use incognito/private keyboard modes for chat input fields to prevent the keyboard from caching and learning sensitive message content.
+  ```xml
+  <!-- Example: Disabling personalized learning in Android XML layouts -->
+  <EditText
+      android:id="@+id/chatInput"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:imeOptions="flagNoPersonalizedLearning" />
+  ```
+  ```swift
+  // Example: Enabling private keyboard mode in Swift (UIKit)
+  textField.isSecureTextEntry = false // Ensure standard visibility
+  textField.textContentType = .none
+  textField.autocorrectionType = .no
+  textField.spellCheckingType = .no
+  ```
+  ```swift
+  // Example: Enabling private keyboard mode in Swift (SwiftUI)
+  TextField("Message", text: $message)
+      .autocorrectionDisabled(true)
+      .textContentType(.none)
+  ```
 - 👤 **Device Identity Privacy:** Do not use the default system device name (e.g., "Alice's iPhone") for Bluetooth discovery, as it can leak Personally Identifiable Information (PII) to nearby observers. Implement generic aliases or allow users to set a pseudonym within the application.
 
 <a href="#security-policy" aria-label="Back to top of page">⬆ Back to Top</a>
