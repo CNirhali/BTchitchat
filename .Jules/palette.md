@@ -73,3 +73,7 @@ This journal documents critical UX and accessibility learnings discovered during
 ## 2026-03-17 - Actionable DX as UX in Template-Only Repos
 **Learning:** In repositories that serve as templates or guides without functional UI code, the "User Experience" is primarily the "Developer Experience" (DX) of implementing the suggested patterns. Providing platform-specific (Kotlin/Swift), native implementation examples alongside high-level UX principles bridges the gap between design intent and execution, reducing the cognitive load for developers and ensuring a higher quality final interface.
 **Action:** Always accompany UX guidelines in template repositories with native, standard code snippets to provide a clear path to implementation for all target platforms.
+
+## 2026-03-18 - Keyboard Interactions for Efficiency and Accessibility
+**Learning:** In chat applications, supporting standard keyboard behaviors like "Enter to Send" is a critical micro-UX touch. It satisfies the expectations of power users while simultaneously providing a predictable interface for users relying on keyboard-based assistive technologies.
+**Action:** When designing input-heavy interfaces, always provide native implementation examples for common keyboard shortcuts to bridge the gap between abstract UX principles and developer execution.
