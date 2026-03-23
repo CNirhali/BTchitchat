@@ -53,3 +53,7 @@ This journal documents critical performance learnings discovered during the deve
 ## 2026-03-21 - DX Performance: Reducing Onboarding Friction with Actionable Snippets
 **Learning:** In template repositories, performance is synonymous with 'Developer Time to Action'. Providing platform-specific (Kotlin/Swift) code snippets for critical operations like Message Batching and Background Threading significantly reduces the cognitive overhead and implementation time for developers. Parity across platforms is essential to ensure a consistent performance baseline regardless of the chosen stack.
 **Action:** When source code is absent, prioritize adding technical implementation examples for all high-impact performance guidelines to ensure developers can implement optimizations immediately.
+
+## 2026-03-23 - Optimizing Algorithm Efficiency and Platform Parity in Documentation
+**Learning:** Documentation snippets for performance-critical logic, such as Replay Protection, must use efficient data structures to avoid hidden O(n) bottlenecks (e.g., Swift's `removeFirst()` on an Array). Furthermore, ensuring platform parity for high-throughput defaults (like `WRITE_TYPE_NO_RESPONSE` on Android) ensures that developers on all platforms achieve the same performance baseline by default.
+**Action:** Audit documentation snippets for O(n) operations and ensure that performance-critical API defaults are consistently applied across all supported platforms.
