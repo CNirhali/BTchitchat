@@ -77,3 +77,7 @@ This journal documents critical UX and accessibility learnings discovered during
 ## 2026-03-18 - Keyboard Interactions for Efficiency and Accessibility
 **Learning:** In chat applications, supporting standard keyboard behaviors like "Enter to Send" is a critical micro-UX touch. It satisfies the expectations of power users while simultaneously providing a predictable interface for users relying on keyboard-based assistive technologies.
 **Action:** When designing input-heavy interfaces, always provide native implementation examples for common keyboard shortcuts to bridge the gap between abstract UX principles and developer execution.
+
+## 2026-03-24 - Technical Accessibility as UX in Template-Only Repos
+**Learning:** In template-only repositories without functional UI code, the "User Experience" is primarily the "Developer Experience" (DX) of implementing the suggested patterns. Providing platform-specific (Kotlin/Swift) code snippets for accessibility—such as setting descriptive labels and ensuring minimum touch targets—bridges the gap between abstract design intent and technical execution.
+**Action:** When application code is absent, provide actionable technical implementation examples in documentation to ensure the final product is accessible and user-friendly by default.
