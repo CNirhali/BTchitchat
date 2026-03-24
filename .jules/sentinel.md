@@ -66,6 +66,12 @@ This journal is used to record critical security learnings discovered during the
 **Vulnerability:** Peer-to-peer messages without explicit recipient binding can be replayed back to the sender (reflection attack) or mis-attributed if the sender-recipient context isn't cryptographically verified.
 **Learning:** In decentralized Bluetooth communication, simply encrypting the payload is insufficient. The message must be bound to the intended recipient and specific session context to prevent an attacker from redirecting messages. Furthermore, when evolving protocols, field type changes (e.g., `uint64` to `bytes`) must be handled via deprecation and new field allocation to maintain wire compatibility.
 **Prevention:** Include a `recipient_id` in the protocol schema and mandate its verification. Use `bytes` for secure nonces to support standard AEAD schemes (e.g., AES-GCM) but maintain backward compatibility by deprecating rather than changing existing fields. Recommend AEAD and include context (sender/recipient) in the Associated Data (AD).
+
+## 2026-04-26 - Thread-Safety in Security Primitives
+**Vulnerability:** Race conditions in security caches (e.g., replay protection) can lead to nonce bypass or resource exhaustion if multiple messages are processed concurrently.
+**Learning:** Security primitives like nonce caches in documentation templates are often shown as simple collections without regard for concurrency. In high-frequency chat environments, processing multiple Bluetooth packets on background threads can lead to "check-then-act" race conditions where a duplicate nonce is accepted before it's marked as processed. Furthermore, non-atomic cache eviction can lead to inconsistent states.
+**Prevention:** Always use thread-safe, atomic operations (e.g., `putIfAbsent` in Java/Kotlin or serial queues in Swift) for security-critical caches and ensure that cache eviction policies are implemented atomically to prevent memory-based DoS.
+
 ## 2026-04-17 - Recipient Binding & Enhanced Replay Protection
 **Vulnerability:** Peer-to-peer messaging is susceptible to reflection attacks and replay attacks if messages aren't bound to recipients or use weak nonces.
 **Learning:** In offline Bluetooth environments, a malicious actor can capture and redirect legitimate messages to different recipients or replay them later. Relying on simple `uint64` nonces is less robust than cryptographic `bytes` nonces, and the absence of a `recipient_id` makes it difficult to verify the message's intended destination at the application layer.
