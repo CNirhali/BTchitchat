@@ -69,19 +69,19 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
 - ⌛ **Replay Protection:** Implement cryptographically robust nonces (see `ChatMessage.secure_nonce`) or timestamps to prevent captured Bluetooth packets from being re-sent. Use cryptographically secure random nonces (at least 96 bits for AES-GCM) to ensure uniqueness across messages.
   ```kotlin
   // Example: Verifying a cryptographic nonce on Android to prevent replay attacks.
-  // Using a size-limited cache prevents memory-based DoS, and Hex string
-  // conversion ensures reliable byte array comparison.
+  // Using a size-limited cache with Collections.synchronizedMap and LinkedHashMap
+  // ensures thread-safety and atomic LRU eviction to prevent memory-based DoS.
   private val MAX_NONCE_CACHE_SIZE = 10000
-  private val processedNonces = object : LinkedHashSet<String>() {
-      override fun add(element: String): Boolean {
-          if (size >= MAX_NONCE_CACHE_SIZE) remove(iterator().next())
-          return super.add(element)
+  private val processedNonces: MutableMap<String, Boolean> = Collections.synchronizedMap(
+      object : LinkedHashMap<String, Boolean>(MAX_NONCE_CACHE_SIZE, 0.75f, true) {
+          override fun removeEldestEntry(eldest: MutableMap.MutableEntry<String, Boolean>): Boolean {
+              return size > MAX_NONCE_CACHE_SIZE
+          }
       }
-  }
+  )
 
   fun isNonceValid(incomingNonce: ByteArray): Boolean {
       // Faster hex conversion using StringBuilder and bit-shifting
-      // to reduce allocations and CPU overhead during message processing.
       val hexChars = "0123456789abcdef"
       val nonceHex = StringBuilder(incomingNonce.size * 2).apply {
           for (b in incomingNonce) {
@@ -91,32 +91,35 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
           }
       }.toString()
 
-      if (processedNonces.contains(nonceHex)) return false
-      processedNonces.add(nonceHex)
-      return true
+      // putIfAbsent returns null if the key was not present, providing an atomic check-and-add.
+      return processedNonces.putIfAbsent(nonceHex, true) == null
   }
   ```
   ```swift
   // Example: Verifying a cryptographic nonce in Swift to prevent replay attacks.
-  // Using a size-limited cache with a circular buffer ensures O(1) removals.
+  // Using a serial DispatchQueue ensures thread-safe, atomic access to the
+  // nonce cache and circular buffer.
   private var processedNonces = Set<Data>()
   private var nonceHistory = [Data?](repeating: nil, count: 10000)
   private var currentIndex = 0
   private let maxNonceCacheSize = 10000
+  private let nonceQueue = DispatchQueue(label: "com.app.nonce-verification")
 
   func isNonceValid(incomingNonce: Data) -> Bool {
-      if processedNonces.contains(incomingNonce) { return false }
+      nonceQueue.sync {
+          if processedNonces.contains(incomingNonce) { return false }
 
-      // Remove oldest nonce from Set using circular buffer
-      if let oldestNonce = nonceHistory[currentIndex] {
-          processedNonces.remove(oldestNonce)
+          // Remove oldest nonce from Set using circular buffer
+          if let oldestNonce = nonceHistory[currentIndex] {
+              processedNonces.remove(oldestNonce)
+          }
+
+          // Add new nonce to Set and Buffer
+          processedNonces.insert(incomingNonce)
+          nonceHistory[currentIndex] = incomingNonce
+          currentIndex = (currentIndex + 1) % maxNonceCacheSize
+          return true
       }
-
-      // Add new nonce to Set and Buffer
-      processedNonces.insert(incomingNonce)
-      nonceHistory[currentIndex] = incomingNonce
-      currentIndex = (currentIndex + 1) % maxNonceCacheSize
-      return true
   }
   ```
 - 🛡️ **Message Integrity & Authenticity:** Use Message Authentication Codes (MACs) or digital signatures (see `ChatMessage.authentication_tag`) to ensure that messages have not been tampered with and originate from the claimed sender. It is highly recommended to use **Authenticated Encryption with Associated Data (AEAD)** schemes (e.g., AES-GCM, ChaCha20-Poly1305) to provide both confidentiality and integrity in a single operation.
@@ -212,6 +215,22 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
 - 🔑 **No Hardcoded Secrets:** Never include API keys, passwords, or other sensitive credentials in the source code. Use environment variables or secure storage mechanisms.
 - ⚠️ **Secure Error Handling:** Ensure that error messages do not leak sensitive information or stack traces. Log detailed errors internally, but provide generic messages to the user.
 - 🎲 **Cryptographically Secure Randomness:** Use platform-provided cryptographically secure random number generators (CSPRNGs) for generating all cryptographic keys, nonces, and session identifiers.
+  ```kotlin
+  // Example: Generating a secure 96-bit (12-byte) nonce on Android (Kotlin)
+  fun generateSecureNonce(): ByteArray {
+      val nonce = ByteArray(12)
+      SecureRandom().nextBytes(nonce)
+      return nonce
+  }
+  ```
+  ```swift
+  // Example: Generating a secure 96-bit (12-byte) nonce in Swift
+  func generateSecureNonce() -> Data? {
+      var bytes = [UInt8](repeating: 0, count: 12)
+      let status = SecRandomCopyBytes(kSecRandomDefault, bytes.count, &bytes)
+      return status == errSecSuccess ? Data(bytes) : nil
+  }
+  ```
 - 🔗 **Dependency Security:** Regularly audit and update third-party libraries to mitigate risks from known vulnerabilities. Use tools like `pnpm audit` or `snyk` to automate this process.
 - ⚔️ **Anti-Tampering & Integrity:** Implement root/jailbreak detection, **Anti-Debugging** (e.g., checking `android:debuggable="false"`), and **Runtime Signature Verification** to detect unauthorized analysis or binary modification. Use Code Obfuscation (e.g., R8/ProGuard for Android) to make reverse engineering more difficult.
 
