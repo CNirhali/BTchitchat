@@ -81,3 +81,7 @@ This journal documents critical UX and accessibility learnings discovered during
 ## 2026-03-24 - Technical Accessibility as UX in Template-Only Repos
 **Learning:** In template-only repositories without functional UI code, the "User Experience" is primarily the "Developer Experience" (DX) of implementing the suggested patterns. Providing platform-specific (Kotlin/Swift) code snippets for accessibility—such as setting descriptive labels and ensuring minimum touch targets—bridges the gap between abstract design intent and technical execution.
 **Action:** When application code is absent, provide actionable technical implementation examples in documentation to ensure the final product is accessible and user-friendly by default.
+
+## 2026-03-25 - Tactile Feedback for Bluetooth Interactions
+**Learning:** In offline, peer-to-peer applications where network latency is variable (like Bluetooth), non-visual cues such as haptic feedback provide critical interaction confirmation. This "tactile" layer reduces user frustration during "silent" failures or slow deliveries by confirming the app has successfully initiated or completed a physical action (like a GATT write).
+**Action:** Always include native haptic feedback implementations (Kotlin's performHapticFeedback and Swift's UINotificationFeedbackGenerator) for core lifecycle events like message sent, delivered, or connection established.
