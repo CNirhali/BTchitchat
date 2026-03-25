@@ -57,3 +57,7 @@ This journal documents critical performance learnings discovered during the deve
 ## 2026-03-23 - Optimizing Algorithm Efficiency and Platform Parity in Documentation
 **Learning:** Documentation snippets for performance-critical logic, such as Replay Protection, must use efficient data structures to avoid hidden O(n) bottlenecks (e.g., Swift's `removeFirst()` on an Array). Furthermore, ensuring platform parity for high-throughput defaults (like `WRITE_TYPE_NO_RESPONSE` on Android) ensures that developers on all platforms achieve the same performance baseline by default.
 **Action:** Audit documentation snippets for O(n) operations and ensure that performance-critical API defaults are consistently applied across all supported platforms.
+
+## 2026-03-24 - Protobuf Builder Pooling and Capacity Reuse for Mobile Performance
+**Learning:** In high-frequency Bluetooth messaging, object allocation is a primary source of UI jank. For Kotlin/Protobuf, pooling `Builder` objects instead of immutable `ChatMessage` objects is the correct pattern. On iOS/Swift, leveraging `removeAll(keepingCapacity: true)` for message buffers prevents expensive re-allocations of the underlying array storage. These micro-optimizations significantly reduce GC pressure and improve frame rates.
+**Action:** Always recommend pooling mutable builders and reusing collection capacity in performance-critical data paths to ensure smooth UI performance and efficient memory usage.

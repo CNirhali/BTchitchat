@@ -134,13 +134,22 @@ Bluetooth throughput is limited and latency can vary. To ensure a fast experienc
   // This avoids the ~2s connection delay of the autoConnect=true background scan.
   device.connectGatt(context, false, gattCallback)
   ```
-- ♻️ **Object Pooling:** Reuse byte buffers and message objects to minimize Garbage Collection (GC) overhead and prevent UI jank during high-frequency data exchange.
+- ♻️ **Object Pooling & Capacity Reuse:** Reuse builders and collections to minimize Garbage Collection (GC) overhead and prevent UI jank during high-frequency data exchange.
   ```kotlin
-  // Example: Basic object pool for reusing ChatMessage objects on Android
-  val messagePool = Pools.SimplePool<ChatMessage>(10)
-  val message = messagePool.acquire() ?: ChatMessage()
-  // ... use message ...
-  messagePool.release(message)
+  // Example: Pooling Protobuf Builders on Android (ChatMessage objects themselves are immutable).
+  // Reusing the builder avoids repeated allocations during frequent message creation.
+  val builderPool = Pools.SimplePool<ChatMessage.Builder>(10)
+  val builder = builderPool.acquire()?.clear() ?: ChatMessage.newBuilder()
+  // ... use builder ...
+  builderPool.release(builder)
+  ```
+  ```swift
+  // Example: Reusing array capacity in Swift for high-frequency message buffering.
+  // 'removeAll(keepingCapacity: true)' prevents re-allocating the underlying buffer.
+  var pendingMessages = [ChatMessage]()
+  pendingMessages.reserveCapacity(100)
+  // ... after sending ...
+  pendingMessages.removeAll(keepingCapacity: true)
   ```
 - ⏱️ **Lazy Initialization:** Delay Bluetooth stack setup and discovery until strictly necessary to improve initial app launch speed and reduce memory footprint.
 - 📡 **GATT Caching:** Leverage GATT Service Caching to skip service discovery on subsequent connections and reduce connection-to-chat time.
