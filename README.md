@@ -6,18 +6,18 @@ A lightweight, offline messaging app for Bluetooth-based chat. No internet or ce
 
 <nav aria-label="Table of Contents">
 
-- [✨ Features](#features)
-- [📸 Screenshots](#screenshots)
-- [🛠️ Tech Stack](#tech-stack)
-- [🚀 Getting Started](#getting-started)
-  - [🛠️ Prerequisites](#prerequisites)
-  - [📦 Installation](#installation)
-- [⚡ Performance](#performance)
-- [🔒 Security](#security)
-- [🎨 UI/UX Guidelines](#uiux-guidelines)
-- [💬 How to Use](#how-to-use)
-- [🤝 Contributing](#contributing)
-- [📄 License](#license)
+- [✨ Features](#-features)
+- [📸 Screenshots](#-screenshots)
+- [🛠️ Tech Stack](#-tech-stack)
+- [🚀 Getting Started](#-getting-started)
+  - [🛠️ Prerequisites](#-prerequisites)
+  - [📦 Installation](#-installation)
+- [⚡ Performance](#-performance)
+- [🔒 Security](#-security)
+- [🎨 UI/UX Guidelines](#-uiux-guidelines)
+- [💬 How to Use](#-how-to-use)
+- [🤝 Contributing](#-contributing)
+- [📄 License](#-license)
 
 </nav>
 
@@ -46,7 +46,7 @@ This template can be implemented using any mobile technology stack with Bluetoot
 - 📶 **Connectivity:** Peer-to-peer Bluetooth communication
 
 <!-- ⚡ Optimization: Contextual 'Back to Top' links reduce developer 'Time to Action' by minimizing scroll time -->
-<a href="#bluetooth-chit-chat" aria-label="Back to top of page">⬆ Back to Top</a>
+<a href="#-bluetooth-chit-chat" aria-label="Back to top of page">⬆ Back to Top</a>
 
 ## 🚀 Getting Started
 
@@ -74,7 +74,7 @@ This template can be implemented using any mobile technology stack with Bluetoot
 4. 🚀 **Build and run the application** on your physical devices.
 
 <!-- ⚡ Optimization: Contextual 'Back to Top' links reduce developer 'Time to Action' by minimizing scroll time -->
-<a href="#bluetooth-chit-chat" aria-label="Back to top of page">⬆ Back to Top</a>
+<a href="#-bluetooth-chit-chat" aria-label="Back to top of page">⬆ Back to Top</a>
 
 ## ⚡ Performance
 
@@ -207,7 +207,7 @@ Bluetooth throughput is limited and latency can vary. To ensure a fast experienc
   ```
 
 <!-- ⚡ Optimization: Contextual 'Back to Top' links reduce developer 'Time to Action' by minimizing scroll time -->
-<a href="#bluetooth-chit-chat" aria-label="Back to top of page">⬆ Back to Top</a>
+<a href="#-bluetooth-chit-chat" aria-label="Back to top of page">⬆ Back to Top</a>
 
 ## 🔒 Security
 
@@ -218,7 +218,7 @@ Bluetooth communication is inherently susceptible to various security risks, inc
 - 👤 **Privacy:** Be mindful of the data shared over Bluetooth, as nearby devices may be able to monitor the traffic if not properly secured.
 
 <!-- ⚡ Optimization: Contextual 'Back to Top' links reduce developer 'Time to Action' by minimizing scroll time -->
-<a href="#bluetooth-chit-chat" aria-label="Back to top of page">⬆ Back to Top</a>
+<a href="#-bluetooth-chit-chat" aria-label="Back to top of page">⬆ Back to Top</a>
 
 ## 🎨 UI/UX Guidelines
 
@@ -370,9 +370,19 @@ To provide a smooth and intuitive messaging experience over Bluetooth:
       activityIndicator.startAnimating()
   }
   ```
+- 📳 **Tactile Feedback:** Use haptic feedback for critical interactions like message delivery or connection success to provide a more tactile and responsive experience.
+  ```kotlin
+  // Example: Providing haptic feedback on Android
+  view.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
+  ```
+  ```swift
+  // Example: Providing haptic feedback in Swift
+  let generator = UINotificationFeedbackGenerator()
+  generator.notificationOccurred(.success)
+  ```
 
 <!-- ⚡ Optimization: Contextual 'Back to Top' links reduce developer 'Time to Action' by minimizing scroll time -->
-<a href="#bluetooth-chit-chat" aria-label="Back to top of page">⬆ Back to Top</a>
+<a href="#-bluetooth-chit-chat" aria-label="Back to top of page">⬆ Back to Top</a>
 
 ## 💬 How to Use
 
@@ -387,7 +397,7 @@ To provide a smooth and intuitive messaging experience over Bluetooth:
 > Bluetooth has a typical range of about 10 meters (33 feet). For the best experience, ensure devices have a clear line of sight and are not obstructed by thick walls or large metal objects.
 
 <!-- ⚡ Optimization: Contextual 'Back to Top' links reduce developer 'Time to Action' by minimizing scroll time -->
-<a href="#bluetooth-chit-chat" aria-label="Back to top of page">⬆ Back to Top</a>
+<a href="#-bluetooth-chit-chat" aria-label="Back to top of page">⬆ Back to Top</a>
 
 ## 🤝 Contributing
 
@@ -399,4 +409,4 @@ This project is licensed under the [MIT License](LICENSE) - see the LICENSE file
 
 ---
 
-<a href="#bluetooth-chit-chat" aria-label="Back to top of page">⬆ Back to Top</a>
+<a href="#-bluetooth-chit-chat" aria-label="Back to top of page">⬆ Back to Top</a>
