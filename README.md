@@ -28,6 +28,9 @@ A lightweight, offline messaging app for Bluetooth-based chat. No internet or ce
 - 💬 **Real-Time UI:** Familiar chat interface with connection status.
 - 👤 **No Accounts:** Zero-configuration; start chatting immediately.
 
+<!-- ⚡ Optimization: Contextual 'Back to Top' links reduce developer 'Time to Action' by minimizing scroll time -->
+<a href="#bluetooth-chit-chat" aria-label="Back to top of page">⬆ Back to Top</a>
+
 ## 📸 Screenshots
 
 | 🔍 Device Discovery | 💬 Active Chat Room |
@@ -220,24 +223,34 @@ Bluetooth communication is inherently susceptible to various security risks, inc
 ## 🎨 UI/UX Guidelines
 
 To provide a smooth and intuitive messaging experience over Bluetooth:
-- ✨ **Connection Status:** Provide clear visual indicators for **"Disconnected"**, **"Connecting..."**, and **"Connected"** states.
+- ✨ **Connection Status:** Provide clear visual indicators for **"Disconnected"**, **"Connecting..."**, and **"Connected"** states. Use distinct icons (e.g., 🔴, 🟡, 🟢) in addition to colors to ensure accessibility for colorblind users.
   ```kotlin
   // Example: Updating connection status on Android
   fun onConnectionStateChange(newState: Int) {
       statusTextView.text = when (newState) {
-          STATE_CONNECTED -> "Connected"
-          STATE_CONNECTING -> "Connecting..."
-          else -> "Disconnected"
+          STATE_CONNECTED -> "🟢 Connected"
+          STATE_CONNECTING -> "🟡 Connecting..."
+          else -> "🔴 Disconnected"
       }
   }
   ```
   ```swift
   // Example: Updating connection status in Swift
   statusLabel.text = switch peripheral.state {
-      case .connected: "Connected"
-      case .connecting: "Connecting..."
-      default: "Disconnected"
+      case .connected: "🟢 Connected"
+      case .connecting: "🟡 Connecting..."
+      default: "🔴 Disconnected"
   }
+  ```
+  ```tsx
+  // Example: Accessible status updates in React Native (TSX)
+  // Using accessibilityLiveRegion ensures screen readers announce status changes immediately.
+  <Text
+    accessibilityLabel={`Connection status: ${status}`}
+    accessibilityLiveRegion="polite"
+  >
+    {status === 'connected' ? '🟢 Connected' : status === 'connecting' ? '🟡 Connecting...' : '🔴 Disconnected'}
+  </Text>
   ```
 - ⏳ **Loading States:** Use skeletons or spinners during device discovery and connection attempts to manage user expectations.
   ```kotlin
@@ -327,6 +340,20 @@ To provide a smooth and intuitive messaging experience over Bluetooth:
   button.accessibilityLabel = "Send Message"
   // Ensure the frame is at least 44x44pt (iOS standard) or 48x48pt
   button.frame = CGRect(x: 0, y: 0, width: 48, height: 48)
+  ```
+- 📳 **Tactile Feedback:** Use haptic feedback to provide physical confirmation for key actions like sending messages or successful connections.
+  ```kotlin
+  // Example: Providing haptic feedback on Android
+  view.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
+  ```
+  ```swift
+  // Example: Providing haptic feedback in Swift (UIKit)
+  let generator = UINotificationFeedbackGenerator()
+  generator.notificationOccurred(.success)
+  ```
+  ```tsx
+  // Example: Providing haptic feedback in React Native
+  Vibration.vibrate(10)
   ```
 - 📭 **Empty States:** Provide helpful guidance or calls-to-action when no data is present (e.g., **"Scanning for nearby friends..."**).
   ```kotlin

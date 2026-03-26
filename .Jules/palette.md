@@ -82,6 +82,9 @@ This journal documents critical UX and accessibility learnings discovered during
 **Learning:** In template-only repositories without functional UI code, the "User Experience" is primarily the "Developer Experience" (DX) of implementing the suggested patterns. Providing platform-specific (Kotlin/Swift) code snippets for accessibility—such as setting descriptive labels and ensuring minimum touch targets—bridges the gap between abstract design intent and technical execution.
 **Action:** When application code is absent, provide actionable technical implementation examples in documentation to ensure the final product is accessible and user-friendly by default.
 
+## 2026-03-25 - Multi-Modal Feedback and Live Region Accessibility
+**Learning:** Relying solely on color for connection status (e.g., green/red dots) creates an accessibility barrier for colorblind users. Furthermore, in mobile environments, status changes must be explicitly wrapped in "live regions" (like `accessibilityLiveRegion` in React Native) to ensure screen reader users receive immediate auditory feedback without losing their current focus.
+**Action:** Always recommend combining color with distinct iconography for status indicators and provide code examples for live region announcements to ensure inclusive UX.
 ## 2026-03-25 - Tactile Feedback for Bluetooth Interactions
 **Learning:** In offline, peer-to-peer applications where network latency is variable (like Bluetooth), non-visual cues such as haptic feedback provide critical interaction confirmation. This "tactile" layer reduces user frustration during "silent" failures or slow deliveries by confirming the app has successfully initiated or completed a physical action (like a GATT write).
 **Action:** Always include native haptic feedback implementations (Kotlin's performHapticFeedback and Swift's UINotificationFeedbackGenerator) for core lifecycle events like message sent, delivered, or connection established.
