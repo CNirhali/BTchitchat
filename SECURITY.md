@@ -234,6 +234,44 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
 - 🔗 **Dependency Security:** Regularly audit and update third-party libraries to mitigate risks from known vulnerabilities. Use tools like `pnpm audit` or `snyk` to automate this process.
 - ⚔️ **Anti-Tampering & Integrity:** Implement root/jailbreak detection, **Anti-Debugging** (e.g., checking `android:debuggable="false"`), and **Runtime Signature Verification** to detect unauthorized analysis or binary modification. Use Code Obfuscation (e.g., R8/ProGuard for Android) to make reverse engineering more difficult.
   ```kotlin
+  // Example: Basic Root detection and Anti-Debugging on Android
+  import android.content.Context
+  import android.content.pm.ApplicationInfo
+  import java.io.File
+
+  fun isEnvironmentSecure(context: Context): Boolean {
+      val isRooted = arrayOf(
+          "/system/app/Superuser.apk", "/sbin/su", "/system/bin/su", "/system/xbin/su",
+          "/data/local/xbin/su", "/data/local/bin/su", "/system/sd/xbin/su",
+          "/system/bin/failsafe/su", "/data/local/su"
+      ).any { File(it).exists() }
+
+      val isDebuggable = (context.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0
+      val isDebuggerConnected = android.os.Debug.isDebuggerConnected()
+
+      return !isRooted && !isDebuggable && !isDebuggerConnected
+  }
+  ```
+  ```swift
+  // Example: Basic Jailbreak detection and Anti-Debugging in Swift
+  import Foundation
+  import Darwin
+
+  func isEnvironmentSecure() -> Bool {
+      let jailbreakPaths = [
+          "/Applications/Cydia.app", "/Library/MobileSubstrate/MobileSubstrate.dylib",
+          "/bin/bash", "/usr/sbin/sshd", "/etc/apt", "/private/var/lib/apt/"
+      ]
+      let isJailbroken = jailbreakPaths.contains { FileManager.default.fileExists(atPath: $0) }
+
+      // Basic anti-debugging check using sysctl to detect attached debuggers
+      var info = kinfo_proc()
+      var mib: [Int32] = [CTL_KERN, KERN_PROC, KERN_PROC_PID, getpid()]
+      var size = MemoryLayout<kinfo_proc>.stride
+      sysctl(&mib, UInt32(mib.count), &info, &size, nil, 0)
+      let isDebuggerAttached = (info.kp_proc.p_flag & P_TRACED) != 0
+
+      return !isJailbroken && !isDebuggerAttached
   // Example: Basic Root Detection and Anti-Debugging on Android (Kotlin)
   fun isEnvironmentSecure(context: Context): Boolean {
       // Check for common root binaries
