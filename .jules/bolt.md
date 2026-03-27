@@ -65,3 +65,11 @@ This journal documents critical performance learnings discovered during the deve
 ## 2026-03-26 - DX Performance: Optimizing Service Discovery and Documentation Efficiency
 **Learning:** In template-only repositories, 'Developer Time to Action' (DX) is the primary performance metric. Redundant sections and broken navigation links in the documentation act as performance bottlenecks for the developer. Furthermore, promoting partial service discovery (e.g., `peripheral.discoverServices([serviceUUID])`) instead of full discovery (e.g., `peripheral.discoverServices(nil)`) provides a high-impact optimization for both connection speed and battery efficiency.
 **Action:** Audit documentation for redundancy and navigation issues to improve DX, and always prioritize targeted Bluetooth operations over generic, broad ones in technical snippets.
+
+## 2026-03-27 - Maximizing Bluetooth Throughput and Minimizing Connection Latency
+**Learning:** Default Bluetooth connection parameters often incur significant overhead. Specifying `TRANSPORT_LE` on Android avoids dual-mode (BR/EDR) negotiation, reducing connection delay. For throughput, requesting **2M PHY** (BLE 5.0+) doubles the bit rate, while implementing **Write Without Response flow control** on iOS (via `canSendWriteWithoutResponse`) allows for maximum saturation of the Bluetooth link without packet loss or buffer overflows.
+**Action:** Always provide specialized Bluetooth optimizations like `TRANSPORT_LE`, 2M PHY, and flow control in performance guidelines to ensure developers can achieve peak hardware performance.
+
+## 2026-03-28 - Verifying Documentation Snippets for DX Performance
+**Learning:** When providing technical snippets in documentation, omitting variable declarations or context (like `characteristic` or `gatt` instance) severely degrades 'Developer Time to Action' (DX). Developers expect copy-pasteable or easily adaptable code; incomplete snippets force them to search for missing context, defeating the purpose of the optimization.
+**Action:** Always include necessary parameters and context in documentation snippets, and double-check for variable consistency and existence before finalizing changes.
