@@ -272,6 +272,36 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
       let isDebuggerAttached = (info.kp_proc.p_flag & P_TRACED) != 0
 
       return !isJailbroken && !isDebuggerAttached
+  // Example: Basic Root Detection and Anti-Debugging on Android (Kotlin)
+  fun isEnvironmentSecure(context: Context): Boolean {
+      // Check for common root binaries
+      val rootPaths = arrayOf("/system/app/Superuser.apk", "/sbin/su", "/system/bin/su", "/system/xbin/su")
+      val isRooted = rootPaths.any { File(it).exists() }
+
+      // Check if the application is debuggable
+      val isDebuggable = (context.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0
+
+      // Check if a debugger is currently attached
+      val isDebuggerAttached = android.os.Debug.isDebuggerConnected()
+
+      return !isRooted && !isDebuggable && !isDebuggerAttached
+  }
+  ```
+  ```swift
+  // Example: Basic Jailbreak Detection and Anti-Debugging on iOS (Swift)
+  func isEnvironmentSecure() -> Bool {
+      // Check for common jailbreak files/paths
+      let jbPaths = ["/Applications/Cydia.app", "/Library/MobileSubstrate/MobileSubstrate.dylib", "/bin/bash", "/usr/sbin/sshd", "/etc/apt"]
+      let isJailbroken = jbPaths.anySatisfy { FileManager.default.fileExists(atPath: $0) }
+
+      // Anti-Debugging: Check if the process is being traced (e.g., by lldb)
+      var info = kinfo_proc()
+      var size = MemoryLayout<kinfo_proc>.size
+      var mib: [Int32] = [CTL_KERN, KERN_PROC, KERN_PROC_PID, getpid()]
+      let status = sysctl(&mib, UInt32(mib.count), &info, &size, nil, 0)
+      let isBeingDebugged = status == 0 && (info.kp_proc.p_flag & P_TRACED) != 0
+
+      return !isJailbroken && !isBeingDebugged
   }
   ```
 

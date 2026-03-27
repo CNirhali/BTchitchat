@@ -86,3 +86,8 @@ This journal is used to record critical security learnings discovered during the
 **Vulnerability:** Security code examples using reference equality for byte arrays and unbounded caches for nonces.
 **Learning:** In security-critical Kotlin/Java code, comparing `ByteArray` directly using `contains` or `==` checks for reference equality, which fails to detect replayed byte sequences. Furthermore, unbounded nonce caches in documentation examples can lead to memory-based Denial-of-Service (DoS) if implemented literally by developers.
 **Prevention:** Always convert `ByteArray` to Hex or Base64 strings for reliable comparison in collections, and mandate the use of size-limited caches for security primitives to prevent resource exhaustion.
+
+## 2026-04-27 - Platform Parity for Environment Hardening
+**Vulnerability:** Abstract security mandates without actionable implementation examples lead to inconsistent or missing protections.
+**Learning:** In template-based repositories, the absence of platform-specific code snippets (Kotlin/Swift) for complex tasks like Root/Jailbreak detection often results in developers skipping these critical checks. Providing baseline snippets reduces "Time to Action" and ensures a minimum security standard.
+**Prevention:** Ensure all mandated security controls in the security policy are accompanied by actionable, platform-specific code snippets to facilitate correct implementation.
