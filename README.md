@@ -112,7 +112,8 @@ Bluetooth throughput is limited and latency can vary. To ensure a fast experienc
   // Example: Stopping discovery immediately upon connection on Android
   fun onDeviceSelected(device: BluetoothDevice) {
       bluetoothLeScanner.stopScan(scanCallback)
-      device.connectGatt(context, false, gattCallback)
+      // Specifying TRANSPORT_LE avoids dual-mode (BR/EDR) overhead for faster Low Energy connections.
+      device.connectGatt(context, false, gattCallback, BluetoothDevice.TRANSPORT_LE)
   }
   ```
   ```swift
@@ -124,18 +125,42 @@ Bluetooth throughput is limited and latency can vary. To ensure a fast experienc
   ```
 - 📉 **Lower Latency:** Use direct connection handles where possible, minimize unnecessary application-layer acknowledgments, and utilize **Write Without Response** for high-throughput data.
   ```kotlin
-  // Example: Writing without response for ~2x throughput increase on Android
+  // Example: Writing without response for ~2x throughput increase on Android.
+  // This reduces protocol overhead by not requiring an acknowledgement for each packet.
   characteristic.writeType = BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE
   bluetoothGatt.writeCharacteristic(characteristic)
   ```
-  ```swift
-  // Example: Writing without response for ~2x throughput increase in Swift
-  peripheral.writeValue(data, for: characteristic, type: .withoutResponse)
+  ```kotlin
+  // Example: Using autoConnect=false and TRANSPORT_LE for faster initial connection on Android.
+  // This avoids the ~2s connection delay of the autoConnect=true background scan
+  // and dual-mode (BR/EDR) overhead.
+  device.connectGatt(context, false, gattCallback, BluetoothDevice.TRANSPORT_LE)
   ```
   ```kotlin
-  // Example: Using autoConnect=false for faster initial connection on Android.
-  // This avoids the ~2s connection delay of the autoConnect=true background scan.
-  device.connectGatt(context, false, gattCallback)
+  // Example: Requesting 2M PHY for up to 2x physical layer throughput on Android (BLE 5.0+).
+  // This increases the physical bit rate from 1 Mbps to 2 Mbps, reducing radio airtime.
+  fun requestHighSpeedPhy(gatt: BluetoothGatt) {
+      gatt.setPreferredPhy(
+          BluetoothDevice.PHY_LE_2M_MASK,
+          BluetoothDevice.PHY_LE_2M_MASK,
+          BluetoothDevice.PHY_OPTION_NO_PREFERRED
+      )
+  }
+  ```
+  ```swift
+  // Example: Implementing flow control for Writes Without Response in Swift.
+  // Using 'peripheralIsReady(toSendWriteWithoutResponse:)' prevents buffer overflows
+  // and ensures the highest possible throughput by waiting for the next available slot.
+  func sendBatchedData(_ data: Data, to peripheral: CBPeripheral, for characteristic: CBCharacteristic) {
+      if peripheral.canSendWriteWithoutResponse {
+          peripheral.writeValue(data, for: characteristic, type: .withoutResponse)
+      }
+  }
+
+  func peripheralIsReady(toSendWriteWithoutResponse peripheral: CBPeripheral) {
+      // Called when the internal buffer has cleared; resume sending pending data.
+      sendNextPendingMessage()
+  }
   ```
 - ♻️ **Object Pooling & Capacity Reuse:** Reuse builders and collections to minimize Garbage Collection (GC) overhead and prevent UI jank during high-frequency data exchange.
   ```kotlin
