@@ -29,7 +29,7 @@ A lightweight, offline messaging app for Bluetooth-based chat. No internet or ce
 - 👤 **No Accounts:** Zero-configuration; start chatting immediately.
 
 <!-- ⚡ Optimization: Contextual 'Back to Top' links reduce developer 'Time to Action' by minimizing scroll time -->
-<a href="#bluetooth-chit-chat" aria-label="Back to top of page">⬆ Back to Top</a>
+<a href="#-bluetooth-chit-chat" aria-label="Back to top of page">⬆ Back to Top</a>
 
 ## 📸 Screenshots
 
@@ -166,8 +166,9 @@ Bluetooth throughput is limited and latency can vary. To ensure a fast experienc
   ```
   ```swift
   // Example: Handling GATT service changes in Swift
+  // Passing 'nil' discovers all services; specifying the service UUID is more efficient.
   func peripheral(_ peripheral: CBPeripheral, didModifyServices invalidatedServices: [CBService]) {
-      peripheral.discoverServices(nil)
+      peripheral.discoverServices([serviceUUID])
   }
   ```
 - 📶 **Connection Priority:** Request high-priority/low-latency connections during active chat sessions to minimize message delivery delays.
@@ -369,16 +370,6 @@ To provide a smooth and intuitive messaging experience over Bluetooth:
       statusLabel.text = "Scanning for nearby friends..."
       activityIndicator.startAnimating()
   }
-  ```
-- 📳 **Tactile Feedback:** Use haptic feedback for critical interactions like message delivery or connection success to provide a more tactile and responsive experience.
-  ```kotlin
-  // Example: Providing haptic feedback on Android
-  view.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
-  ```
-  ```swift
-  // Example: Providing haptic feedback in Swift
-  let generator = UINotificationFeedbackGenerator()
-  generator.notificationOccurred(.success)
   ```
 
 <!-- ⚡ Optimization: Contextual 'Back to Top' links reduce developer 'Time to Action' by minimizing scroll time -->

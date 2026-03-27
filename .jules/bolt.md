@@ -61,3 +61,7 @@ This journal documents critical performance learnings discovered during the deve
 ## 2026-03-24 - Protobuf Builder Pooling and Capacity Reuse for Mobile Performance
 **Learning:** In high-frequency Bluetooth messaging, object allocation is a primary source of UI jank. For Kotlin/Protobuf, pooling `Builder` objects instead of immutable `ChatMessage` objects is the correct pattern. On iOS/Swift, leveraging `removeAll(keepingCapacity: true)` for message buffers prevents expensive re-allocations of the underlying array storage. These micro-optimizations significantly reduce GC pressure and improve frame rates.
 **Action:** Always recommend pooling mutable builders and reusing collection capacity in performance-critical data paths to ensure smooth UI performance and efficient memory usage.
+
+## 2026-03-26 - DX Performance: Optimizing Service Discovery and Documentation Efficiency
+**Learning:** In template-only repositories, 'Developer Time to Action' (DX) is the primary performance metric. Redundant sections and broken navigation links in the documentation act as performance bottlenecks for the developer. Furthermore, promoting partial service discovery (e.g., `peripheral.discoverServices([serviceUUID])`) instead of full discovery (e.g., `peripheral.discoverServices(nil)`) provides a high-impact optimization for both connection speed and battery efficiency.
+**Action:** Audit documentation for redundancy and navigation issues to improve DX, and always prioritize targeted Bluetooth operations over generic, broad ones in technical snippets.
