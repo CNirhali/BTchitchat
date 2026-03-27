@@ -91,3 +91,8 @@ This journal is used to record critical security learnings discovered during the
 **Vulnerability:** Abstract security mandates without actionable implementation examples lead to inconsistent or missing protections.
 **Learning:** In template-based repositories, the absence of platform-specific code snippets (Kotlin/Swift) for complex tasks like Root/Jailbreak detection often results in developers skipping these critical checks. Providing baseline snippets reduces "Time to Action" and ensures a minimum security standard.
 **Prevention:** Ensure all mandated security controls in the security policy are accompanied by actionable, platform-specific code snippets to facilitate correct implementation.
+
+## 2026-05-15 - Documentation Integrity for Security Primitives
+**Vulnerability:** Broken or duplicated security code snippets (e.g., nested code blocks and invalid Swift syntax) in documentation templates.
+**Learning:** In repositories where documentation is the primary deliverable, structural errors in code examples (like using the non-existent 'anySatisfy' method in Swift or improperly nested code markers) can lead to developers implementing faulty security checks or abandoning them entirely.
+**Prevention:** Maintain strict structural separation between platform-specific snippets and verify the syntax of code examples to ensure they are actionable and correct.
