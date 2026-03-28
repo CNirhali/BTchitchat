@@ -73,3 +73,7 @@ This journal documents critical performance learnings discovered during the deve
 ## 2026-03-28 - Verifying Documentation Snippets for DX Performance
 **Learning:** When providing technical snippets in documentation, omitting variable declarations or context (like `characteristic` or `gatt` instance) severely degrades 'Developer Time to Action' (DX). Developers expect copy-pasteable or easily adaptable code; incomplete snippets force them to search for missing context, defeating the purpose of the optimization.
 **Action:** Always include necessary parameters and context in documentation snippets, and double-check for variable consistency and existence before finalizing changes.
+
+## 2026-03-28 - Optimizing Bluetooth Discovery Efficiency
+**Learning:** Optimizing Bluetooth discovery by using `CALLBACK_TYPE_FIRST_MATCH` on Android reduces the frequency of discovery callbacks and minimizes CPU/battery overhead. Adhering to the "ONE improvement" constraint ensures that optimizations are focused and high-impact.
+**Action:** Prioritize high-efficiency, targeted Bluetooth discovery patterns in technical documentation and maintain strict focus on singular, high-impact improvements.

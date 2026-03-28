@@ -5,5 +5,10 @@
   "scripts": {
     "lint": "echo 'No JavaScript/TypeScript files to lint in this template-only repository.' && exit 0",
     "test": "echo 'No tests to run in this template-only repository.' && exit 0"
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "lint": "echo 'No code to lint in this documentation-only project' && exit 0",
+    "test": "echo 'No tests to run in this documentation-only project' && exit 0"
   }
 }
