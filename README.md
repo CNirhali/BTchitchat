@@ -206,8 +206,13 @@ Bluetooth throughput is limited and latency can vary. To ensure a fast experienc
   ```kotlin
   // Example: Filtered scanning by Service UUID on Android.
   // Reduces system-wide power consumption and speeds up discovery of relevant devices.
+  // Using CALLBACK_TYPE_FIRST_MATCH ensures the scanner reports only the first match per device,
+  // reducing CPU and battery consumption.
   val filter = ScanFilter.Builder().setServiceUuid(ParcelUuid(SERVICE_UUID)).build()
-  val settings = ScanSettings.Builder().setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY).build()
+  val settings = ScanSettings.Builder()
+      .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)
+      .setCallbackType(ScanSettings.CALLBACK_TYPE_FIRST_MATCH)
+      .build()
   bluetoothLeScanner.startScan(listOf(filter), settings, scanCallback)
   ```
   ```swift
