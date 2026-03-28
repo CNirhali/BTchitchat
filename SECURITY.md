@@ -177,10 +177,35 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
 - 🤏 **Data Minimization:** Only transmit essential data over Bluetooth. Avoid sending Personally Identifiable Information (PII) unless it is strictly necessary and properly encrypted.
 - 🚫 **Data Leakage Prevention (DLP):** Prevent sensitive data leakage through unencrypted cloud backups (e.g., `android:allowBackup="false"`), the system clipboard, by obscuring sensitive UI content in the application switcher, or by disabling screenshots on sensitive screens (e.g., `FLAG_SECURE` on Android). Implement Overlay Protection (Anti-Tapjacking) to prevent malicious apps from intercepting touches by drawing over the application (e.g., `android:filterTouchesWhenObscured="true"`).
   ```kotlin
+  // Example: Disabling screenshots and screen recording on Android.
+  // This prevents sensitive chat content from being captured or leaked
+  // when the application is in the background or during screen sharing.
+  window.setFlags(
+      WindowManager.LayoutParams.FLAG_SECURE,
+      WindowManager.LayoutParams.FLAG_SECURE
+  )
+  ```
+  ```kotlin
   // Example: Enabling anti-tapjacking protection on Android.
   // This prevents the application from responding to touch events when its window
   // is obscured by another window (e.g., a malicious overlay).
   view.filterTouchesWhenObscured = true
+  ```
+  ```swift
+  // Example: Obscuring sensitive content in the app switcher on iOS.
+  // This adds a blur effect over the UI when the app enters the background,
+  // preventing sensitive chat history from being visible in the task switcher.
+  func applicationWillResignActive(_ application: UIApplication) {
+      let blurEffect = UIBlurEffect(style: .dark)
+      let blurView = UIVisualEffectView(effect: blurEffect)
+      blurView.frame = window?.frame ?? .zero
+      blurView.tag = 1234 // Unique tag for removal
+      window?.addSubview(blurView)
+  }
+
+  func applicationDidBecomeActive(_ application: UIApplication) {
+      window?.viewWithTag(1234)?.removeFromSuperview()
+  }
   ```
 - 📝 **Secure Logging:** Do not log Personally Identifiable Information (PII) or sensitive message content. Use a production-ready logging library that supports log level filtering.
 - 🔔 **Secure Notifications:** Avoid displaying sensitive chat content in system notifications that appear on the lock screen. Use generic summaries (e.g., "New Message") instead.

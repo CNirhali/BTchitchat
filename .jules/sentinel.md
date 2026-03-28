@@ -96,3 +96,8 @@ This journal is used to record critical security learnings discovered during the
 **Vulnerability:** Broken or duplicated security code snippets (e.g., nested code blocks and invalid Swift syntax) in documentation templates.
 **Learning:** In repositories where documentation is the primary deliverable, structural errors in code examples (like using the non-existent 'anySatisfy' method in Swift or improperly nested code markers) can lead to developers implementing faulty security checks or abandoning them entirely.
 **Prevention:** Maintain strict structural separation between platform-specific snippets and verify the syntax of code examples to ensure they are actionable and correct.
+
+## 2026-05-20 - UI-Based Data Leakage via App Switcher & Screenshots
+**Vulnerability:** Sensitive chat content remains visible in the system's application switcher or can be captured via screenshots/screen recordings.
+**Learning:** Developers often forget that the OS captures snapshots of the UI for the task switcher, which can persist in memory or on disk. Furthermore, without explicit protection, users (or malicious apps with screen-capture permissions) can leak sensitive conversations. Providing actionable snippets for `FLAG_SECURE` on Android and UI-blurring techniques on iOS is crucial to guide developers in implementing these "last-mile" privacy protections.
+**Prevention:** Mandate UI-based data leakage protections and provide platform-specific code snippets to obscure sensitive views in the app switcher and disable screen capture on relevant screens.
