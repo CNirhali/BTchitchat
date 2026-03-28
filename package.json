@@ -1,0 +1,9 @@
+{
+  "name": "bluetooth-chit-chat",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "lint": "echo 'No code to lint in this documentation-only project' && exit 0",
+    "test": "echo 'No tests to run in this documentation-only project' && exit 0"
+  }
+}
