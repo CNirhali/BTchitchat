@@ -332,6 +332,16 @@ To provide a smooth and intuitive messaging experience over Bluetooth:
       return true
   }
   ```
+  ```tsx
+  // Example: Supporting 'Enter to Send' in React Native (TSX)
+  // 'blurOnSubmit={false}' keeps the keyboard open for rapid messaging.
+  <TextInput
+    placeholder="Type a message..."
+    returnKeyType="send"
+    onSubmitEditing={sendMessage}
+    blurOnSubmit={false}
+  />
+  ```
 - 🔔 **Actionable Alerts:** Use non-intrusive toasts or snackbars for errors (e.g., **"Bluetooth Disabled"**, **"Connection Failed"**) with clear recovery steps.
   ```kotlin
   // Example: Showing a non-intrusive error with a recovery action on Android
@@ -366,6 +376,17 @@ To provide a smooth and intuitive messaging experience over Bluetooth:
   button.accessibilityLabel = "Send Message"
   // Ensure the frame is at least 44x44pt (iOS standard) or 48x48pt
   button.frame = CGRect(x: 0, y: 0, width: 48, height: 48)
+  ```
+  ```tsx
+  // Example: Ensuring accessible touch targets and labels in React Native (TSX)
+  // 'hitSlop' expands the touchable area without changing the visual layout.
+  <Pressable
+    accessibilityLabel="Send Message"
+    hitSlop={12}
+    onPress={sendMessage}
+  >
+    <SendIcon />
+  </Pressable>
   ```
 - 📳 **Tactile Feedback:** Use haptic feedback to provide physical confirmation for key actions like sending messages or successful connections.
   ```kotlin
