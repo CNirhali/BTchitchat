@@ -1,5 +1,10 @@
 {
   "name": "bluetooth-chit-chat",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "lint": "echo 'No JavaScript/TypeScript files to lint in this template-only repository.' && exit 0",
+    "test": "echo 'No tests to run in this template-only repository.' && exit 0"
   "version": "1.0.0",
   "private": true,
   "scripts": {
