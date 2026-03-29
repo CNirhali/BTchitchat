@@ -101,3 +101,8 @@ This journal is used to record critical security learnings discovered during the
 **Vulnerability:** Sensitive chat content remains visible in the system's application switcher or can be captured via screenshots/screen recordings.
 **Learning:** Developers often forget that the OS captures snapshots of the UI for the task switcher, which can persist in memory or on disk. Furthermore, without explicit protection, users (or malicious apps with screen-capture permissions) can leak sensitive conversations. Providing actionable snippets for `FLAG_SECURE` on Android and UI-blurring techniques on iOS is crucial to guide developers in implementing these "last-mile" privacy protections.
 **Prevention:** Mandate UI-based data leakage protections and provide platform-specific code snippets to obscure sensitive views in the app switcher and disable screen capture on relevant screens.
+
+## 2026-05-25 - Actionable Network Security Configurations
+**Vulnerability:** Mobile applications often default to allowing cleartext traffic, making them susceptible to man-in-the-middle (MITM) attacks and data interception during network operations.
+**Learning:** While most mobile security guidance correctly identifies the need for HTTPS, developers frequently lack the specific platform configuration details (XML for Android, Plist for iOS) to enforce this at the OS level. Providing these snippets ensures that security-by-default is easily achievable.
+**Prevention:** Mandate the use of platform-specific network security configurations (Network Security Config on Android and App Transport Security on iOS) to disable cleartext traffic and provide actionable examples in the security guidelines.
