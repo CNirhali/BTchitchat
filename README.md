@@ -258,20 +258,26 @@ To provide a smooth and intuitive messaging experience over Bluetooth:
   ```kotlin
   // Example: Updating connection status on Android
   fun onConnectionStateChange(newState: Int) {
-      statusTextView.text = when (newState) {
+      val status = when (newState) {
           STATE_CONNECTED -> "🟢 Connected"
           STATE_CONNECTING -> "🟡 Connecting..."
           else -> "🔴 Disconnected"
       }
+      statusTextView.text = status
+      // Ensuring status changes are announced to screen reader users
+      statusTextView.announceForAccessibility("Connection status: $status")
   }
   ```
   ```swift
   // Example: Updating connection status in Swift
-  statusLabel.text = switch peripheral.state {
+  let status = switch peripheral.state {
       case .connected: "🟢 Connected"
       case .connecting: "🟡 Connecting..."
       default: "🔴 Disconnected"
   }
+  statusLabel.text = status
+  // Post an accessibility notification so VoiceOver announces the new status
+  UIAccessibility.post(notification: .announcement, argument: "Connection status: \(status)")
   ```
   ```tsx
   // Example: Accessible status updates in React Native (TSX)
@@ -298,6 +304,15 @@ To provide a smooth and intuitive messaging experience over Bluetooth:
       statusLabel.text = "Searching for devices..."
   }
   ```
+  ```tsx
+  // Example: Showing a loading state in React Native (TSX)
+  {isScanning && (
+    <View style={styles.loadingContainer}>
+      <ActivityIndicator size="large" />
+      <Text accessibilityLiveRegion="polite">Searching for devices...</Text>
+    </View>
+  )}
+  ```
 - 💬 **Message Feedback:** Show **"Sending..."**, **"Sent"**, or **"Delivered"** statuses for messages to confirm successful transmission.
   ```kotlin
   // Example: Updating message status on Android
@@ -316,6 +331,12 @@ To provide a smooth and intuitive messaging experience over Bluetooth:
       case .sent: "Sent"
       case .delivered: "Delivered"
   }
+  ```
+  ```tsx
+  // Example: Updating message status in React Native (TSX)
+  <Text accessibilityLabel={`Message status: ${message.status}`}>
+    {message.status === 'sending' ? 'Sending...' : message.status === 'sent' ? 'Sent' : 'Delivered'}
+  </Text>
   ```
 - ⌨️ **Keyboard Interactions:** Support standard keyboard behaviors like **"Enter to Send"** to improve efficiency for power users and ensure accessibility for keyboard-based navigation.
   ```kotlin
@@ -364,6 +385,17 @@ To provide a smooth and intuitive messaging experience over Bluetooth:
   })
   alert.addAction(UIAlertAction(title: "OK", style: .cancel))
   present(alert, animated: true)
+  ```
+  ```tsx
+  // Example: Showing a standard alert in React Native (TSX)
+  Alert.alert(
+    "Bluetooth Disabled",
+    "Please enable Bluetooth to chat.",
+    [
+      { text: "Settings", onPress: () => Linking.openSettings() },
+      { text: "OK", style: "cancel" }
+    ]
+  );
   ```
 - ♿ **Accessibility:** Ensure high color contrast for text and large touch targets (at least 48x48dp) for all interactive UI elements. Provide descriptive labels for icon-only buttons to support screen readers.
   ```kotlin
@@ -422,6 +454,15 @@ To provide a smooth and intuitive messaging experience over Bluetooth:
       activityIndicator.startAnimating()
   }
   ```
+  ```tsx
+  // Example: Showing a helpful empty state in React Native (TSX)
+  {discoveredDevices.length === 0 && (
+    <View style={styles.emptyState}>
+      <Text>Scanning for nearby friends...</Text>
+      <ActivityIndicator size="small" />
+    </View>
+  )}
+  ```
 
 <!-- ⚡ Optimization: Contextual 'Back to Top' links reduce developer 'Time to Action' by minimizing scroll time -->
 <a href="#-bluetooth-chit-chat" aria-label="Back to top of page">⬆ Back to Top</a>
@@ -434,6 +475,9 @@ To provide a smooth and intuitive messaging experience over Bluetooth:
 
 > [!TIP]
 > Always provide visual feedback for connection status changes. A simple status indicator or toast can significantly reduce user frustration during transient Bluetooth interruptions.
+
+> [!TIP]
+> Protect your privacy by using a generic alias (e.g., "ChatUser-123") instead of your real name or device model (e.g., "Alice's iPhone 15") during Bluetooth discovery.
 
 > [!TIP]
 > Bluetooth has a typical range of about 10 meters (33 feet). For the best experience, ensure devices have a clear line of sight and are not obstructed by thick walls or large metal objects.
