@@ -77,3 +77,7 @@ This journal documents critical performance learnings discovered during the deve
 ## 2026-03-28 - Optimizing Bluetooth Discovery Efficiency
 **Learning:** Optimizing Bluetooth discovery by using `CALLBACK_TYPE_FIRST_MATCH` on Android reduces the frequency of discovery callbacks and minimizes CPU/battery overhead. Adhering to the "ONE improvement" constraint ensures that optimizations are focused and high-impact.
 **Action:** Prioritize high-efficiency, targeted Bluetooth discovery patterns in technical documentation and maintain strict focus on singular, high-impact improvements.
+
+## 2026-03-30 - Offloading Bluetooth Callbacks to Background Threads in iOS
+**Learning:** In iOS (Core Bluetooth), just wrapping GATT operations in `DispatchQueue.async` blocks is insufficient if the `CBCentralManager` was initialized on the main queue. In this case, delegate callbacks will still execute on the main thread, causing context switching and potential UI jank. Initializing the manager with a dedicated background queue ensures the entire Bluetooth communication lifecycle is offloaded, maximizing UI responsiveness.
+**Action:** Always recommend initializing `CBCentralManager` with a background `DispatchQueue` to ensure end-to-end background processing of Bluetooth events.
