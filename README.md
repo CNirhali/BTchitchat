@@ -230,11 +230,11 @@ Bluetooth throughput is limited and latency can vary. To ensure a fast experienc
   }
   ```
   ```swift
-  // Example: Dispatching Bluetooth work to a background queue in Swift
+  // Example: Initializing CBCentralManager with a background queue in Swift.
+  // This ensures all delegate callbacks and GATT operations occur off the main thread,
+  // preventing UI jank and maintaining 60 FPS responsiveness.
   let bluetoothQueue = DispatchQueue(label: "com.app.bluetooth", qos: .userInitiated)
-  bluetoothQueue.async {
-      // Perform discovery or GATT operations
-  }
+  let centralManager = CBCentralManager(delegate: self, queue: bluetoothQueue)
   ```
 
 <!-- ⚡ Optimization: Contextual 'Back to Top' links reduce developer 'Time to Action' by minimizing scroll time -->
