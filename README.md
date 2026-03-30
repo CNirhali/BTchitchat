@@ -340,31 +340,45 @@ To provide a smooth and intuitive messaging experience over Bluetooth:
   ```
 - ⌨️ **Keyboard Interactions:** Support standard keyboard behaviors like **"Enter to Send"** to improve efficiency for power users and ensure accessibility for keyboard-based navigation.
   ```kotlin
-  // Example: Supporting 'Enter to Send' on Android
+  // Example: Supporting 'Enter to Send' on Android.
+  // Requires 'android:imeOptions="actionSend"' in the XML layout.
   messageEditText.setOnEditorActionListener { _, actionId, _ ->
       if (actionId == EditorInfo.IME_ACTION_SEND) {
-          sendMessage()
+          val text = messageEditText.text.toString()
+          if (text.isNotBlank()) {
+              sendMessage(text)
+              messageEditText.text.clear()
+          }
           true
       } else false
   }
   ```
   ```swift
-  // Example: Supporting 'Enter to Send' in Swift (UIKit)
+  // Example: Supporting 'Enter to Send' in Swift (UIKit).
+  // Set 'returnKeyType = .send' and 'enablesReturnKeyAutomatically = true' to prevent empty sends.
   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-      if textField == messageTextField {
-          sendMessage()
-          return false // Prevent default behavior
+      if textField == messageTextField, let text = textField.text, !text.trimmingCharacters(in: .whitespaces).isEmpty {
+          sendMessage(text)
+          textField.text = ""
+          return false // Prevent default behavior and keep focus
       }
       return true
   }
   ```
   ```tsx
-  // Example: Supporting 'Enter to Send' in React Native (TSX)
-  // 'blurOnSubmit={false}' keeps the keyboard open for rapid messaging.
+  // Example: Supporting 'Enter to Send' in React Native (TSX).
+  // 'enablesReturnKeyAutomatically' prevents sending empty messages from the keyboard.
   <TextInput
+    ref={inputRef}
     placeholder="Type a message..."
     returnKeyType="send"
-    onSubmitEditing={sendMessage}
+    enablesReturnKeyAutomatically={true}
+    onSubmitEditing={({ nativeEvent: { text } }) => {
+      if (text.trim()) {
+        sendMessage(text);
+        inputRef.current?.clear();
+      }
+    }}
     blurOnSubmit={false}
   />
   ```

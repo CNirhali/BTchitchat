@@ -88,3 +88,7 @@ This journal documents critical UX and accessibility learnings discovered during
 ## 2026-03-25 - Tactile Feedback for Bluetooth Interactions
 **Learning:** In offline, peer-to-peer applications where network latency is variable (like Bluetooth), non-visual cues such as haptic feedback provide critical interaction confirmation. This "tactile" layer reduces user frustration during "silent" failures or slow deliveries by confirming the app has successfully initiated or completed a physical action (like a GATT write).
 **Action:** Always include native haptic feedback implementations (Kotlin's performHapticFeedback and Swift's UINotificationFeedbackGenerator) for core lifecycle events like message sent, delivered, or connection established.
+
+## 2026-03-26 - Standardizing 'Enter to Send' UX Across Platforms
+**Learning:** Standardizing the "Enter to Send" pattern across mobile platforms requires balancing native attributes (like `enablesReturnKeyAutomatically` on iOS/React Native) with manual validation logic (like `isNotBlank()` on Android). Ensuring consistent behavior—blocking empty messages and clearing the input field—provides a high-quality "Developer Experience" (DX) that translates directly to a better end-user interface.
+**Action:** When providing documentation for input-driven features, always provide platform-specific examples that implement the same robust UX patterns (validation, auto-disabling, and cleanup) to ensure cross-platform parity.
