@@ -278,6 +278,8 @@ Bluetooth throughput is limited and latency can vary. To ensure a fast experienc
   }
   ```
   ```swift
+  // Example: Initializing the Central Manager with a background queue in Swift.
+  // This ensures all delegate callbacks and GATT operations run off the Main (UI) thread,
   // Example: Initializing CBCentralManager with a background queue in Swift.
   // This ensures all delegate callbacks and GATT operations occur off the main thread,
   // preventing UI jank and maintaining 60 FPS responsiveness.
