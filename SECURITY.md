@@ -201,6 +201,31 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
 - 🛡️ **Principle of Least Privilege:** Only request the minimum necessary Bluetooth and Location permissions required for the app to function.
 - 💾 **Secure Data Storage:** Encrypt chat logs and other sensitive local data. Use platform-specific secure storage (e.g., Keystore for Android, Keychain for iOS) for managing encryption keys.
 - 🔒 **App-Level Locking:** Provide an option for app-level authentication (e.g., Biometrics, PIN) to protect access to chat history even when the device is unlocked.
+  ```kotlin
+  // Example: Implementing Biometric Authentication on Android.
+  // BiometricPrompt provides a system-standard way to authenticate the user
+  // before granting access to sensitive chat history.
+  // (Requires: Context, Executor, and BiometricPrompt.AuthenticationCallback)
+  val biometricPrompt = BiometricPrompt(activity, executor, authCallback)
+  val promptInfo = BiometricPrompt.PromptInfo.Builder()
+      .setTitle("Unlock Chat")
+      .setSubtitle("Authenticate to access your messages")
+      .setNegativeButtonText("Cancel")
+      .build()
+  biometricPrompt.authenticate(promptInfo)
+  ```
+  ```swift
+  // Example: Implementing Biometric Authentication in Swift.
+  // LAContext provides a way to evaluate the user's identity using
+  // FaceID or TouchID before revealing sensitive content.
+  let context = LAContext()
+  var error: NSError?
+  if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+      context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "Unlock your chat history") { success, error in
+          if success { /* Grant access */ }
+      }
+  }
+  ```
 - 🤏 **Data Minimization:** Only transmit essential data over Bluetooth. Avoid sending Personally Identifiable Information (PII) unless it is strictly necessary and properly encrypted.
 - 🚫 **Data Leakage Prevention (DLP):** Prevent sensitive data leakage through unencrypted cloud backups (e.g., `android:allowBackup="false"`), the system clipboard, by obscuring sensitive UI content in the application switcher, or by disabling screenshots on sensitive screens (e.g., `FLAG_SECURE` on Android). Implement Overlay Protection (Anti-Tapjacking) to prevent malicious apps from intercepting touches by drawing over the application (e.g., `android:filterTouchesWhenObscured="true"`).
   ```kotlin
