@@ -453,27 +453,42 @@ To provide a smooth and intuitive messaging experience over Bluetooth:
   // Example: Providing haptic feedback in React Native
   Vibration.vibrate(10)
   ```
-- 📭 **Empty States:** Provide helpful guidance or calls-to-action when no data is present (e.g., **"Scanning for nearby friends..."**).
+- 📭 **Empty States:** Provide helpful guidance or calls-to-action when no data is present (e.g., **"Scanning for nearby friends..."**). Include a manual **"Scan Again"** or **"Retry"** button to allow users to recover from transient discovery failures.
   ```kotlin
-  // Example: Showing a helpful empty state on Android
+  // Example: Showing a helpful empty state with a retry action on Android
   if (discoveredDevices.isEmpty()) {
-      statusTextView.text = "Scanning for nearby friends..."
-      progressBar.visibility = View.VISIBLE
+      statusTextView.text = "No devices found nearby."
+      progressBar.visibility = View.GONE
+      retryButton.apply {
+          visibility = View.VISIBLE
+          text = "Scan Again"
+          setOnClickListener { startDiscovery() }
+      }
   }
   ```
   ```swift
-  // Example: Showing a helpful empty state in Swift
+  // Example: Showing a helpful empty state with a retry action in Swift
   if discoveredDevices.isEmpty {
-      statusLabel.text = "Scanning for nearby friends..."
-      activityIndicator.startAnimating()
+      statusLabel.text = "No devices found nearby."
+      activityIndicator.stopAnimating()
+      retryButton.isHidden = false
+      retryButton.setTitle("Scan Again", for: .normal)
+      retryButton.addAction(UIAction { _ in startScanning() }, for: .touchUpInside)
   }
   ```
   ```tsx
-  // Example: Showing a helpful empty state in React Native (TSX)
+  // Example: Showing a helpful empty state with a retry action in React Native (TSX)
   {discoveredDevices.length === 0 && (
     <View style={styles.emptyState}>
-      <Text>Scanning for nearby friends...</Text>
-      <ActivityIndicator size="small" />
+      <Text>No devices found nearby.</Text>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel="Scan Again"
+        onPress={startScanning}
+        style={styles.retryButton}
+      >
+        <Text>Scan Again</Text>
+      </Pressable>
     </View>
   )}
   ```

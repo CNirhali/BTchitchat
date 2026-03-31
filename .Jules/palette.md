@@ -92,3 +92,7 @@ This journal documents critical UX and accessibility learnings discovered during
 ## 2026-03-26 - Standardizing 'Enter to Send' UX Across Platforms
 **Learning:** Standardizing the "Enter to Send" pattern across mobile platforms requires balancing native attributes (like `enablesReturnKeyAutomatically` on iOS/React Native) with manual validation logic (like `isNotBlank()` on Android). Ensuring consistent behavior—blocking empty messages and clearing the input field—provides a high-quality "Developer Experience" (DX) that translates directly to a better end-user interface.
 **Action:** When providing documentation for input-driven features, always provide platform-specific examples that implement the same robust UX patterns (validation, auto-disabling, and cleanup) to ensure cross-platform parity.
+
+## 2026-03-31 - Actionable Empty States for Discovery
+**Learning:** In discovery-driven interfaces (like Bluetooth scanning), a passive empty state (e.g., "Scanning...") can lead to user frustration if the process hangs or fails silently. Providing a manual "Scan Again" or "Retry" call-to-action within the empty state empowers users to restart the process without navigating away, significantly improving the perceived reliability of the interface.
+**Action:** Always include a manual recovery action (like a retry button) in empty states for asynchronous or hardware-dependent discovery processes.
