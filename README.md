@@ -180,6 +180,54 @@ Bluetooth throughput is limited and latency can vary. To ensure a fast experienc
   pendingMessages.removeAll(keepingCapacity: true)
   ```
 - ⏱️ **Lazy Initialization:** Delay Bluetooth stack setup and discovery until strictly necessary to improve initial app launch speed and reduce memory footprint.
+- 📜 **List Virtualization:** Use virtualized lists to handle large chat histories without degrading UI performance. This ensures only visible items are rendered, maintaining 60 FPS even with thousands of messages.
+  ```kotlin
+  // Example: Using ListAdapter with DiffUtil for efficient RecyclerView updates on Android.
+  // This automatically calculates the difference between lists on a background thread
+  // and only updates the changed items, preventing expensive full-list re-renders.
+  class ChatAdapter : ListAdapter<ChatMessage, ChatViewHolder>(ChatDiffCallback()) {
+      override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
+          holder.bind(getItem(position))
+      }
+  }
+
+  class ChatDiffCallback : DiffUtil.ItemCallback<ChatMessage>() {
+      override fun areItemsTheSame(oldItem: ChatMessage, newItem: ChatMessage) = oldItem.timestamp == newItem.timestamp
+      override fun areContentsTheSame(oldItem: ChatMessage, newItem: ChatMessage) = oldItem == newItem
+  }
+  ```
+  ```swift
+  // Example: Using UICollectionViewDiffableDataSource in Swift.
+  // This provides high-performance, crash-safe list updates by managing
+  // snapshots and applying only the necessary changes to the UI.
+  var dataSource: UICollectionViewDiffableDataSource<Int, ChatMessage>!
+
+  func updateMessages(_ messages: [ChatMessage]) {
+      var snapshot = NSDiffableDataSourceSnapshot<Int, ChatMessage>()
+      snapshot.appendSections([0])
+      snapshot.appendItems(messages)
+      dataSource.apply(snapshot, animatingDifferences: true)
+  }
+  ```
+  ```tsx
+  // Example: Performance-tuned FlatList in React Native (TSX).
+  // 'initialNumToRender', 'windowSize', and 'maxToRenderPerBatch' control
+  // the virtualization engine to balance memory usage and scroll smoothness.
+  // Using 'memo' for 'renderItem' components prevents redundant re-renders of off-screen items.
+  const ChatMessageComponent = React.memo(({ message }: { message: ChatMessage }) => (
+    <View>/* ... render message ... */</View>
+  ));
+
+  <FlatList
+    data={messages}
+    keyExtractor={(item) => item.timestamp.toString()}
+    renderItem={({ item }) => <ChatMessageComponent message={item} />}
+    initialNumToRender={15}
+    windowSize={5}
+    maxToRenderPerBatch={10}
+    removeClippedSubviews={true}
+  />
+  ```
 - 📡 **GATT Caching:** Leverage GATT Service Caching to skip service discovery on subsequent connections and reduce connection-to-chat time.
   ```kotlin
   // Example: Handling GATT service changes on Android.
@@ -232,6 +280,8 @@ Bluetooth throughput is limited and latency can vary. To ensure a fast experienc
   ```swift
   // Example: Initializing the Central Manager with a background queue in Swift.
   // This ensures all delegate callbacks and GATT operations run off the Main (UI) thread,
+  // Example: Initializing CBCentralManager with a background queue in Swift.
+  // This ensures all delegate callbacks and GATT operations occur off the main thread,
   // preventing UI jank and maintaining 60 FPS responsiveness.
   let bluetoothQueue = DispatchQueue(label: "com.app.bluetooth", qos: .userInitiated)
   let centralManager = CBCentralManager(delegate: self, queue: bluetoothQueue)
@@ -340,31 +390,45 @@ To provide a smooth and intuitive messaging experience over Bluetooth:
   ```
 - ⌨️ **Keyboard Interactions:** Support standard keyboard behaviors like **"Enter to Send"** to improve efficiency for power users and ensure accessibility for keyboard-based navigation.
   ```kotlin
-  // Example: Supporting 'Enter to Send' on Android
+  // Example: Supporting 'Enter to Send' on Android.
+  // Requires 'android:imeOptions="actionSend"' in the XML layout.
   messageEditText.setOnEditorActionListener { _, actionId, _ ->
       if (actionId == EditorInfo.IME_ACTION_SEND) {
-          sendMessage()
+          val text = messageEditText.text.toString()
+          if (text.isNotBlank()) {
+              sendMessage(text)
+              messageEditText.text.clear()
+          }
           true
       } else false
   }
   ```
   ```swift
-  // Example: Supporting 'Enter to Send' in Swift (UIKit)
+  // Example: Supporting 'Enter to Send' in Swift (UIKit).
+  // Set 'returnKeyType = .send' and 'enablesReturnKeyAutomatically = true' to prevent empty sends.
   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-      if textField == messageTextField {
-          sendMessage()
-          return false // Prevent default behavior
+      if textField == messageTextField, let text = textField.text, !text.trimmingCharacters(in: .whitespaces).isEmpty {
+          sendMessage(text)
+          textField.text = ""
+          return false // Prevent default behavior and keep focus
       }
       return true
   }
   ```
   ```tsx
-  // Example: Supporting 'Enter to Send' in React Native (TSX)
-  // 'blurOnSubmit={false}' keeps the keyboard open for rapid messaging.
+  // Example: Supporting 'Enter to Send' in React Native (TSX).
+  // 'enablesReturnKeyAutomatically' prevents sending empty messages from the keyboard.
   <TextInput
+    ref={inputRef}
     placeholder="Type a message..."
     returnKeyType="send"
-    onSubmitEditing={sendMessage}
+    enablesReturnKeyAutomatically={true}
+    onSubmitEditing={({ nativeEvent: { text } }) => {
+      if (text.trim()) {
+        sendMessage(text);
+        inputRef.current?.clear();
+      }
+    }}
     blurOnSubmit={false}
   />
   ```
@@ -439,27 +503,42 @@ To provide a smooth and intuitive messaging experience over Bluetooth:
   // Example: Providing haptic feedback in React Native
   Vibration.vibrate(10)
   ```
-- 📭 **Empty States:** Provide helpful guidance or calls-to-action when no data is present (e.g., **"Scanning for nearby friends..."**).
+- 📭 **Empty States:** Provide helpful guidance or calls-to-action when no data is present (e.g., **"Scanning for nearby friends..."**). Include a manual **"Scan Again"** or **"Retry"** button to allow users to recover from transient discovery failures.
   ```kotlin
-  // Example: Showing a helpful empty state on Android
+  // Example: Showing a helpful empty state with a retry action on Android
   if (discoveredDevices.isEmpty()) {
-      statusTextView.text = "Scanning for nearby friends..."
-      progressBar.visibility = View.VISIBLE
+      statusTextView.text = "No devices found nearby."
+      progressBar.visibility = View.GONE
+      retryButton.apply {
+          visibility = View.VISIBLE
+          text = "Scan Again"
+          setOnClickListener { startDiscovery() }
+      }
   }
   ```
   ```swift
-  // Example: Showing a helpful empty state in Swift
+  // Example: Showing a helpful empty state with a retry action in Swift
   if discoveredDevices.isEmpty {
-      statusLabel.text = "Scanning for nearby friends..."
-      activityIndicator.startAnimating()
+      statusLabel.text = "No devices found nearby."
+      activityIndicator.stopAnimating()
+      retryButton.isHidden = false
+      retryButton.setTitle("Scan Again", for: .normal)
+      retryButton.addAction(UIAction { _ in startScanning() }, for: .touchUpInside)
   }
   ```
   ```tsx
-  // Example: Showing a helpful empty state in React Native (TSX)
+  // Example: Showing a helpful empty state with a retry action in React Native (TSX)
   {discoveredDevices.length === 0 && (
     <View style={styles.emptyState}>
-      <Text>Scanning for nearby friends...</Text>
-      <ActivityIndicator size="small" />
+      <Text>No devices found nearby.</Text>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel="Scan Again"
+        onPress={startScanning}
+        style={styles.retryButton}
+      >
+        <Text>Scan Again</Text>
+      </Pressable>
     </View>
   )}
   ```
