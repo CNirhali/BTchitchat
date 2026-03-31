@@ -106,3 +106,8 @@ This journal is used to record critical security learnings discovered during the
 **Vulnerability:** Mobile applications often default to allowing cleartext traffic, making them susceptible to man-in-the-middle (MITM) attacks and data interception during network operations.
 **Learning:** While most mobile security guidance correctly identifies the need for HTTPS, developers frequently lack the specific platform configuration details (XML for Android, Plist for iOS) to enforce this at the OS level. Providing these snippets ensures that security-by-default is easily achievable.
 **Prevention:** Mandate the use of platform-specific network security configurations (Network Security Config on Android and App Transport Security on iOS) to disable cleartext traffic and provide actionable examples in the security guidelines.
+
+## 2026-03-31 - Actionable Authentication for Sensitive Local Data
+**Vulnerability:** Abstract security mandates for app-level locking are often ignored without actionable implementation examples, leading to unprotected local chat data.
+**Learning:** While developers understand the need for app-level security, the complexity of platform-specific biometric APIs (BiometricPrompt on Android, LAContext on iOS) can be a barrier to implementation. Providing baseline snippets bridges the gap between policy and practice.
+**Prevention:** Include actionable, platform-specific code snippets for biometric authentication and app-level locking in the security guidelines to ensure sensitive local data is protected by default.
