@@ -80,19 +80,27 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
       }
   )
 
-  fun isNonceValid(incomingNonce: ByteArray): Boolean {
-      // Faster hex conversion using StringBuilder and bit-shifting
-      val hexChars = "0123456789abcdef"
-      val nonceHex = StringBuilder(incomingNonce.size * 2).apply {
-          for (b in incomingNonce) {
-              val i = b.toInt() and 0xFF
-              append(hexChars[i shr 4])
-              append(hexChars[i and 0x0F])
-          }
-      }.toString()
+  // Optimization: Using a data class wrapper for ByteArray avoids expensive Hex/String conversion.
+  // This eliminates StringBuilder and String allocations for every incoming message,
+  // significantly reducing GC pressure and CPU cycles during high-frequency data exchange.
+  @JvmInline
+  value class Nonce(private val bytes: ByteArray) {
+      override fun equals(other: Any?): Boolean = (other as? Nonce)?.bytes?.contentEquals(bytes) ?: false
+      override fun hashCode(): Int = bytes.contentHashCode()
+  }
 
+  private val processedNonces: MutableMap<Nonce, Boolean> = Collections.synchronizedMap(
+      object : LinkedHashMap<Nonce, Boolean>(MAX_NONCE_CACHE_SIZE, 0.75f, true) {
+          override fun removeEldestEntry(eldest: MutableMap.MutableEntry<Nonce, Boolean>): Boolean {
+              return size > MAX_NONCE_CACHE_SIZE
+          }
+      }
+  )
+
+  fun isNonceValid(incomingNonce: ByteArray): Boolean {
+      val nonce = Nonce(incomingNonce)
       // putIfAbsent returns null if the key was not present, providing an atomic check-and-add.
-      return processedNonces.putIfAbsent(nonceHex, true) == null
+      return processedNonces.putIfAbsent(nonce, true) == null
   }
   ```
   ```swift
