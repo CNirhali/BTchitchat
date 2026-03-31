@@ -180,6 +180,54 @@ Bluetooth throughput is limited and latency can vary. To ensure a fast experienc
   pendingMessages.removeAll(keepingCapacity: true)
   ```
 - ⏱️ **Lazy Initialization:** Delay Bluetooth stack setup and discovery until strictly necessary to improve initial app launch speed and reduce memory footprint.
+- 📜 **List Virtualization:** Use virtualized lists to handle large chat histories without degrading UI performance. This ensures only visible items are rendered, maintaining 60 FPS even with thousands of messages.
+  ```kotlin
+  // Example: Using ListAdapter with DiffUtil for efficient RecyclerView updates on Android.
+  // This automatically calculates the difference between lists on a background thread
+  // and only updates the changed items, preventing expensive full-list re-renders.
+  class ChatAdapter : ListAdapter<ChatMessage, ChatViewHolder>(ChatDiffCallback()) {
+      override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
+          holder.bind(getItem(position))
+      }
+  }
+
+  class ChatDiffCallback : DiffUtil.ItemCallback<ChatMessage>() {
+      override fun areItemsTheSame(oldItem: ChatMessage, newItem: ChatMessage) = oldItem.timestamp == newItem.timestamp
+      override fun areContentsTheSame(oldItem: ChatMessage, newItem: ChatMessage) = oldItem == newItem
+  }
+  ```
+  ```swift
+  // Example: Using UICollectionViewDiffableDataSource in Swift.
+  // This provides high-performance, crash-safe list updates by managing
+  // snapshots and applying only the necessary changes to the UI.
+  var dataSource: UICollectionViewDiffableDataSource<Int, ChatMessage>!
+
+  func updateMessages(_ messages: [ChatMessage]) {
+      var snapshot = NSDiffableDataSourceSnapshot<Int, ChatMessage>()
+      snapshot.appendSections([0])
+      snapshot.appendItems(messages)
+      dataSource.apply(snapshot, animatingDifferences: true)
+  }
+  ```
+  ```tsx
+  // Example: Performance-tuned FlatList in React Native (TSX).
+  // 'initialNumToRender', 'windowSize', and 'maxToRenderPerBatch' control
+  // the virtualization engine to balance memory usage and scroll smoothness.
+  // Using 'memo' for 'renderItem' components prevents redundant re-renders of off-screen items.
+  const ChatMessageComponent = React.memo(({ message }: { message: ChatMessage }) => (
+    <View>/* ... render message ... */</View>
+  ));
+
+  <FlatList
+    data={messages}
+    keyExtractor={(item) => item.timestamp.toString()}
+    renderItem={({ item }) => <ChatMessageComponent message={item} />}
+    initialNumToRender={15}
+    windowSize={5}
+    maxToRenderPerBatch={10}
+    removeClippedSubviews={true}
+  />
+  ```
 - 📡 **GATT Caching:** Leverage GATT Service Caching to skip service discovery on subsequent connections and reduce connection-to-chat time.
   ```kotlin
   // Example: Handling GATT service changes on Android.

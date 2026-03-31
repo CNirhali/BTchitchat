@@ -81,3 +81,11 @@ This journal documents critical performance learnings discovered during the deve
 ## 2026-03-30 - Offloading Core Bluetooth Delegate Callbacks to Background Queues
 **Learning:** Initializing 'CBCentralManager' with a background 'DispatchQueue' is a critical performance optimization for iOS applications. By default, 'CBCentralManager' uses the main queue, causing all delegate callbacks and GATT operations to block the UI thread, leading to frame drops and jank during high-frequency data exchange.
 **Action:** Always initialize 'CBCentralManager' with a dedicated background queue to ensure peak UI responsiveness and parallel processing of Bluetooth events.
+
+## 2026-03-31 - List Virtualization and UI Performance for Messaging
+**Learning:** For messaging applications, the chat history is the most performance-sensitive UI component. Without virtualization, rendering thousands of messages causes significant UI jank and memory pressure. Providing platform-specific patterns (ListAdapter on Android, Diffable Data Source on iOS, and tuned FlatList on React Native) ensures that developers can maintain 60 FPS even with extensive chat histories.
+**Action:** Always recommend virtualized list components and efficient diffing algorithms (like DiffUtil or Snapshots) when documenting UI patterns for high-frequency data streams.
+
+## 2026-04-01 - Allocation-Free Nonce Verification
+**Learning:** Even "fast" hex conversion (using StringBuilder) incurs significant object allocation overhead in high-frequency data paths. In Kotlin, using a 'value class' wrapper for 'ByteArray' with overridden 'equals' and 'hashCode' allows for direct, allocation-free use of the raw bytes as Map keys. This optimization completely eliminates the (n)$ string conversion and associated GC pressure for every incoming message.
+**Action:** Prioritize raw byte comparisons and allocation-free wrappers over string-based identifiers in performance-critical cryptographic and networking code.
