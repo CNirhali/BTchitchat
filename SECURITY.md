@@ -69,26 +69,17 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
 - ⌛ **Replay Protection:** Implement cryptographically robust nonces (see `ChatMessage.secure_nonce`) or timestamps to prevent captured Bluetooth packets from being re-sent. Use cryptographically secure random nonces (at least 96 bits for AES-GCM) to ensure uniqueness across messages.
   ```kotlin
   // Example: Verifying a cryptographic nonce on Android to prevent replay attacks.
-  // Using a size-limited cache with Collections.synchronizedMap and LinkedHashMap
-  // ensures thread-safety and atomic LRU eviction to prevent memory-based DoS.
-  private val MAX_NONCE_CACHE_SIZE = 10000
-  private val processedNonces: MutableMap<String, Boolean> = Collections.synchronizedMap(
-      object : LinkedHashMap<String, Boolean>(MAX_NONCE_CACHE_SIZE, 0.75f, true) {
-          override fun removeEldestEntry(eldest: MutableMap.MutableEntry<String, Boolean>): Boolean {
-              return size > MAX_NONCE_CACHE_SIZE
-          }
-      }
-  )
-
-  // Optimization: Using a data class wrapper for ByteArray avoids expensive Hex/String conversion.
-  // This eliminates StringBuilder and String allocations for every incoming message,
-  // significantly reducing GC pressure and CPU cycles during high-frequency data exchange.
+  // Optimization: Using a @JvmInline value class wrapper for ByteArray avoids expensive Hex/String conversion
+  // and eliminates StringBuilder/String allocations, reducing CPU/GC overhead.
   @JvmInline
   value class Nonce(private val bytes: ByteArray) {
       override fun equals(other: Any?): Boolean = (other as? Nonce)?.bytes?.contentEquals(bytes) ?: false
       override fun hashCode(): Int = bytes.contentHashCode()
   }
 
+  // A size-limited cache with Collections.synchronizedMap and LinkedHashMap
+  // ensures thread-safety and atomic LRU eviction to prevent memory-based DoS.
+  private val MAX_NONCE_CACHE_SIZE = 10000
   private val processedNonces: MutableMap<Nonce, Boolean> = Collections.synchronizedMap(
       object : LinkedHashMap<Nonce, Boolean>(MAX_NONCE_CACHE_SIZE, 0.75f, true) {
           override fun removeEldestEntry(eldest: MutableMap.MutableEntry<Nonce, Boolean>): Boolean {
@@ -131,6 +122,24 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
   }
   ```
 - 🛡️ **Message Integrity & Authenticity:** Use Message Authentication Codes (MACs) or digital signatures (see `ChatMessage.authentication_tag`) to ensure that messages have not been tampered with and originate from the claimed sender. It is highly recommended to use **Authenticated Encryption with Associated Data (AEAD)** schemes (e.g., AES-GCM, ChaCha20-Poly1305) to provide both confidentiality and integrity in a single operation.
+  - ⏱️ **Constant-Time Verification:** Always use constant-time comparison functions when verifying MACs or signatures to prevent timing attacks that could leak information about the expected tag.
+  ```kotlin
+  // Example: Constant-time MAC verification on Android (Kotlin)
+  // java.security.MessageDigest.isEqual() provides a constant-time comparison
+  // to prevent timing side-channel attacks.
+  fun verifyMessageIntegrity(receivedTag: ByteArray, expectedTag: ByteArray): Boolean {
+      return java.security.MessageDigest.isEqual(receivedTag, expectedTag)
+  }
+  ```
+  ```swift
+  // Example: Constant-time MAC verification in Swift
+  // This implementation ensures that the comparison time is independent of
+  // the data content, preventing timing attacks.
+  func fixedTimeCompare(_ a: Data, _ b: Data) -> Bool {
+      guard a.count == b.count else { return false }
+      return a.indices.reduce(0) { $0 | (a[$1] ^ b[$1]) } == 0
+  }
+  ```
 - 🎯 **Recipient Binding & Verification:** Explicitly include and verify the `recipient_id` (see `ChatMessage.recipient_id`) in every message to prevent reflection attacks. When using AEAD, include the `sender_id`, `recipient_id`, and `timestamp` in the **Associated Data (AD)** to cryptographically bind the message to its context.
   ```kotlin
   // Example: Verifying recipient binding on Android to prevent reflection attacks
