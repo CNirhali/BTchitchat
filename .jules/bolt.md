@@ -92,3 +92,7 @@ This journal documents critical performance learnings discovered during the deve
 ## 2026-04-01 - Allocation-Free Nonce Verification
 **Learning:** Even "fast" hex conversion (using StringBuilder) incurs significant object allocation overhead in high-frequency data paths. In Kotlin, using a 'value class' wrapper for 'ByteArray' with overridden 'equals' and 'hashCode' allows for direct, allocation-free use of the raw bytes as Map keys. This optimization completely eliminates the (n)$ string conversion and associated GC pressure for every incoming message.
 **Action:** Prioritize raw byte comparisons and allocation-free wrappers over string-based identifiers in performance-critical cryptographic and networking code.
+
+## 2026-04-02 - Aggressive Scanning and Documentation Consolidation for DX
+**Learning:** Bluetooth discovery latency on Android can be further minimized by using 'MATCH_MODE_AGGRESSIVE' and 'MATCH_NUM_ONE_ADVERTISEMENT', which prioritize speed over power during initial scanning. Furthermore, documentation redundancy (duplicate comments and redundant code snippets) acts as a performance bottleneck for 'Developer Time to Action' (DX).
+**Action:** Always recommend aggressive scanning modes for discovery-critical paths and audit documentation for redundancy to maximize both application and developer performance.
