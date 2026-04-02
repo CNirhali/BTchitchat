@@ -109,10 +109,11 @@ Bluetooth throughput is limited and latency can vary. To ensure a fast experienc
   ```
 - 🔋 **Battery Efficiency:** Disable Bluetooth discovery/scanning immediately after connection to save power and improve connection stability.
   ```kotlin
-  // Example: Stopping discovery immediately upon connection on Android
+  // Example: Stopping discovery immediately upon connection on Android.
+  // Using autoConnect=false and TRANSPORT_LE avoids the ~2s background scan delay
+  // and dual-mode (BR/EDR) overhead for faster initial connection.
   fun onDeviceSelected(device: BluetoothDevice) {
       bluetoothLeScanner.stopScan(scanCallback)
-      // Specifying TRANSPORT_LE avoids dual-mode (BR/EDR) overhead for faster Low Energy connections.
       device.connectGatt(context, false, gattCallback, BluetoothDevice.TRANSPORT_LE)
   }
   ```
@@ -129,12 +130,6 @@ Bluetooth throughput is limited and latency can vary. To ensure a fast experienc
   // This reduces protocol overhead by not requiring an acknowledgement for each packet.
   characteristic.writeType = BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE
   bluetoothGatt.writeCharacteristic(characteristic)
-  ```
-  ```kotlin
-  // Example: Using autoConnect=false and TRANSPORT_LE for faster initial connection on Android.
-  // This avoids the ~2s connection delay of the autoConnect=true background scan
-  // and dual-mode (BR/EDR) overhead.
-  device.connectGatt(context, false, gattCallback, BluetoothDevice.TRANSPORT_LE)
   ```
   ```kotlin
   // Example: Requesting 2M PHY for up to 2x physical layer throughput on Android (BLE 5.0+).
@@ -260,6 +255,8 @@ Bluetooth throughput is limited and latency can vary. To ensure a fast experienc
   val settings = ScanSettings.Builder()
       .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)
       .setCallbackType(ScanSettings.CALLBACK_TYPE_FIRST_MATCH)
+      .setMatchMode(ScanSettings.MATCH_MODE_AGGRESSIVE)
+      .setNumOfMatches(ScanSettings.MATCH_NUM_ONE_ADVERTISEMENT)
       .build()
   bluetoothLeScanner.startScan(listOf(filter), settings, scanCallback)
   ```
@@ -278,8 +275,6 @@ Bluetooth throughput is limited and latency can vary. To ensure a fast experienc
   }
   ```
   ```swift
-  // Example: Initializing the Central Manager with a background queue in Swift.
-  // This ensures all delegate callbacks and GATT operations run off the Main (UI) thread,
   // Example: Initializing CBCentralManager with a background queue in Swift.
   // This ensures all delegate callbacks and GATT operations occur off the main thread,
   // preventing UI jank and maintaining 60 FPS responsiveness.

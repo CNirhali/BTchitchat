@@ -69,6 +69,10 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
 - ⌛ **Replay Protection:** Implement cryptographically robust nonces (see `ChatMessage.secure_nonce`) or timestamps to prevent captured Bluetooth packets from being re-sent. Use cryptographically secure random nonces (at least 96 bits for AES-GCM) to ensure uniqueness across messages.
   ```kotlin
   // Example: Verifying a cryptographic nonce on Android to prevent replay attacks.
+  // Using a data class wrapper for ByteArray avoids expensive Hex/String conversion.
+  // This eliminates StringBuilder and String allocations for every incoming message,
+  // significantly reducing GC pressure and CPU cycles during high-frequency data exchange.
+  private val MAX_NONCE_CACHE_SIZE = 10000
   // Optimization: Using a @JvmInline value class wrapper for ByteArray avoids expensive Hex/String conversion
   // and eliminates StringBuilder/String allocations, reducing CPU/GC overhead.
   @JvmInline
