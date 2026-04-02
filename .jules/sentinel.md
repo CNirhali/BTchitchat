@@ -111,3 +111,13 @@ This journal is used to record critical security learnings discovered during the
 **Vulnerability:** Abstract security mandates for app-level locking are often ignored without actionable implementation examples, leading to unprotected local chat data.
 **Learning:** While developers understand the need for app-level security, the complexity of platform-specific biometric APIs (BiometricPrompt on Android, LAContext on iOS) can be a barrier to implementation. Providing baseline snippets bridges the gap between policy and practice.
 **Prevention:** Include actionable, platform-specific code snippets for biometric authentication and app-level locking in the security guidelines to ensure sensitive local data is protected by default.
+
+## 2026-06-01 - Constant-Time Verification to Prevent Timing Attacks
+**Vulnerability:** Comparing Message Authentication Codes (MACs) using standard equality operators (`==` or `.equals()`) is susceptible to timing attacks, where an attacker can determine the expected tag byte-by-byte based on the time it takes to reject an invalid tag.
+**Learning:** Even with strong encryption and integrity checks, the comparison step itself can become a side-channel for information leakage. Developers often use default comparison methods without realizing they short-circuit on the first mismatched byte. Furthermore, documentation templates should avoid multiple, potentially conflicting code examples (like redundant nonce cache declarations) to minimize developer confusion.
+**Prevention:** Mandate the use of constant-time comparison functions (e.g., `MessageDigest.isEqual()` on Android) for all security-critical data like MACs, signatures, or passwords. Ensure documentation examples are concise and prioritize the most secure/efficient implementation pattern.
+
+## 2026-04-02 - Actionable Secure Storage and Privacy Snippets
+**Vulnerability:** Security guidelines for local data encryption and keyboard privacy are often ignored when not accompanied by actionable, platform-specific implementation examples.
+**Learning:** In documentation-heavy templates, the "Developer Time to Action" (DX) for security is a critical bottleneck. Abstract mandates for "using Keychain" or "disabling keyboard cache" are less effective than providing the exact code (Kotlin, Swift, TSX) required. Bridging this gap ensures that security-by-default is actually achievable for the implementer.
+**Prevention:** Always provide actionable, multi-platform code snippets for sensitive operations like local data encryption and privacy-conscious UI configurations to ensure mandates are translated into practice.
