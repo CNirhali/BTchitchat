@@ -209,6 +209,35 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
 
 - 🛡️ **Principle of Least Privilege:** Only request the minimum necessary Bluetooth and Location permissions required for the app to function.
 - 💾 **Secure Data Storage:** Encrypt chat logs and other sensitive local data. Use platform-specific secure storage (e.g., Keystore for Android, Keychain for iOS) for managing encryption keys.
+  ```kotlin
+  // Example: Using EncryptedSharedPreferences on Android for secure data storage.
+  // This provides automatic, hardware-backed encryption for key-value pairs.
+  val masterKey = MasterKey.Builder(context)
+      .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+      .build()
+
+  val sharedPreferences = EncryptedSharedPreferences.create(
+      context,
+      "secure_prefs",
+      masterKey,
+      EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+      EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+  )
+  ```
+  ```swift
+  // Example: Storing sensitive data in the iOS Keychain.
+  // The Keychain provides secure, encrypted storage for small bits of data
+  // like encryption keys or authentication tokens.
+  let account = "user_secret_key"
+  let data = "secret_value".data(using: .utf8)!
+  let query: [String: Any] = [
+      kSecClass as String: kSecClassGenericPassword,
+      kSecAttrAccount as String: account,
+      kSecValueData as String: data,
+      kSecAttrAccessible as String: kSecAttrAccessibleWhenUnlocked
+  ]
+  let status = SecItemAdd(query as CFDictionary, nil)
+  ```
 - 🔒 **App-Level Locking:** Provide an option for app-level authentication (e.g., Biometrics, PIN) to protect access to chat history even when the device is unlocked.
   ```kotlin
   // Example: Implementing Biometric Authentication on Android.
@@ -291,6 +320,17 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
   TextField("Message", text: $message)
       .autocorrectionDisabled(true)
       .textContentType(.none)
+  ```
+  ```tsx
+  // Example: Enabling private keyboard mode in React Native (TSX).
+  // 'textContentType="none"', 'autoCorrect={false}', and 'spellCheck={false}'
+  // prevent the keyboard from caching and learning sensitive input.
+  <TextInput
+    textContentType="none"
+    autoCorrect={false}
+    spellCheck={false}
+    placeholder="Type a message..."
+  />
   ```
 - 👤 **Device Identity Privacy:** Do not use the default system device name (e.g., "Alice's iPhone") for Bluetooth discovery, as it can leak Personally Identifiable Information (PII) to nearby observers. Implement generic aliases or allow users to set a pseudonym within the application.
 
