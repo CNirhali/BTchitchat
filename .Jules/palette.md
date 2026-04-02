@@ -96,3 +96,7 @@ This journal documents critical UX and accessibility learnings discovered during
 ## 2026-03-31 - Actionable Empty States for Discovery
 **Learning:** In discovery-driven interfaces (like Bluetooth scanning), a passive empty state (e.g., "Scanning...") can lead to user frustration if the process hangs or fails silently. Providing a manual "Scan Again" or "Retry" call-to-action within the empty state empowers users to restart the process without navigating away, significantly improving the perceived reliability of the interface.
 **Action:** Always include a manual recovery action (like a retry button) in empty states for asynchronous or hardware-dependent discovery processes.
+
+## 2026-04-01 - Explicit Role Mapping for Custom UI Elements
+**Learning:** In cross-platform development (React Native), standard interactive elements like `Pressable` are often used to build custom UI components. However, without an explicit `accessibilityRole="button"`, screen readers may fail to announce these elements correctly, especially when they only contain icons. This can leave visually impaired users unable to identify the primary actions in the interface.
+**Action:** Always provide explicit accessibility roles for all interactive components that do not use native button elements to ensure proper screen reader support and navigational clarity.
