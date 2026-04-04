@@ -100,3 +100,7 @@ This journal documents critical UX and accessibility learnings discovered during
 ## 2026-04-01 - Explicit Role Mapping for Custom UI Elements
 **Learning:** In cross-platform development (React Native), standard interactive elements like `Pressable` are often used to build custom UI components. However, without an explicit `accessibilityRole="button"`, screen readers may fail to announce these elements correctly, especially when they only contain icons. This can leave visually impaired users unable to identify the primary actions in the interface.
 **Action:** Always provide explicit accessibility roles for all interactive components that do not use native button elements to ensure proper screen reader support and navigational clarity.
+
+## 2026-04-04 - Demonstrating Multi-State Visual Feedback in Documentation
+**Learning:** In template-only repositories, providing simple, single-state code snippets (e.g., just an icon button) fails to guide developers toward building responsive and accessible interfaces. Demonstrating how to use 'accessibilityState' alongside dynamic styles for 'pressed' and 'disabled' feedback ensures that developers implement the necessary visual and auditory cues for a high-quality UI by default.
+**Action:** When providing interactive UI examples, always include implementation patterns for 'pressed' feedback and 'disabled' states to promote a more responsive and accessible end-user experience.

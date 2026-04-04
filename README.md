@@ -476,11 +476,18 @@ To provide a smooth and intuitive messaging experience over Bluetooth:
   ```tsx
   // Example: Ensuring accessible touch targets and labels in React Native (TSX)
   // 'hitSlop' expands the touchable area without changing the visual layout.
+  // Using 'accessibilityState' and dynamic 'style' provides visual and auditory feedback.
   <Pressable
     accessibilityRole="button"
     accessibilityLabel="Send Message"
+    accessibilityState={{ disabled: isSending }}
     hitSlop={12}
     onPress={sendMessage}
+    disabled={isSending}
+    style={({ pressed }) => [
+      { opacity: pressed || isSending ? 0.5 : 1 },
+      styles.sendButton
+    ]}
   >
     <SendIcon />
   </Pressable>
