@@ -175,6 +175,23 @@ Bluetooth throughput is limited and latency can vary. To ensure a fast experienc
   pendingMessages.removeAll(keepingCapacity: true)
   ```
 - ⏱️ **Lazy Initialization:** Delay Bluetooth stack setup and discovery until strictly necessary to improve initial app launch speed and reduce memory footprint.
+  ```kotlin
+  // Example: Deferring Bluetooth manager lookup on Android.
+  // Using 'LazyThreadSafetyMode.NONE' avoids synchronization overhead
+  // when initialization is guaranteed to occur on a single thread (e.g., Main).
+  private val bluetoothManager by lazy(LazyThreadSafetyMode.NONE) {
+      context.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
+  }
+  ```
+  ```swift
+  // Example: Deferring CBCentralManager initialization in Swift.
+  // Using 'lazy var' ensures the Bluetooth stack is only powered on
+  // when the 'centralManager' property is first accessed.
+  lazy var centralManager: CBCentralManager = {
+      let queue = DispatchQueue(label: "com.app.bluetooth", qos: .userInitiated)
+      return CBCentralManager(delegate: self, queue: queue)
+  }()
+  ```
 - 📜 **List Virtualization:** Use virtualized lists to handle large chat histories without degrading UI performance. This ensures only visible items are rendered, maintaining 60 FPS even with thousands of messages.
   ```kotlin
   // Example: Using ListAdapter with DiffUtil for efficient RecyclerView updates on Android.

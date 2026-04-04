@@ -96,3 +96,7 @@ This journal documents critical performance learnings discovered during the deve
 ## 2026-04-02 - Aggressive Scanning and Documentation Consolidation for DX
 **Learning:** Bluetooth discovery latency on Android can be further minimized by using 'MATCH_MODE_AGGRESSIVE' and 'MATCH_NUM_ONE_ADVERTISEMENT', which prioritize speed over power during initial scanning. Furthermore, documentation redundancy (duplicate comments and redundant code snippets) acts as a performance bottleneck for 'Developer Time to Action' (DX).
 **Action:** Always recommend aggressive scanning modes for discovery-critical paths and audit documentation for redundancy to maximize both application and developer performance.
+
+## 2026-04-04 - Avoiding Magic Numbers in Documentation Snippets
+**Learning:** Performance optimizations in documentation snippets (like calculating collection initial capacities) should still prioritize readability and maintainability. Replacing named constants with magic numbers (e.g., using '13334' instead of a calculation based on 'MAX_NONCE_CACHE_SIZE') makes the code harder to understand and maintain for developers, violating the "don't sacrifice readability for micro-optimizations" principle even in documentation.
+**Action:** Always use named constants and clear calculations in code snippets, especially when demonstrating performance patterns like 'initialCapacity' or 'minimumCapacity'.
