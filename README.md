@@ -82,8 +82,9 @@ Bluetooth throughput is limited and latency can vary. To ensure a fast experienc
 - 📦 **Binary Serialization:** Use efficient formats like [Protobuf](https://protobuf.dev/) (see our [optimized schema](schema/chat_message.proto)) or [FlatBuffers](https://google.github.io/flatbuffers/) to minimize payload size and processing overhead. Use minimal message types like `HEARTBEAT` for low-overhead connection maintenance.
 - 🚀 **MTU Negotiation:** Request a larger Maximum Transmission Unit (MTU) to increase throughput for larger messages (up to 512 bytes on BLE).
   ```kotlin
-  // Example: Requesting larger MTU on Android
-  bluetoothGatt.requestMtu(512)
+  // Example: Requesting larger MTU on Android.
+  // Using 517 allows for the maximum 512-byte payload plus 5-byte header.
+  bluetoothGatt.requestMtu(517)
   ```
   ```swift
   // Example: Querying maximum write length in Swift (equivalent to MTU)
@@ -126,10 +127,10 @@ Bluetooth throughput is limited and latency can vary. To ensure a fast experienc
   ```
 - 📉 **Lower Latency:** Use direct connection handles where possible, minimize unnecessary application-layer acknowledgments, and utilize **Write Without Response** for high-throughput data.
   ```kotlin
-  // Example: Writing without response for ~2x throughput increase on Android.
-  // This reduces protocol overhead by not requiring an acknowledgement for each packet.
-  characteristic.writeType = BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE
-  bluetoothGatt.writeCharacteristic(characteristic)
+  // Example: Writing without response for ~2x throughput increase on Android (API 33+).
+  // This method avoids internal memory copies, improving throughput and efficiency.
+  val data = message.toByteArray()
+  bluetoothGatt.writeCharacteristic(characteristic, data, BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE)
   ```
   ```kotlin
   // Example: Requesting 2M PHY for up to 2x physical layer throughput on Android (BLE 5.0+).
