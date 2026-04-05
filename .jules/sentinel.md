@@ -62,6 +62,11 @@ This journal is used to record critical security learnings discovered during the
 **Learning:** Developers often assume Bluetooth pairing implies data encryption, but GATT permissions must be explicitly set to require encryption/bonding at the OS level. Providing actionable technical examples (Kotlin/Swift) in the security policy helps ensure these protections are implemented correctly.
 **Prevention:** Mandate the use of platform-specific encrypted GATT permissions (e.g., `PERMISSION_READ_ENCRYPTED`) and provide code snippets in the security guidelines to facilitate implementation.
 
+## 2026-04-05 - Ensuring Type-Safe Cryptographic Comparisons in Swift
+**Vulnerability:** Inconsistent type handling in Swift's bitwise reduction for constant-time comparisons can lead to compilation errors or unexpected behavior during security audits.
+**Learning:** Swift's strict typing requires explicit initialization of reduction variables (e.g., `UInt8(0)`) when performing bitwise XOR and OR operations on byte indices. Documentation errors in security primitives can cause developers to abandon critical protections like constant-time verification if the code doesn't compile out-of-the-box.
+**Prevention:** Always verify the type consistency of cryptographic code snippets across all supported platforms and ensure that `reduce` operations on `Data` or byte arrays use the correct bit-width for the accumulator.
+
 ## 2026-04-20 - Preventing Reflection Attacks via Recipient Binding
 **Vulnerability:** Peer-to-peer messages without explicit recipient binding can be replayed back to the sender (reflection attack) or mis-attributed if the sender-recipient context isn't cryptographically verified.
 **Learning:** In decentralized Bluetooth communication, simply encrypting the payload is insufficient. The message must be bound to the intended recipient and specific session context to prevent an attacker from redirecting messages. Furthermore, when evolving protocols, field type changes (e.g., `uint64` to `bytes`) must be handled via deprecation and new field allocation to maintain wire compatibility.

@@ -290,8 +290,8 @@ Bluetooth throughput is limited and latency can vary. To ensure a fast experienc
 
 Bluetooth communication is inherently susceptible to various security risks, including eavesdropping and man-in-the-middle attacks. For detailed security practices, see our [SECURITY.md](SECURITY.md).
 
-- 🔐 **Encryption & Integrity:** This template currently does **not** implement End-to-End Encryption (E2EE) or Message Integrity Checks. All messages are sent in plain text and are susceptible to tampering.
-- 💡 **Recommendations:** For production use, it is highly recommended to implement a robust E2EE layer with **Perfect Forward Secrecy (PFS)** using libraries like [Noise Protocol](https://noiseprotocol.org/) or [libsodium](https://doc.libsodium.org/).
+- 🔐 **Encryption & Integrity:** This template recommends and provides implementation examples for **Authenticated Encryption with Associated Data (AEAD)** (e.g., AES-GCM) and **Message Integrity Checks** to protect against eavesdropping and tampering. See [SECURITY.md](SECURITY.md) for actionable code snippets.
+- 💡 **Recommendations:** For production use, it is highly recommended to implement a robust End-to-End Encryption (E2EE) layer with **Perfect Forward Secrecy (PFS)** using libraries like [Noise Protocol](https://noiseprotocol.org/) or [libsodium](https://doc.libsodium.org/).
 - 👤 **Privacy:** Be mindful of the data shared over Bluetooth, as nearby devices may be able to monitor the traffic if not properly secured.
 
 <!-- ⚡ Optimization: Contextual 'Back to Top' links reduce developer 'Time to Action' by minimizing scroll time -->
