@@ -125,6 +125,27 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
   }
   ```
 - 🛡️ **Message Integrity & Authenticity:** Use Message Authentication Codes (MACs) or digital signatures (see `ChatMessage.authentication_tag`) to ensure that messages have not been tampered with and originate from the claimed sender. It is highly recommended to use **Authenticated Encryption with Associated Data (AEAD)** schemes (e.g., AES-GCM, ChaCha20-Poly1305) to provide both confidentiality and integrity in a single operation.
+  ```kotlin
+  // Example: Authenticated Encryption (AES-GCM) on Android (Kotlin)
+  // AES-GCM provides both confidentiality and integrity in a single operation.
+  fun encryptMessage(plaintext: ByteArray, key: SecretKey, nonce: ByteArray, ad: ByteArray): ByteArray {
+      val cipher = Cipher.getInstance("AES/GCM/NoPadding")
+      val spec = GCMParameterSpec(128, nonce) // 128-bit authentication tag
+      cipher.init(Cipher.ENCRYPT_MODE, key, spec)
+      cipher.updateAAD(ad) // Bind to context (sender/recipient IDs)
+      return cipher.doFinal(plaintext)
+  }
+  ```
+  ```swift
+  // Example: Authenticated Encryption (AES-GCM) in Swift (CryptoKit)
+  // CryptoKit simplifies secure implementation of AEAD schemes.
+  import CryptoKit
+
+  func encryptMessage(plaintext: Data, key: SymmetricKey, nonce: AES.GCM.Nonce, ad: Data) throws -> Data {
+      let sealedBox = try AES.GCM.seal(plaintext, using: key, nonce: nonce, authenticating: ad)
+      return sealedBox.combined! // Contains nonce + ciphertext + tag
+  }
+  ```
   - ⏱️ **Constant-Time Verification:** Always use constant-time comparison functions when verifying MACs or signatures to prevent timing attacks that could leak information about the expected tag.
   ```kotlin
   // Example: Constant-time MAC verification on Android (Kotlin)
@@ -140,7 +161,7 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
   // the data content, preventing timing attacks.
   func fixedTimeCompare(_ a: Data, _ b: Data) -> Bool {
       guard a.count == b.count else { return false }
-      return a.indices.reduce(0) { $0 | (a[$1] ^ b[$1]) } == 0
+      return a.indices.reduce(UInt8(0)) { $0 | (a[$1] ^ b[$1]) } == 0
   }
   ```
 - 🎯 **Recipient Binding & Verification:** Explicitly include and verify the `recipient_id` (see `ChatMessage.recipient_id`) in every message to prevent reflection attacks. When using AEAD, include the `sender_id`, `recipient_id`, and `timestamp` in the **Associated Data (AD)** to cryptographically bind the message to its context.
@@ -313,6 +334,14 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
   ```
 - 🤏 **Data Minimization:** Only transmit essential data over Bluetooth. Avoid sending Personally Identifiable Information (PII) unless it is strictly necessary and properly encrypted.
 - 🚫 **Data Leakage Prevention (DLP):** Prevent sensitive data leakage through unencrypted cloud backups (e.g., `android:allowBackup="false"`), the system clipboard, by obscuring sensitive UI content in the application switcher, or by disabling screenshots on sensitive screens (e.g., `FLAG_SECURE` on Android). Implement Overlay Protection (Anti-Tapjacking) to prevent malicious apps from intercepting touches by drawing over the application (e.g., `android:filterTouchesWhenObscured="true"`).
+  ```xml
+  <!-- Example: Disabling unencrypted cloud backups in AndroidManifest.xml -->
+  <application
+      android:allowBackup="false"
+      android:fullBackupContent="false"
+      ... >
+  </application>
+  ```
   ```kotlin
   // Example: Disabling screenshots and screen recording on Android.
   // This prevents sensitive chat content from being captured or leaked
