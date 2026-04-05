@@ -129,6 +129,27 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
   }
   ```
 - 🛡️ **Message Integrity & Authenticity:** Use Message Authentication Codes (MACs) or digital signatures (see `ChatMessage.authentication_tag`) to ensure that messages have not been tampered with and originate from the claimed sender. It is highly recommended to use **Authenticated Encryption with Associated Data (AEAD)** schemes (e.g., AES-GCM, ChaCha20-Poly1305) to provide both confidentiality and integrity in a single operation.
+  ```kotlin
+  // Example: Authenticated Encryption (AES-GCM) on Android (Kotlin)
+  // AES-GCM provides both confidentiality and integrity in a single operation.
+  fun encryptMessage(plaintext: ByteArray, key: SecretKey, nonce: ByteArray, ad: ByteArray): ByteArray {
+      val cipher = Cipher.getInstance("AES/GCM/NoPadding")
+      val spec = GCMParameterSpec(128, nonce) // 128-bit authentication tag
+      cipher.init(Cipher.ENCRYPT_MODE, key, spec)
+      cipher.updateAAD(ad) // Bind to context (sender/recipient IDs)
+      return cipher.doFinal(plaintext)
+  }
+  ```
+  ```swift
+  // Example: Authenticated Encryption (AES-GCM) in Swift (CryptoKit)
+  // CryptoKit simplifies secure implementation of AEAD schemes.
+  import CryptoKit
+
+  func encryptMessage(plaintext: Data, key: SymmetricKey, nonce: AES.GCM.Nonce, ad: Data) throws -> Data {
+      let sealedBox = try AES.GCM.seal(plaintext, using: key, nonce: nonce, authenticating: ad)
+      return sealedBox.combined! // Contains nonce + ciphertext + tag
+  }
+  ```
   - ⏱️ **Constant-Time Verification:** Always use constant-time comparison functions when verifying MACs or signatures to prevent timing attacks that could leak information about the expected tag.
   ```kotlin
   // Example: Constant-time MAC verification on Android (Kotlin)
@@ -144,7 +165,7 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
   // the data content, preventing timing attacks.
   func fixedTimeCompare(_ a: Data, _ b: Data) -> Bool {
       guard a.count == b.count else { return false }
-      return a.indices.reduce(0) { $0 | (a[$1] ^ b[$1]) } == 0
+      return a.indices.reduce(UInt8(0)) { $0 | (a[$1] ^ b[$1]) } == 0
   }
   ```
 - 🎯 **Recipient Binding & Verification:** Explicitly include and verify the `recipient_id` (see `ChatMessage.recipient_id`) in every message to prevent reflection attacks. When using AEAD, include the `sender_id`, `recipient_id`, and `timestamp` in the **Associated Data (AD)** to cryptographically bind the message to its context.
@@ -181,6 +202,23 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
   }
   ```
 - 📍 **Bluetooth Discoverability:** Implement a timeout for discoverability to minimize the window of exposure to unknown devices.
+  ```kotlin
+  // Example: Requesting a discoverability timeout on Android (300 seconds)
+  val discoverableIntent = Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE).apply {
+      putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300)
+  }
+  startActivity(discoverableIntent)
+  ```
+  ```swift
+  // Example: Implementing a manual discovery timeout in Swift
+  // Stop advertising after a set duration to minimize exposure.
+  func startAdvertisingWithTimeout(duration: TimeInterval) {
+      peripheralManager.startAdvertising([CBAdvertisementDataServiceUUIDsKey: [serviceUUID]])
+      Timer.scheduledTimer(withTimeInterval: duration, repeats: false) { _ in
+          self.peripheralManager.stopAdvertising()
+      }
+  }
+  ```
 - 🌐 **Secure Network Communication:** Ensure all network traffic uses encrypted protocols (e.g., HTTPS). Disable cleartext traffic in the application configuration to prevent man-in-the-middle attacks and data interception.
   ```xml
   <!-- Example: Disabling cleartext traffic on Android (network_security_config.xml) -->
@@ -202,6 +240,32 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
   </dict>
   ```
 - 📲 **Secure Deep Link Handling:** Rigorously validate all incoming deep links and their parameters. Ensure that deep link actions do not bypass authentication/authorization or expose sensitive functionality to remote exploitation.
+  ```kotlin
+  // Example: Validating Deep Links on Android
+  // Check the scheme, host, and validate parameters using regex.
+  intent?.data?.let { uri ->
+      if (uri.scheme == "btchat" && uri.host == "join-room") {
+          val roomId = uri.getQueryParameter("id")
+          if (roomId != null && roomId.matches(Regex("^[a-zA-Z0-9_-]{1,16}$"))) {
+              // Proceed with validated room ID
+          }
+      }
+  }
+  ```
+  ```swift
+  // Example: Validating Deep Links in Swift
+  // Ensure the scheme and host match and parameters follow a strict format.
+  func handleDeepLink(_ url: URL) {
+      guard let components = URLComponents(url: url, resolvingAgainstBaseURL: true),
+            components.scheme == "btchat",
+            components.host == "join-room" else { return }
+
+      if let roomId = components.queryItems?.first(where: { $0.name == "id" })?.value,
+         roomId.range(of: "^[a-zA-Z0-9_-]{1,16}$", options: .regularExpression) != nil {
+          // Proceed with validated room ID
+      }
+  }
+  ```
 - 🧱 **Component Security:** Ensure all application components (Activities, Services, Receivers) are not exported unless absolutely necessary.
   ```xml
   <!-- Example: Secure component configuration in AndroidManifest.xml -->
@@ -210,6 +274,7 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
       android:exported="false" />
   ```
 
+<!-- ⚡ Optimization: Contextual 'Back to Top' links reduce developer 'Time to Action' by minimizing scroll time -->
 <a href="#-security-policy" aria-label="Back to top of page">⬆ Back to Top</a>
 
 ### 👤 Data Privacy & User Protection
@@ -273,6 +338,14 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
   ```
 - 🤏 **Data Minimization:** Only transmit essential data over Bluetooth. Avoid sending Personally Identifiable Information (PII) unless it is strictly necessary and properly encrypted.
 - 🚫 **Data Leakage Prevention (DLP):** Prevent sensitive data leakage through unencrypted cloud backups (e.g., `android:allowBackup="false"`), the system clipboard, by obscuring sensitive UI content in the application switcher, or by disabling screenshots on sensitive screens (e.g., `FLAG_SECURE` on Android). Implement Overlay Protection (Anti-Tapjacking) to prevent malicious apps from intercepting touches by drawing over the application (e.g., `android:filterTouchesWhenObscured="true"`).
+  ```xml
+  <!-- Example: Disabling unencrypted cloud backups in AndroidManifest.xml -->
+  <application
+      android:allowBackup="false"
+      android:fullBackupContent="false"
+      ... >
+  </application>
+  ```
   ```kotlin
   // Example: Disabling screenshots and screen recording on Android.
   // This prevents sensitive chat content from being captured or leaked
@@ -341,6 +414,7 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
   ```
 - 👤 **Device Identity Privacy:** Do not use the default system device name (e.g., "Alice's iPhone") for Bluetooth discovery, as it can leak Personally Identifiable Information (PII) to nearby observers. Implement generic aliases or allow users to set a pseudonym within the application.
 
+<!-- ⚡ Optimization: Contextual 'Back to Top' links reduce developer 'Time to Action' by minimizing scroll time -->
 <a href="#-security-policy" aria-label="Back to top of page">⬆ Back to Top</a>
 
 ### 🛡️ Application & Environment Hardening

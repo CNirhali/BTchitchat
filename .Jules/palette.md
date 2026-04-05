@@ -100,3 +100,7 @@ This journal documents critical UX and accessibility learnings discovered during
 ## 2026-04-01 - Explicit Role Mapping for Custom UI Elements
 **Learning:** In cross-platform development (React Native), standard interactive elements like `Pressable` are often used to build custom UI components. However, without an explicit `accessibilityRole="button"`, screen readers may fail to announce these elements correctly, especially when they only contain icons. This can leave visually impaired users unable to identify the primary actions in the interface.
 **Action:** Always provide explicit accessibility roles for all interactive components that do not use native button elements to ensure proper screen reader support and navigational clarity.
+
+## 2026-04-05 - Confirmation for Destructive Actions
+**Learning:** In a peer-to-peer chat environment where data is localized and not backed up to a cloud (Bluetooth-only), destructive actions like "Clear History" are significantly more high-stakes. Therefore, providing platform-standard confirmation patterns (e.g., destructive Action Sheets on iOS or Material Alert Dialogs on Android) is a critical trust signal for users, balancing friction with data safety.
+**Action:** When implementing destructive or irreversible local data actions, always use platform-standard UI components that visually signal "danger" or "irreversibility" to ensure user intent matches the outcome.
