@@ -83,8 +83,11 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
 
   // A size-limited cache with Collections.synchronizedMap and LinkedHashMap
   // ensures thread-safety and atomic LRU eviction to prevent memory-based DoS.
+  private val MAX_NONCE_CACHE_SIZE = 10000
+  // Optimization: Setting initial capacity to (MAX_NONCE_CACHE_SIZE / 0.75) + 1 prevents
+  // expensive resizing operations during the cache warm-up phase.
   private val processedNonces: MutableMap<Nonce, Boolean> = Collections.synchronizedMap(
-      object : LinkedHashMap<Nonce, Boolean>(MAX_NONCE_CACHE_SIZE, 0.75f, true) {
+      object : LinkedHashMap<Nonce, Boolean>((MAX_NONCE_CACHE_SIZE / 0.75f).toInt() + 1, 0.75f, true) {
           override fun removeEldestEntry(eldest: MutableMap.MutableEntry<Nonce, Boolean>): Boolean {
               return size > MAX_NONCE_CACHE_SIZE
           }
@@ -101,10 +104,11 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
   // Example: Verifying a cryptographic nonce in Swift to prevent replay attacks.
   // Using a serial DispatchQueue ensures thread-safe, atomic access to the
   // nonce cache and circular buffer.
-  private var processedNonces = Set<Data>()
-  private var nonceHistory = [Data?](repeating: nil, count: 10000)
-  private var currentIndex = 0
   private let maxNonceCacheSize = 10000
+  // Optimization: Reserving minimum capacity prevents internal set resizes.
+  private var processedNonces = Set<Data>(minimumCapacity: maxNonceCacheSize)
+  private var nonceHistory = [Data?](repeating: nil, count: maxNonceCacheSize)
+  private var currentIndex = 0
   private let nonceQueue = DispatchQueue(label: "com.app.nonce-verification")
 
   func isNonceValid(incomingNonce: Data) -> Bool {
