@@ -457,6 +457,36 @@ To provide a smooth and intuitive messaging experience over Bluetooth:
     ]
   );
   ```
+- 🗑️ **Destructive Actions:** Always require confirmation for irreversible actions like clearing chat history or disconnecting an active session to prevent accidental data loss.
+  ```kotlin
+  // Example: Confirmation for clear chat on Android
+  MaterialAlertDialogBuilder(context)
+      .setTitle("Clear Chat History?")
+      .setMessage("This action cannot be undone.")
+      .setPositiveButton("Clear") { _, _ -> clearChat() }
+      .setNegativeButton("Cancel", null)
+      .show()
+  ```
+  ```swift
+  // Example: Confirmation for clear chat in Swift (UIKit)
+  let actionSheet = UIAlertController(title: "Clear Chat History?", message: "This action cannot be undone.", preferredStyle: .actionSheet)
+  actionSheet.addAction(UIAlertAction(title: "Clear", style: .destructive) { _ in
+      self.clearChat()
+  })
+  actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+  present(actionSheet, animated: true)
+  ```
+  ```tsx
+  // Example: Confirmation for clear chat in React Native (TSX)
+  Alert.alert(
+    "Clear Chat History?",
+    "This action cannot be undone.",
+    [
+      { text: "Cancel", style: "cancel" },
+      { text: "Clear", style: "destructive", onPress: () => clearChat() }
+    ]
+  );
+  ```
 - ♿ **Accessibility:** Ensure high color contrast for text and large touch targets (at least 48x48dp) for all interactive UI elements. Provide descriptive labels for icon-only buttons to support screen readers.
   ```kotlin
   // Example: Ensuring accessible touch targets and labels on Android
@@ -501,6 +531,7 @@ To provide a smooth and intuitive messaging experience over Bluetooth:
   Vibration.vibrate(10)
   ```
 - 📭 **Empty States:** Provide helpful guidance or calls-to-action when no data is present (e.g., **"Scanning for nearby friends..."**). Include a manual **"Scan Again"** or **"Retry"** button to allow users to recover from transient discovery failures.
+
   ```kotlin
   // Example: Showing a helpful empty state with a retry action on Android
   if (discoveredDevices.isEmpty()) {
@@ -539,6 +570,19 @@ To provide a smooth and intuitive messaging experience over Bluetooth:
     </View>
   )}
   ```
+
+### 🎨 UI/UX Checklist
+
+A quick reference for developers to ensure the "interface" meets our standard for quality and accessibility.
+
+| Check | Guideline | Recommendation |
+| :---: | :--- | :--- |
+| [ ] | **Connection Status** | 🟢 Connected, 🟡 Connecting..., 🔴 Disconnected |
+| [ ] | **Touch Targets** | Minimum 48x48dp for all buttons |
+| [ ] | **Destructive Actions** | Confirmation dialog before clearing chat |
+| [ ] | **Screen Readers** | Descriptive `aria-label` or `contentDescription` |
+| [ ] | **Haptics** | Tactile feedback on message sent/delivered |
+| [ ] | **Keyboard** | "Enter to Send" supported with auto-clear |
 
 <!-- ⚡ Optimization: Contextual 'Back to Top' links reduce developer 'Time to Action' by minimizing scroll time -->
 <a href="#-bluetooth-chit-chat" aria-label="Back to top of page">⬆ Back to Top</a>
