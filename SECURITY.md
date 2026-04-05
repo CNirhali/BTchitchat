@@ -241,6 +241,15 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
   ```
 - 📲 **Secure Deep Link Handling:** Rigorously validate all incoming deep links and their parameters. Ensure that deep link actions do not bypass authentication/authorization or expose sensitive functionality to remote exploitation.
   ```kotlin
+  // Example: Validating deep link data on Android (Kotlin)
+  // Rigorous validation of scheme, host, and parameters prevents
+  // malicious deep links from exploiting application functionality.
+  fun handleDeepLink(intent: Intent) {
+      val data: Uri? = intent.data
+      if (data != null && data.scheme == "btchat" && data.host == "join") {
+          val roomId = data.getQueryParameter("id")
+          if (roomId != null && roomId.matches(Regex("^[a-zA-Z0-9]{8,16}$"))) {
+              // Securely proceed with joining the chat room
   // Example: Validating Deep Links on Android
   // Check the scheme, host, and validate parameters using regex.
   intent?.data?.let { uri ->
@@ -253,6 +262,17 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
   }
   ```
   ```swift
+  // Example: Validating deep link components in Swift
+  // Using URLComponents allows for structured and strict verification
+  // of the scheme, host, and query parameters to prevent exploitation.
+  func handleDeepLink(_ url: URL) {
+      guard let components = URLComponents(url: url, resolvingAgainstBaseURL: true),
+            components.scheme == "btchat",
+            components.host == "join" else { return }
+
+      if let roomId = components.queryItems?.first(where: { $0.name == "id" })?.value,
+         roomId.range(of: "^[a-zA-Z0-9]{8,16}$", options: .regularExpression) != nil {
+          // Securely proceed with joining the chat room
   // Example: Validating Deep Links in Swift
   // Ensure the scheme and host match and parameters follow a strict format.
   func handleDeepLink(_ url: URL) {
