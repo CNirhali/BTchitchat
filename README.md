@@ -82,8 +82,9 @@ Bluetooth throughput is limited and latency can vary. To ensure a fast experienc
 - 📦 **Binary Serialization:** Use efficient formats like [Protobuf](https://protobuf.dev/) (see our [optimized schema](schema/chat_message.proto)) or [FlatBuffers](https://google.github.io/flatbuffers/) to minimize payload size and processing overhead. Use minimal message types like `HEARTBEAT` for low-overhead connection maintenance.
 - 🚀 **MTU Negotiation:** Request a larger Maximum Transmission Unit (MTU) to increase throughput for larger messages (up to 512 bytes on BLE).
   ```kotlin
-  // Example: Requesting larger MTU on Android
-  bluetoothGatt.requestMtu(512)
+  // Example: Requesting larger MTU on Android.
+  // Using 517 allows for the maximum 512-byte payload plus 5-byte header.
+  bluetoothGatt.requestMtu(517)
   ```
   ```swift
   // Example: Querying maximum write length in Swift (equivalent to MTU)
@@ -126,10 +127,10 @@ Bluetooth throughput is limited and latency can vary. To ensure a fast experienc
   ```
 - 📉 **Lower Latency:** Use direct connection handles where possible, minimize unnecessary application-layer acknowledgments, and utilize **Write Without Response** for high-throughput data.
   ```kotlin
-  // Example: Writing without response for ~2x throughput increase on Android.
-  // This reduces protocol overhead by not requiring an acknowledgement for each packet.
-  characteristic.writeType = BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE
-  bluetoothGatt.writeCharacteristic(characteristic)
+  // Example: Writing without response for ~2x throughput increase on Android (API 33+).
+  // This method avoids internal memory copies, improving throughput and efficiency.
+  val data = message.toByteArray()
+  bluetoothGatt.writeCharacteristic(characteristic, data, BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE)
   ```
   ```kotlin
   // Example: Requesting 2M PHY for up to 2x physical layer throughput on Android (BLE 5.0+).
@@ -175,6 +176,23 @@ Bluetooth throughput is limited and latency can vary. To ensure a fast experienc
   pendingMessages.removeAll(keepingCapacity: true)
   ```
 - ⏱️ **Lazy Initialization:** Delay Bluetooth stack setup and discovery until strictly necessary to improve initial app launch speed and reduce memory footprint.
+  ```kotlin
+  // Example: Deferring Bluetooth manager lookup on Android.
+  // Using 'LazyThreadSafetyMode.NONE' avoids synchronization overhead
+  // when initialization is guaranteed to occur on a single thread (e.g., Main).
+  private val bluetoothManager by lazy(LazyThreadSafetyMode.NONE) {
+      context.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
+  }
+  ```
+  ```swift
+  // Example: Deferring CBCentralManager initialization in Swift.
+  // Using 'lazy var' ensures the Bluetooth stack is only powered on
+  // when the 'centralManager' property is first accessed.
+  lazy var centralManager: CBCentralManager = {
+      let queue = DispatchQueue(label: "com.app.bluetooth", qos: .userInitiated)
+      return CBCentralManager(delegate: self, queue: queue)
+  }()
+  ```
 - 📜 **List Virtualization:** Use virtualized lists to handle large chat histories without degrading UI performance. This ensures only visible items are rendered, maintaining 60 FPS even with thousands of messages.
   ```kotlin
   // Example: Using ListAdapter with DiffUtil for efficient RecyclerView updates on Android.
@@ -289,8 +307,8 @@ Bluetooth throughput is limited and latency can vary. To ensure a fast experienc
 
 Bluetooth communication is inherently susceptible to various security risks, including eavesdropping and man-in-the-middle attacks. For detailed security practices, see our [SECURITY.md](SECURITY.md).
 
-- 🔐 **Encryption & Integrity:** This template currently does **not** implement End-to-End Encryption (E2EE) or Message Integrity Checks. All messages are sent in plain text and are susceptible to tampering.
-- 💡 **Recommendations:** For production use, it is highly recommended to implement a robust E2EE layer with **Perfect Forward Secrecy (PFS)** using libraries like [Noise Protocol](https://noiseprotocol.org/) or [libsodium](https://doc.libsodium.org/).
+- 🔐 **Encryption & Integrity:** This template recommends and provides implementation examples for **Authenticated Encryption with Associated Data (AEAD)** (e.g., AES-GCM) and **Message Integrity Checks** to protect against eavesdropping and tampering. See [SECURITY.md](SECURITY.md) for actionable code snippets.
+- 💡 **Recommendations:** For production use, it is highly recommended to implement a robust End-to-End Encryption (E2EE) layer with **Perfect Forward Secrecy (PFS)** using libraries like [Noise Protocol](https://noiseprotocol.org/) or [libsodium](https://doc.libsodium.org/).
 - 👤 **Privacy:** Be mindful of the data shared over Bluetooth, as nearby devices may be able to monitor the traffic if not properly secured.
 
 <!-- ⚡ Optimization: Contextual 'Back to Top' links reduce developer 'Time to Action' by minimizing scroll time -->
@@ -456,6 +474,36 @@ To provide a smooth and intuitive messaging experience over Bluetooth:
     ]
   );
   ```
+- 🗑️ **Destructive Actions:** Always require confirmation for irreversible actions like clearing chat history or disconnecting an active session to prevent accidental data loss.
+  ```kotlin
+  // Example: Confirmation for clear chat on Android
+  MaterialAlertDialogBuilder(context)
+      .setTitle("Clear Chat History?")
+      .setMessage("This action cannot be undone.")
+      .setPositiveButton("Clear") { _, _ -> clearChat() }
+      .setNegativeButton("Cancel", null)
+      .show()
+  ```
+  ```swift
+  // Example: Confirmation for clear chat in Swift (UIKit)
+  let actionSheet = UIAlertController(title: "Clear Chat History?", message: "This action cannot be undone.", preferredStyle: .actionSheet)
+  actionSheet.addAction(UIAlertAction(title: "Clear", style: .destructive) { _ in
+      self.clearChat()
+  })
+  actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+  present(actionSheet, animated: true)
+  ```
+  ```tsx
+  // Example: Confirmation for clear chat in React Native (TSX)
+  Alert.alert(
+    "Clear Chat History?",
+    "This action cannot be undone.",
+    [
+      { text: "Cancel", style: "cancel" },
+      { text: "Clear", style: "destructive", onPress: () => clearChat() }
+    ]
+  );
+  ```
 - ♿ **Accessibility:** Ensure high color contrast for text and large touch targets (at least 48x48dp) for all interactive UI elements. Provide descriptive labels for icon-only buttons to support screen readers.
   ```kotlin
   // Example: Ensuring accessible touch targets and labels on Android
@@ -500,6 +548,7 @@ To provide a smooth and intuitive messaging experience over Bluetooth:
   Vibration.vibrate(10)
   ```
 - 📭 **Empty States:** Provide helpful guidance or calls-to-action when no data is present (e.g., **"Scanning for nearby friends..."**). Include a manual **"Scan Again"** or **"Retry"** button to allow users to recover from transient discovery failures.
+
   ```kotlin
   // Example: Showing a helpful empty state with a retry action on Android
   if (discoveredDevices.isEmpty()) {
@@ -538,6 +587,19 @@ To provide a smooth and intuitive messaging experience over Bluetooth:
     </View>
   )}
   ```
+
+### 🎨 UI/UX Checklist
+
+A quick reference for developers to ensure the "interface" meets our standard for quality and accessibility.
+
+| Check | Guideline | Recommendation |
+| :---: | :--- | :--- |
+| [ ] | **Connection Status** | 🟢 Connected, 🟡 Connecting..., 🔴 Disconnected |
+| [ ] | **Touch Targets** | Minimum 48x48dp for all buttons |
+| [ ] | **Destructive Actions** | Confirmation dialog before clearing chat |
+| [ ] | **Screen Readers** | Descriptive `aria-label` or `contentDescription` |
+| [ ] | **Haptics** | Tactile feedback on message sent/delivered |
+| [ ] | **Keyboard** | "Enter to Send" supported with auto-clear |
 
 <!-- ⚡ Optimization: Contextual 'Back to Top' links reduce developer 'Time to Action' by minimizing scroll time -->
 <a href="#-bluetooth-chit-chat" aria-label="Back to top of page">⬆ Back to Top</a>

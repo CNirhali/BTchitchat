@@ -62,6 +62,11 @@ This journal is used to record critical security learnings discovered during the
 **Learning:** Developers often assume Bluetooth pairing implies data encryption, but GATT permissions must be explicitly set to require encryption/bonding at the OS level. Providing actionable technical examples (Kotlin/Swift) in the security policy helps ensure these protections are implemented correctly.
 **Prevention:** Mandate the use of platform-specific encrypted GATT permissions (e.g., `PERMISSION_READ_ENCRYPTED`) and provide code snippets in the security guidelines to facilitate implementation.
 
+## 2026-04-05 - Ensuring Type-Safe Cryptographic Comparisons in Swift
+**Vulnerability:** Inconsistent type handling in Swift's bitwise reduction for constant-time comparisons can lead to compilation errors or unexpected behavior during security audits.
+**Learning:** Swift's strict typing requires explicit initialization of reduction variables (e.g., `UInt8(0)`) when performing bitwise XOR and OR operations on byte indices. Documentation errors in security primitives can cause developers to abandon critical protections like constant-time verification if the code doesn't compile out-of-the-box.
+**Prevention:** Always verify the type consistency of cryptographic code snippets across all supported platforms and ensure that `reduce` operations on `Data` or byte arrays use the correct bit-width for the accumulator.
+
 ## 2026-04-20 - Preventing Reflection Attacks via Recipient Binding
 **Vulnerability:** Peer-to-peer messages without explicit recipient binding can be replayed back to the sender (reflection attack) or mis-attributed if the sender-recipient context isn't cryptographically verified.
 **Learning:** In decentralized Bluetooth communication, simply encrypting the payload is insufficient. The message must be bound to the intended recipient and specific session context to prevent an attacker from redirecting messages. Furthermore, when evolving protocols, field type changes (e.g., `uint64` to `bytes`) must be handled via deprecation and new field allocation to maintain wire compatibility.
@@ -121,3 +126,8 @@ This journal is used to record critical security learnings discovered during the
 **Vulnerability:** Security guidelines for local data encryption and keyboard privacy are often ignored when not accompanied by actionable, platform-specific implementation examples.
 **Learning:** In documentation-heavy templates, the "Developer Time to Action" (DX) for security is a critical bottleneck. Abstract mandates for "using Keychain" or "disabling keyboard cache" are less effective than providing the exact code (Kotlin, Swift, TSX) required. Bridging this gap ensures that security-by-default is actually achievable for the implementer.
 **Prevention:** Always provide actionable, multi-platform code snippets for sensitive operations like local data encryption and privacy-conscious UI configurations to ensure mandates are translated into practice.
+
+## 2026-06-05 - Actionable Snippets for Surface Area Reduction & Input Validation
+**Vulnerability:** Abstract security requirements for discoverability timeouts and deep link validation are often ignored without actionable implementation examples, leading to increased attack surfaces and potential exploitation.
+**Learning:** In mobile templates, "secondary" security features like Bluetooth discoverability timeouts and rigorous deep link validation are frequently skipped because the implementation details (e.g., using `Timer` on iOS or Regex on Android) are perceived as non-trivial. Providing baseline snippets reduces cognitive load and ensures these critical "Defense in Depth" layers are implemented.
+**Prevention:** Ensure all security policy mandates, especially those involving platform-specific APIs or input validation, are accompanied by actionable Kotlin and Swift code snippets to minimize "Developer Time to Action" and ensure a consistent security posture.
