@@ -83,7 +83,6 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
 
   // A size-limited cache with Collections.synchronizedMap and LinkedHashMap
   // ensures thread-safety and atomic LRU eviction to prevent memory-based DoS.
-  private val MAX_NONCE_CACHE_SIZE = 10000
   private val processedNonces: MutableMap<Nonce, Boolean> = Collections.synchronizedMap(
       object : LinkedHashMap<Nonce, Boolean>(MAX_NONCE_CACHE_SIZE, 0.75f, true) {
           override fun removeEldestEntry(eldest: MutableMap.MutableEntry<Nonce, Boolean>): Boolean {
@@ -207,6 +206,7 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
       android:exported="false" />
   ```
 
+<!-- ⚡ Optimization: Contextual 'Back to Top' links reduce developer 'Time to Action' by minimizing scroll time -->
 <a href="#-security-policy" aria-label="Back to top of page">⬆ Back to Top</a>
 
 ### 👤 Data Privacy & User Protection
@@ -338,6 +338,7 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
   ```
 - 👤 **Device Identity Privacy:** Do not use the default system device name (e.g., "Alice's iPhone") for Bluetooth discovery, as it can leak Personally Identifiable Information (PII) to nearby observers. Implement generic aliases or allow users to set a pseudonym within the application.
 
+<!-- ⚡ Optimization: Contextual 'Back to Top' links reduce developer 'Time to Action' by minimizing scroll time -->
 <a href="#-security-policy" aria-label="Back to top of page">⬆ Back to Top</a>
 
 ### 🛡️ Application & Environment Hardening
