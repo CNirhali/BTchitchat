@@ -177,6 +177,23 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
   }
   ```
 - 📍 **Bluetooth Discoverability:** Implement a timeout for discoverability to minimize the window of exposure to unknown devices.
+  ```kotlin
+  // Example: Requesting a discoverability timeout on Android (300 seconds)
+  val discoverableIntent = Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE).apply {
+      putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300)
+  }
+  startActivity(discoverableIntent)
+  ```
+  ```swift
+  // Example: Implementing a manual discovery timeout in Swift
+  // Stop advertising after a set duration to minimize exposure.
+  func startAdvertisingWithTimeout(duration: TimeInterval) {
+      peripheralManager.startAdvertising([CBAdvertisementDataServiceUUIDsKey: [serviceUUID]])
+      Timer.scheduledTimer(withTimeInterval: duration, repeats: false) { _ in
+          self.peripheralManager.stopAdvertising()
+      }
+  }
+  ```
 - 🌐 **Secure Network Communication:** Ensure all network traffic uses encrypted protocols (e.g., HTTPS). Disable cleartext traffic in the application configuration to prevent man-in-the-middle attacks and data interception.
   ```xml
   <!-- Example: Disabling cleartext traffic on Android (network_security_config.xml) -->
@@ -198,6 +215,32 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
   </dict>
   ```
 - 📲 **Secure Deep Link Handling:** Rigorously validate all incoming deep links and their parameters. Ensure that deep link actions do not bypass authentication/authorization or expose sensitive functionality to remote exploitation.
+  ```kotlin
+  // Example: Validating Deep Links on Android
+  // Check the scheme, host, and validate parameters using regex.
+  intent?.data?.let { uri ->
+      if (uri.scheme == "btchat" && uri.host == "join-room") {
+          val roomId = uri.getQueryParameter("id")
+          if (roomId != null && roomId.matches(Regex("^[a-zA-Z0-9_-]{1,16}$"))) {
+              // Proceed with validated room ID
+          }
+      }
+  }
+  ```
+  ```swift
+  // Example: Validating Deep Links in Swift
+  // Ensure the scheme and host match and parameters follow a strict format.
+  func handleDeepLink(_ url: URL) {
+      guard let components = URLComponents(url: url, resolvingAgainstBaseURL: true),
+            components.scheme == "btchat",
+            components.host == "join-room" else { return }
+
+      if let roomId = components.queryItems?.first(where: { $0.name == "id" })?.value,
+         roomId.range(of: "^[a-zA-Z0-9_-]{1,16}$", options: .regularExpression) != nil {
+          // Proceed with validated room ID
+      }
+  }
+  ```
 - 🧱 **Component Security:** Ensure all application components (Activities, Services, Receivers) are not exported unless absolutely necessary.
   ```xml
   <!-- Example: Secure component configuration in AndroidManifest.xml -->
