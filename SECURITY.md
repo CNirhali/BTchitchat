@@ -83,7 +83,6 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
 
   // A size-limited cache with Collections.synchronizedMap and LinkedHashMap
   // ensures thread-safety and atomic LRU eviction to prevent memory-based DoS.
-  private val MAX_NONCE_CACHE_SIZE = 10000
   // Optimization: Setting initial capacity to (MAX_NONCE_CACHE_SIZE / 0.75) + 1 prevents
   // expensive resizing operations during the cache warm-up phase.
   private val processedNonces: MutableMap<Nonce, Boolean> = Collections.synchronizedMap(
@@ -163,9 +162,18 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
   // Example: Constant-time MAC verification in Swift
   // This implementation ensures that the comparison time is independent of
   // the data content, preventing timing attacks.
+  // Using 'withUnsafeBytes' avoids closure overhead and repeated bounds checking.
   func fixedTimeCompare(_ a: Data, _ b: Data) -> Bool {
       guard a.count == b.count else { return false }
-      return a.indices.reduce(UInt8(0)) { $0 | (a[$1] ^ b[$1]) } == 0
+      return a.withUnsafeBytes { bufA in
+          b.withUnsafeBytes { bufB in
+              var result: UInt8 = 0
+              for i in 0..<a.count {
+                  result |= bufA[i] ^ bufB[i]
+              }
+              return result == 0
+          }
+      }
   }
   ```
 - 🎯 **Recipient Binding & Verification:** Explicitly include and verify the `recipient_id` (see `ChatMessage.recipient_id`) in every message to prevent reflection attacks. When using AEAD, include the `sender_id`, `recipient_id`, and `timestamp` in the **Associated Data (AD)** to cryptographically bind the message to its context.
@@ -245,18 +253,11 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
   // Rigorous validation of scheme, host, and parameters prevents
   // malicious deep links from exploiting application functionality.
   fun handleDeepLink(intent: Intent) {
-      val data: Uri? = intent.data
-      if (data != null && data.scheme == "btchat" && data.host == "join") {
-          val roomId = data.getQueryParameter("id")
-          if (roomId != null && roomId.matches(Regex("^[a-zA-Z0-9]{8,16}$"))) {
-              // Securely proceed with joining the chat room
-  // Example: Validating Deep Links on Android
-  // Check the scheme, host, and validate parameters using regex.
-  intent?.data?.let { uri ->
-      if (uri.scheme == "btchat" && uri.host == "join-room") {
+      val uri: Uri? = intent.data
+      if (uri != null && uri.scheme == "btchat" && uri.host == "join-room") {
           val roomId = uri.getQueryParameter("id")
           if (roomId != null && roomId.matches(Regex("^[a-zA-Z0-9_-]{1,16}$"))) {
-              // Proceed with validated room ID
+              // Securely proceed with joining the chat room
           }
       }
   }
@@ -268,24 +269,18 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
   func handleDeepLink(_ url: URL) {
       guard let components = URLComponents(url: url, resolvingAgainstBaseURL: true),
             components.scheme == "btchat",
-            components.host == "join" else { return }
-
-      if let roomId = components.queryItems?.first(where: { $0.name == "id" })?.value,
-         roomId.range(of: "^[a-zA-Z0-9]{8,16}$", options: .regularExpression) != nil {
-          // Securely proceed with joining the chat room
-  // Example: Validating Deep Links in Swift
-  // Ensure the scheme and host match and parameters follow a strict format.
-  func handleDeepLink(_ url: URL) {
-      guard let components = URLComponents(url: url, resolvingAgainstBaseURL: true),
-            components.scheme == "btchat",
             components.host == "join-room" else { return }
 
       if let roomId = components.queryItems?.first(where: { $0.name == "id" })?.value,
          roomId.range(of: "^[a-zA-Z0-9_-]{1,16}$", options: .regularExpression) != nil {
-          // Proceed with validated room ID
+          // Securely proceed with joining the chat room
       }
   }
   ```
+
+<!-- ⚡ Optimization: Contextual 'Back to Top' links reduce developer 'Time to Action' by minimizing scroll time -->
+<a href="#-security-policy" aria-label="Back to top of page">⬆ Back to Top</a>
+
 - 🧱 **Component Security:** Ensure all application components (Activities, Services, Receivers) are not exported unless absolutely necessary.
   ```xml
   <!-- Example: Secure component configuration in AndroidManifest.xml -->
