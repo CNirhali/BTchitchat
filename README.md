@@ -557,37 +557,58 @@ To provide a smooth and intuitive messaging experience over Bluetooth:
 - 📭 **Empty States:** Provide helpful guidance or calls-to-action when no data is present (e.g., **"Scanning for nearby friends..."**). Include a manual **"Scan Again"** or **"Retry"** button to allow users to recover from transient discovery failures.
 
   ```kotlin
-  // Example: Showing a helpful empty state with a retry action on Android
+  // Example: Showing a helpful empty state with a retry action on Android.
+  // Using 'performHapticFeedback' and 'contentDescription' ensures the action
+  // is both tactile and accessible for all users.
   if (discoveredDevices.isEmpty()) {
       statusTextView.text = "No devices found nearby."
       progressBar.visibility = View.GONE
       retryButton.apply {
           visibility = View.VISIBLE
           text = "Scan Again"
-          setOnClickListener { startDiscovery() }
+          contentDescription = "Scan for nearby Bluetooth devices"
+          setOnClickListener {
+              it.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
+              startDiscovery()
+          }
       }
   }
   ```
   ```swift
-  // Example: Showing a helpful empty state with a retry action in Swift
+  // Example: Showing a helpful empty state with a retry action in Swift.
+  // Using 'impactOccurred' and 'accessibilityHint' provides tactile feedback
+  // and additional context for VoiceOver users.
   if discoveredDevices.isEmpty {
       statusLabel.text = "No devices found nearby."
       activityIndicator.stopAnimating()
       retryButton.isHidden = false
       retryButton.setTitle("Scan Again", for: .normal)
-      retryButton.addAction(UIAction { _ in startScanning() }, for: .touchUpInside)
+      retryButton.accessibilityHint = "Restarts the Bluetooth device discovery process"
+      retryButton.addAction(UIAction { _ in
+          UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+          startScanning()
+      }, for: .touchUpInside)
   }
   ```
   ```tsx
-  // Example: Showing a helpful empty state with a retry action in React Native (TSX)
+  // Example: Showing a helpful empty state with a retry action in React Native (TSX).
+  // 'hitSlop' expands the touch area, while 'Vibration' and 'style' provide feedback.
   {discoveredDevices.length === 0 && (
     <View style={styles.emptyState}>
       <Text>No devices found nearby.</Text>
       <Pressable
         accessibilityRole="button"
         accessibilityLabel="Scan Again"
-        onPress={startScanning}
-        style={styles.retryButton}
+        accessibilityHint="Restarts the Bluetooth device discovery process"
+        onPress={() => {
+          Vibration.vibrate(10);
+          startScanning();
+        }}
+        hitSlop={12}
+        style={({ pressed }) => [
+          { opacity: pressed ? 0.6 : 1 },
+          styles.retryButton
+        ]}
       >
         <Text>Scan Again</Text>
       </Pressable>
@@ -607,6 +628,7 @@ A quick reference for developers to ensure the "interface" meets our standard fo
 | [ ] | **Screen Readers** | Descriptive `aria-label` or `contentDescription` |
 | [ ] | **Haptics** | Tactile feedback on message sent/delivered |
 | [ ] | **Keyboard** | "Enter to Send" supported with auto-clear |
+| [ ] | **Empty States** | Manual "Scan Again" button for recovery |
 
 <!-- ⚡ Optimization: Contextual 'Back to Top' links reduce developer 'Time to Action' by minimizing scroll time -->
 <a href="#-bluetooth-chit-chat" aria-label="Back to top of page">⬆ Back to Top</a>
