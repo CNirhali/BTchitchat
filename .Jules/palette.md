@@ -107,3 +107,7 @@ This journal documents critical UX and accessibility learnings discovered during
 ## 2026-04-05 - Confirmation for Destructive Actions
 **Learning:** In a peer-to-peer chat environment where data is localized and not backed up to a cloud (Bluetooth-only), destructive actions like "Clear History" are significantly more high-stakes. Therefore, providing platform-standard confirmation patterns (e.g., destructive Action Sheets on iOS or Material Alert Dialogs on Android) is a critical trust signal for users, balancing friction with data safety.
 **Action:** When implementing destructive or irreversible local data actions, always use platform-standard UI components that visually signal "danger" or "irreversibility" to ensure user intent matches the outcome.
+
+## 2026-04-06 - Accessible Recovery with Tactile Feedback in Empty States
+**Learning:** In discovery-driven interfaces (like Bluetooth scanning), actionable empty states require more than just a button. Adding tactile feedback (haptics) and platform-specific accessibility attributes—such as `contentDescription` for Android, `accessibilityHint` for iOS, and `hitSlop` for larger touch targets—ensures that the recovery path is inclusive and provides immediate physical confirmation of the action.
+**Action:** When documenting or implementing recovery actions in empty states, always include native examples for haptics and screen-reader enhancements to bridge the gap between abstract UX and accessible execution.
