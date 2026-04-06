@@ -103,3 +103,7 @@ This journal documents critical performance learnings discovered during the deve
 ## 2026-04-03 - Optimizing Android GATT Write Throughput (API 33+)
 **Learning:** Requesting a precise MTU of 517 bytes (512-byte payload + 5-byte header) maximizes the effective payload size for Bluetooth LE. Furthermore, the Android API 33+ 'writeCharacteristic' method (which accepts the data as a parameter) is significantly more efficient than the legacy method as it avoids multiple internal memory copies and buffer synchronizations, leading to measurably higher throughput.
 **Action:** Always use the API 33+ 'writeCharacteristic' method and request 517-byte MTU for high-throughput Android BLE applications.
+
+## 2026-04-05 - Constant-Time Verification Performance in Swift
+**Learning:** Using `reduce` for constant-time byte-wise comparison in Swift is functionally correct but incurs closure overhead and repeated bounds checking. Leveraging `withUnsafeBytes` allows for a more efficient, pointer-based implementation that provides the same security guarantees with better runtime performance.
+**Action:** Prefer `withUnsafeBytes` for low-level cryptographic operations in Swift to maximize performance without compromising security.
