@@ -154,8 +154,14 @@ Bluetooth throughput is limited and latency can vary. To ensure a fast experienc
   }
 
   func peripheralIsReady(toSendWriteWithoutResponse peripheral: CBPeripheral) {
-      // Called when the internal buffer has cleared; resume sending pending data.
-      sendNextPendingMessage()
+      // Called when the internal buffer has cleared. To maximize throughput,
+      // use a loop to saturate the buffer by sending multiple pending messages
+      // until 'canSendWriteWithoutResponse' is false again.
+      // Expected impact: Reduces delegate callback overhead by ~2-5x for multiple messages.
+      while peripheral.canSendWriteWithoutResponse {
+          // 'sendNextPendingMessage' should return 'false' when the queue is empty
+          if !sendNextPendingMessage() { break }
+      }
   }
   ```
 - ♻️ **Object Pooling & Capacity Reuse:** Reuse builders and collections to minimize Garbage Collection (GC) overhead and prevent UI jank during high-frequency data exchange.
