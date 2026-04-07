@@ -107,3 +107,7 @@ This journal documents critical performance learnings discovered during the deve
 ## 2026-04-05 - Constant-Time Verification Performance in Swift
 **Learning:** Using `reduce` for constant-time byte-wise comparison in Swift is functionally correct but incurs closure overhead and repeated bounds checking. Leveraging `withUnsafeBytes` allows for a more efficient, pointer-based implementation that provides the same security guarantees with better runtime performance.
 **Action:** Prefer `withUnsafeBytes` for low-level cryptographic operations in Swift to maximize performance without compromising security.
+
+## 2026-04-07 - Maximizing BLE Throughput with Write Buffer Saturation
+**Learning:** In Core Bluetooth, the 'peripheralIsReady(toSendWriteWithoutResponse:)' delegate method is triggered when the internal write buffer has space. A single write in this callback may not fully saturate the buffer, leading to multiple delegate calls and increased context-switching overhead.
+**Action:** Use a 'while' loop within 'peripheralIsReady' to drain as much of the pending message queue as possible while 'canSendWriteWithoutResponse' remains true. This can improve throughput by ~2-5x and significantly reduce CPU/callback overhead for high-frequency updates.
