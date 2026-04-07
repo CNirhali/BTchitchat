@@ -66,6 +66,45 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
       return
   }
   ```
+- ⏱️ **Message Frequency & Rate Limiting:** Implement a minimum interval between incoming messages to prevent Denial-of-Service (DoS) and resource exhaustion during high-frequency Bluetooth data exchange.
+  ```kotlin
+  // Example: Enforcing message frequency limits on Android.
+  // Using a synchronized block and SystemClock.elapsedRealtime()
+  // ensures thread-safe, monotonically increasing time checks.
+  private var lastMessageTime = 0L
+  private val MIN_MESSAGE_INTERVAL = 500L // 500ms
+
+  fun shouldProcessMessage(): Boolean {
+      synchronized(this) {
+          val currentTime = SystemClock.elapsedRealtime()
+          if (currentTime - lastMessageTime < MIN_MESSAGE_INTERVAL) {
+              return false
+          }
+          lastMessageTime = currentTime
+          return true
+      }
+  }
+  ```
+
+  ```swift
+  // Example: Enforcing message frequency limits in Swift.
+  // Using a serial DispatchQueue ensures thread-safe access to timing state.
+  private var lastMessageTime: DispatchTime = .now()
+  private let minMessageInterval: Double = 0.5 // 500ms
+  private let rateLimitQueue = DispatchQueue(label: "com.app.rate-limiting")
+
+  func shouldProcessMessage() -> Bool {
+      rateLimitQueue.sync {
+          let currentTime = DispatchTime.now()
+          let secondsSinceLast = Double(currentTime.uptimeNanoseconds - lastMessageTime.uptimeNanoseconds) / 1_000_000_000
+          if secondsSinceLast < minMessageInterval {
+              return false
+          }
+          lastMessageTime = currentTime
+          return true
+      }
+  }
+  ```
 - ⌛ **Replay Protection:** Implement cryptographically robust nonces (see `ChatMessage.secure_nonce`) or timestamps to prevent captured Bluetooth packets from being re-sent. Use cryptographically secure random nonces (at least 96 bits for AES-GCM) to ensure uniqueness across messages.
   ```kotlin
   // Example: Verifying a cryptographic nonce on Android to prevent replay attacks.
