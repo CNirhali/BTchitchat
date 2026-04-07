@@ -401,6 +401,16 @@ To provide a smooth and intuitive messaging experience over Bluetooth:
     {message.status === 'sending' ? 'Sending...' : message.status === 'sent' ? 'Sent' : 'Delivered'}
   </Text>
   ```
+- 🗨️ **Message Bubbles:** Use distinct alignment and colors to differentiate between sent and received messages, and include an `accessibilityLabel` to announce the sender to screen readers.
+  ```tsx
+  // Example: Accessible message bubbles in React Native (TSX)
+  <View
+    style={[styles.bubble, isSent ? styles.sent : styles.received]}
+    accessibilityLabel={`${isSent ? 'Sent' : 'Received'} message: ${message.text}`}
+  >
+    <Text>{message.text}</Text>
+  </View>
+  ```
 - ⌨️ **Keyboard Interactions:** Support standard keyboard behaviors like **"Enter to Send"** to improve efficiency for power users and ensure accessibility for keyboard-based navigation.
   ```kotlin
   // Example: Supporting 'Enter to Send' on Android.
@@ -628,6 +638,7 @@ A quick reference for developers to ensure the "interface" meets our standard fo
 | [ ] | **Screen Readers** | Descriptive `aria-label` or `contentDescription` |
 | [ ] | **Haptics** | Tactile feedback on message sent/delivered |
 | [ ] | **Keyboard** | "Enter to Send" supported with auto-clear |
+| [ ] | **Message Bubbles** | Sent messages on right, received on left |
 | [ ] | **Empty States** | Manual "Scan Again" button for recovery |
 
 <!-- ⚡ Optimization: Contextual 'Back to Top' links reduce developer 'Time to Action' by minimizing scroll time -->
