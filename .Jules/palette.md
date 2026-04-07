@@ -111,3 +111,7 @@ This journal documents critical UX and accessibility learnings discovered during
 ## 2026-04-06 - Accessible Recovery with Tactile Feedback in Empty States
 **Learning:** In discovery-driven interfaces (like Bluetooth scanning), actionable empty states require more than just a button. Adding tactile feedback (haptics) and platform-specific accessibility attributes—such as `contentDescription` for Android, `accessibilityHint` for iOS, and `hitSlop` for larger touch targets—ensures that the recovery path is inclusive and provides immediate physical confirmation of the action.
 **Action:** When documenting or implementing recovery actions in empty states, always include native examples for haptics and screen-reader enhancements to bridge the gap between abstract UX and accessible execution.
+
+## 2026-04-07 - Combining Visual Hierarchy with Auditory Cues in Chat
+**Learning:** Visual differentiation in chat bubbles (alignment/color) is only half the UX story. For screen reader users, the spatial position of a message is invisible. Providing an explicit `accessibilityLabel` that announces the message's origin (Sent vs. Received) ensures the conversation's flow is accessible to everyone, not just sighted users.
+**Action:** Always accompany visual alignment guidelines with corresponding accessibility attributes to maintain a multi-modal, inclusive interface.
