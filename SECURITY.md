@@ -415,6 +415,26 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
   // is obscured by another window (e.g., a malicious overlay).
   view.filterTouchesWhenObscured = true
   ```
+  ```kotlin
+  // Example: Marking sensitive clipboard content on Android (API 33+).
+  // This prevents the system from displaying the clipboard content in the
+  // visual confirmation overlay, protecting sensitive data from over-the-shoulder leakage.
+  val clipData = ClipData.newPlainText("Message", sensitiveText).apply {
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+          description.extras = PersistableBundle().apply {
+              putBoolean(ClipDescription.EXTRA_IS_SENSITIVE, true)
+          }
+      }
+  }
+  clipboardManager.setPrimaryClip(clipData)
+  ```
+  ```swift
+  // Example: Marking clipboard content as local-only on iOS (14+).
+  // This prevents the content from being synced to other devices via Universal Clipboard,
+  // ensuring that sensitive chat data remains on the physical device.
+  let options: [UIPasteboard.OptionsKey: Any] = [.localOnly: true]
+  UIPasteboard.general.setItems([["public.text": sensitiveText]], options: options)
+  ```
   ```swift
   // Example: Obscuring sensitive content in the app switcher on iOS.
   // This adds a blur effect over the UI when the app enters the background,
