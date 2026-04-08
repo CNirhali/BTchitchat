@@ -533,6 +533,26 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
   }
   ```
 
+- 💉 **SQL Injection Prevention:** Always use parameterized queries or high-level ORMs when interacting with local databases (e.g., SQLite via Room on Android or GRDB on iOS). Never use string concatenation to build SQL queries with user-provided data, as this can lead to SQL injection vulnerabilities.
+  ```kotlin
+  // Example: Using parameterized queries with Room on Android.
+  // Room automatically handles parameter binding, protecting against SQL injection.
+  @Query("SELECT * FROM messages WHERE sender_id = :senderId")
+  fun getMessagesFromSender(senderId: String): List<ChatMessage>
+  ```
+  ```swift
+  // Example: Using parameterized queries in Swift with SQLite.
+  // Using '?' placeholders and binding values ensures that user input
+  // is treated as data, not as executable code.
+  let query = "SELECT * FROM messages WHERE sender_id = ?"
+  var statement: OpaquePointer?
+  if sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK {
+      sqlite3_bind_text(statement, 1, (senderId as NSString).utf8String, -1, nil)
+      // ... execute statement ...
+  }
+  ```
+
+<!-- ⚡ Optimization: Contextual 'Back to Top' links reduce developer 'Time to Action' by minimizing scroll time -->
 <a href="#-security-policy" aria-label="Back to top of page">⬆ Back to Top</a>
 
 ## 🚨 Reporting a Vulnerability
