@@ -141,3 +141,8 @@ This journal is used to record critical security learnings discovered during the
 **Vulnerability:** Local databases in mobile apps are susceptible to SQL injection if user-provided data (e.g., chat messages, user IDs) is concatenated into raw SQL queries.
 **Learning:** Developers often assume that local, single-user databases are not targets for injection attacks. However, in peer-to-peer apps, data received from "untrusted" remote devices can be used to manipulate local database state. Actionable snippets for platform-standard ORMs (like Room) or low-level parameter binding are essential to ensure secure data persistence.
 **Prevention:** Mandate the use of parameterized queries or high-level ORMs for all local database interactions and provide platform-specific code snippets (Kotlin/Swift) to demonstrate secure implementation.
+
+## 2026-04-08 - Robust Clipboard Privacy Implementation
+**Vulnerability:** Improperly implemented clipboard privacy (missing version checks or invalid APIs) can lead to application crashes or failed security controls.
+**Learning:** In documentation-heavy templates, the technical accuracy of security snippets is paramount. Hallucinated APIs or missing SDK version checks (for Android's `EXTRA_IS_SENSITIVE`) can prevent developers from successfully implementing mandated protections.
+**Prevention:** Always verify platform-specific API availability and use standard identifiers (like UTIs for iOS) when providing security primitives. Ensure snippets include necessary version gating for modern security features.
