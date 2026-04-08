@@ -154,13 +154,6 @@ Bluetooth throughput is limited and latency can vary. To ensure a fast experienc
   }
 
   func peripheralIsReady(toSendWriteWithoutResponse peripheral: CBPeripheral) {
-      // Called when the internal buffer has cleared. To maximize throughput,
-      // use a loop to saturate the buffer by sending multiple pending messages
-      // until 'canSendWriteWithoutResponse' is false again.
-      // Expected impact: Reduces delegate callback overhead by ~2-5x for multiple messages.
-      while peripheral.canSendWriteWithoutResponse {
-          // 'sendNextPendingMessage' should return 'false' when the queue is empty
-          if !sendNextPendingMessage() { break }
       // Called when the internal buffer has cleared. To maximize BLE throughput,
       // use a 'while' loop to saturate the write buffer as long as it's ready.
       // This reduces delegate callback overhead by ~2-5x for multiple messages.
@@ -391,24 +384,34 @@ To provide a smooth and intuitive messaging experience over Bluetooth:
   ```kotlin
   // Example: Updating message status on Android
   fun onMessageStatusUpdated(status: MessageStatus) {
-      statusTextView.text = when (status) {
+      val statusText = when (status) {
           SENDING -> "Sending..."
           SENT -> "Sent"
           DELIVERED -> "Delivered"
       }
+      statusTextView.text = statusText
+      // Ensuring status changes (like 'Delivered') are announced to screen reader users
+      statusTextView.announceForAccessibility("Message status: $statusText")
   }
   ```
   ```swift
   // Example: Updating message status in Swift
-  messageStatusLabel.text = switch message.deliveryStatus {
+  let statusText = switch message.deliveryStatus {
       case .sending: "Sending..."
       case .sent: "Sent"
       case .delivered: "Delivered"
   }
+  messageStatusLabel.text = statusText
+  // Post an accessibility notification so VoiceOver announces the new status
+  UIAccessibility.post(notification: .announcement, argument: "Message status: \(statusText)")
   ```
   ```tsx
   // Example: Updating message status in React Native (TSX)
-  <Text accessibilityLabel={`Message status: ${message.status}`}>
+  // Using accessibilityLiveRegion ensures screen readers announce status updates immediately.
+  <Text
+    accessibilityLabel={`Message status: ${message.status}`}
+    accessibilityLiveRegion="polite"
+  >
     {message.status === 'sending' ? 'Sending...' : message.status === 'sent' ? 'Sent' : 'Delivered'}
   </Text>
   ```
@@ -649,7 +652,7 @@ A quick reference for developers to ensure the "interface" meets our standard fo
 | [ ] | **Screen Readers** | Descriptive `aria-label` or `contentDescription` |
 | [ ] | **Haptics** | Tactile feedback on message sent/delivered |
 | [ ] | **Keyboard** | "Enter to Send" supported with auto-clear |
-| [ ] | **Message Bubbles** | Sent messages on right, received on left |
+| [ ] | **Message Bubbles** | Sent/received alignment with screen reader labels |
 | [ ] | **Empty States** | Manual "Scan Again" button for recovery |
 
 <!-- ⚡ Optimization: Contextual 'Back to Top' links reduce developer 'Time to Action' by minimizing scroll time -->

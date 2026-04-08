@@ -115,3 +115,7 @@ This journal documents critical UX and accessibility learnings discovered during
 ## 2026-04-07 - Combining Visual Hierarchy with Auditory Cues in Chat
 **Learning:** Visual differentiation in chat bubbles (alignment/color) is only half the UX story. For screen reader users, the spatial position of a message is invisible. Providing an explicit `accessibilityLabel` that announces the message's origin (Sent vs. Received) ensures the conversation's flow is accessible to everyone, not just sighted users.
 **Action:** Always accompany visual alignment guidelines with corresponding accessibility attributes to maintain a multi-modal, inclusive interface.
+
+## 2026-04-08 - Accessible Status Announcements in Mobile UI
+**Learning:** In mobile environments, simply updating the text of a status label (e.g., from "Sending..." to "Delivered") is often missed by screen readers because the focus remains on the message or input field. Explicitly triggering accessibility announcements or using live regions ensures that users with visual impairments receive timely confirmation of their actions.
+**Action:** Always accompany visual status updates with platform-specific accessibility triggers (Android's 'announceForAccessibility', iOS's 'UIAccessibility.post', or React Native's 'accessibilityLiveRegion') to maintain an inclusive interface.
