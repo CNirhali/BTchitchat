@@ -114,3 +114,7 @@ This journal documents critical performance learnings discovered during the deve
 ## 2026-04-07 - Maximizing BLE Throughput with Write Buffer Saturation
 **Learning:** In Core Bluetooth, the 'peripheralIsReady(toSendWriteWithoutResponse:)' delegate method is triggered when the internal write buffer has space. A single write in this callback may not fully saturate the buffer, leading to multiple delegate calls and increased context-switching overhead.
 **Action:** Use a 'while' loop within 'peripheralIsReady' to drain as much of the pending message queue as possible while 'canSendWriteWithoutResponse' remains true. This can improve throughput by ~2-5x and significantly reduce CPU/callback overhead for high-frequency updates.
+
+## 2026-04-09 - High-Efficiency Rate Limiting and Integer Time Math
+**Learning:** In high-frequency, multi-threaded messaging environments, traditional synchronization (like 'synchronized' blocks or 'DispatchQueue.sync') combined with floating-point time math can introduce measurable overhead. Using lock-free primitives like 'AtomicLong' in Kotlin, or low-level primitives like 'os_unfair_lock' (ensuring stable memory via class wrappers) with direct nanosecond-based 'UInt64' comparisons in Swift, significantly reduces synchronization latency and eliminates expensive division/conversion operations.
+**Action:** Prioritize lock-free synchronization or low-overhead locking alongside integer-based time math in high-frequency validation logic to maximize throughput and minimize latency.
