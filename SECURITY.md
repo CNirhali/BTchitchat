@@ -320,17 +320,6 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
 <!-- ⚡ Optimization: Contextual 'Back to Top' links reduce developer 'Time to Action' by minimizing scroll time -->
 <a href="#-security-policy" aria-label="Back to top of page">⬆ Back to Top</a>
 
-- 🧱 **Component Security:** Ensure all application components (Activities, Services, Receivers) are not exported unless absolutely necessary.
-  ```xml
-  <!-- Example: Secure component configuration in AndroidManifest.xml -->
-  <activity
-      android:name=".ChatActivity"
-      android:exported="false" />
-  ```
-
-<!-- ⚡ Optimization: Contextual 'Back to Top' links reduce developer 'Time to Action' by minimizing scroll time -->
-<a href="#-security-policy" aria-label="Back to top of page">⬆ Back to Top</a>
-
 ### 👤 Data Privacy & User Protection
 
 - 🛡️ **Principle of Least Privilege:** Only request the minimum necessary Bluetooth and Location permissions required for the app to function.
@@ -363,6 +352,19 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
       kSecAttrAccessible as String: kSecAttrAccessibleWhenUnlocked
   ]
   let status = SecItemAdd(query as CFDictionary, nil)
+  ```
+  ```tsx
+  // Example: Secure data storage in React Native using 'react-native-keychain'.
+  // This library provides a secure way to store and retrieve sensitive data
+  // like encryption keys, leveraging Keystore on Android and Keychain on iOS.
+  import * as Keychain from 'react-native-keychain';
+
+  async function saveSecretKey(key: string) {
+    await Keychain.setGenericPassword('user_secret_key', key, {
+      service: 'com.app.btchat.secrets',
+      accessible: Keychain.ACCESSIBLE.WHEN_UNLOCKED,
+    });
+  }
   ```
 - 🔒 **App-Level Locking:** Provide an option for app-level authentication (e.g., Biometrics, PIN) to protect access to chat history even when the device is unlocked.
   ```kotlin
@@ -570,6 +572,24 @@ To maintain the security of the Bluetooth Chit Chat application, all contributor
       sqlite3_bind_text(statement, 1, (senderId as NSString).utf8String, -1, nil)
       // ... execute statement ...
   }
+  ```
+  ```tsx
+  // Example: Using parameterized queries in React Native with 'react-native-sqlite-storage'.
+  // Using '?' placeholders and passing arguments in an array ensures that
+  // user input is escaped correctly, preventing SQL injection attacks.
+  db.executeSql(
+    'SELECT * FROM messages WHERE sender_id = ?',
+    [senderId],
+    (results) => { /* Process results */ },
+    (error) => { /* Handle error */ }
+  );
+  ```
+- 🧱 **Component Security:** Ensure all application components (Activities, Services, Receivers) are not exported unless absolutely necessary.
+  ```xml
+  <!-- Example: Secure component configuration in AndroidManifest.xml -->
+  <activity
+      android:name=".ChatActivity"
+      android:exported="false" />
   ```
 
 <!-- ⚡ Optimization: Contextual 'Back to Top' links reduce developer 'Time to Action' by minimizing scroll time -->
